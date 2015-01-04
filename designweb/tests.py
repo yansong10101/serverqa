@@ -1,15 +1,14 @@
-from django.test import TestCase
-import MySQLdb
+# from django.test import TestCase
+# from designweb import models
+from django.contrib.auth.models import User
+
 
 # Create your tests here.
 def db_read():
-    connection = MySQLdb.connect(host='127.0.0.1', user='root', passwd='yansong', db='mydatabase')
-    cursor = connection.cursor()
-    cursor.execute('select user_name from test')
-    data = cursor.fetchall()
-    str = ''
-    for row in data:
-        str += row[0]
-    cursor.close()
-    connection.close()
-    return str
+    # user = models.UserProfile.user.objects.all()
+    user = User.get_full_name(User.objects.filter(username='yansong').first())
+    return str(user)
+
+
+def create_user():
+    User.objects.create_user('testOne', email='test@gmail.com', password='testOne')
