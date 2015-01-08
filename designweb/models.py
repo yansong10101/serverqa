@@ -45,3 +45,43 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.id
+
+
+class Category(models.Model):
+    category_name = models.CharField(max_length=25)
+    description = models.TextField(blank=True)
+
+    def __unicode__(self):
+        return self.category_name
+
+
+class Product(models.Model):
+    category = models.ManyToManyField(Category)
+    product_code = models.CharField(max_length=20)
+    product_name = models.CharField(max_length=50)
+    price = models.DecimalField(decimal_places=2, blank=True, max_digits=7)
+    create_date = models.DateTimeField()
+    description = models.TextField(blank=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    is_customize = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    shipping_msg = models.CharField(max_length=100, blank=True)
+    important_msg = models.CharField(max_length=100, blank=True)
+
+    def __unicode__(self):
+        return self.product_name
+
+
+class ProductExtension(models.Model):
+    product = models.OneToOneField(Product)
+    price_range = models.DecimalField(decimal_places=2, blank=True, max_digits=7)
+    special_price = models.DecimalField(decimal_places=2, blank=True, max_digits=7)
+    message = models.CharField(max_length=100, blank=True)
+    description = models.TextField(blank=True)
+    feature = models.TextField(blank=True)
+    size = models.CharField(max_length=50, blank=True)
+    weight = models.CharField(max_length=20, blank=True)
+    color = models.CharField(max_length=25, blank=True)
+
+    def __unicode__(self):
+        return self.product.product_name

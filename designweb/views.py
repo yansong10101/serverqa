@@ -4,19 +4,17 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import *
 from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import ensure_csrf_cookie
-
 from designweb import tests
 
 
 # Create your views here.
-# @ensure_csrf_cookie
 def index(request):
     user = request.user
     if not user.is_anonymous():
         return HttpResponse("Hello, " + user.username)
     else:
-        user = tests.db_read()
-        return HttpResponse(user)
+        # user = tests.db_read()
+        return HttpResponse('this is anonymous user...')
 
 
 def signup(request):
@@ -24,8 +22,8 @@ def signup(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = request['username']
-            password = request['password1']
+            username = request.POST['username']
+            password = request.POST['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
             return redirect(reverse(index))     # need redirect to successful page, or to home page and show msg
@@ -40,11 +38,10 @@ def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        # print(username + ' ' + password)
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse(index))     # need redirect to membership home page
+            return redirect(reverse('design:index'))
         else:
             return render(request, 'login.html')
     else:
@@ -53,4 +50,4 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect(reverse(index))
+    return redirect(reverse('design:index'))

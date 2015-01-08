@@ -1,8 +1,10 @@
-from django.conf.urls import url
+from django.conf.urls import url, patterns
 from designweb import views
 
-urlpatterns = {
-    url(r'^index/', views.index, name='index'),
-    url(r'logout/', views.logout_view, name='logout'),
-    url(r'login/', views.login_view, name='login'),
-}
+urlpatterns = patterns(
+    '',
+    url(r'^$', views.index, name='index'),
+    url(r'^logout/', views.logout_view, name='logout'),
+    url(r'^login/', views.login_view, name='login'),
+    url(r'^signup/', views.signup, name='signup'),
+)

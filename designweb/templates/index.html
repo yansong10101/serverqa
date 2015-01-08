@@ -5,6 +5,9 @@
     <title></title>
 </head>
 <body>
-
+    {{ user.username }}
+    {% if user.username == None %}
+    <p>nobody here...</p>
+    {% endif %}
 </body>
 </html>
