@@ -7,6 +7,10 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from designweb import tests
 
 
+def test_page(request):
+    return render(request, 'base.html')
+
+
 # Create your views here.
 def index(request):
     user = request.user
