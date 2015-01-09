@@ -8,7 +8,7 @@ from designweb import tests
 
 
 def test_page(request):
-    return render(request, 'base.html')
+    return render(request, 'index.html')
 
 
 # Create your views here.
