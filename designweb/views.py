@@ -5,9 +5,11 @@ from django.contrib.auth import *
 from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import ensure_csrf_cookie
 from designweb import tests
+from designweb.serializer import print_serializer
 
 
 def test_page(request):
+    print_serializer()
     return render(request, 'index.html')
 
 
