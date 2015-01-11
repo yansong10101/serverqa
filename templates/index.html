@@ -2,7 +2,7 @@
 
 {% block content %}
     {{ user.username }}
-    {% if True %}
+    {% if user.is_anonymous %}
     <p>nobody here...</p>
     {% endif %}
 {% endblock %}

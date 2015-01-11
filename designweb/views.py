@@ -1,26 +1,17 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth import *
 from django.contrib.auth.forms import UserCreationForm
-from django.views.decorators.csrf import ensure_csrf_cookie
-from designweb import tests
-from designweb.serializer import print_serializer
-
-
-def test_page(request):
-    print_serializer()
-    return render(request, 'index.html')
 
 
 # Create your views here.
 def index(request):
-    user = request.user
-    if not user.is_anonymous():
-        return HttpResponse("Hello, " + user.username)
-    else:
-        # user = tests.db_read()
-        return HttpResponse('this is anonymous user...')
+    return render(request, 'index.html')
+
+
+def home(request):
+    reverse('design:login', current_app=request.resolver_match.namespace)
+    return render(request, 'home.html')
 
 
 def signup(request):
@@ -57,3 +48,25 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect(reverse('design:index'))
+
+
+# ==============================================
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+from designweb.serializer import UserSerializer, GroupSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer

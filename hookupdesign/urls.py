@@ -10,8 +10,3 @@ urlpatterns = patterns(
     # url(r'^index/', include('designweb.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += patterns(
-    '',
-    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-)

@@ -2,30 +2,35 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class ManageTestDB(models.QuerySet):
-    def get_all(self):
-        return self.filter(state='CA')
-
-
-# Create your models here.
-class TestDB(models.Model):
-    user_id = models.IntegerField(primary_key=True)
-    user_name = models.CharField(max_length=50)
-    user_address = models.CharField(max_length=50)
-    city = models.CharField(max_length=10)
-    state = models.CharField(max_length=2)
-    zip = models.IntegerField(default=00000, blank=True)
-
-    objects = models.Manager()
-    test_objects = ManageTestDB.as_manager()
-
-    def __unicode__(self):
-        return self.user_name
+# class ManageTestDB(models.QuerySet):
+#     def get_all(self):
+#         return self.filter(state='CA')
+#
+#
+# # Create your models here.
+# class TestDB(models.Model):
+#     user_id = models.IntegerField(primary_key=True)
+#     user_name = models.CharField(max_length=50)
+#     user_address = models.CharField(max_length=50)
+#     city = models.CharField(max_length=10)
+#     state = models.CharField(max_length=2)
+#     zip = models.IntegerField(default=00000, blank=True)
+#
+#     objects = models.Manager()
+#     test_objects = ManageTestDB.as_manager()
+#
+#     def __unicode__(self):
+#         return self.user_name
 
 
 # User profile
 class UserProfile(models.Model):
+    GENDER_CHOICE = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
     user = models.OneToOneField(User)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICE, default='', blank=True)
     is_designer = models.BooleanField(default=False)
     designer_type = models.CharField(max_length=50, blank=True)
     address1 = models.CharField(max_length=50, blank=True)
@@ -57,6 +62,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     category = models.ManyToManyField(Category)
+    designer = models.ForeignKey(User, related_name='products')
     product_code = models.CharField(max_length=20)
     product_name = models.CharField(max_length=50)
     price = models.DecimalField(decimal_places=2, blank=True, max_digits=7)
@@ -73,12 +79,13 @@ class Product(models.Model):
 
 
 class ProductExtension(models.Model):
-    product = models.OneToOneField(Product)
-    price_range = models.DecimalField(decimal_places=2, blank=True, max_digits=7)
-    special_price = models.DecimalField(decimal_places=2, blank=True, max_digits=7)
+    product = models.OneToOneField(Product, related_name='details')
+    price_range = models.DecimalField(decimal_places=2, blank=True, max_digits=8)
+    special_price = models.DecimalField(decimal_places=2, blank=True, max_digits=8)
     message = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
     feature = models.TextField(blank=True)
+    # product attributes
     size = models.CharField(max_length=50, blank=True)
     weight = models.CharField(max_length=20, blank=True)
     color = models.CharField(max_length=25, blank=True)
