@@ -1,6 +1,7 @@
 from django.conf.urls import url, patterns, include
 from designweb import views
 from rest_framework import routers
+from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = patterns(
     '',
@@ -9,6 +10,8 @@ urlpatterns = patterns(
     url(r'^logout/', views.logout_view, name='logout'),
     url(r'^login/', views.login_view, name='login'),
     url(r'^signup/', views.signup, name='signup'),
+
+    url(r'^api/products/(?P<pk>[0-9]+)/$', views.ProductDetail.as_view(), name='product-detail'),
 )
 
 

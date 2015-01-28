@@ -55,6 +55,7 @@ class UserProfile(models.Model):
 class Category(models.Model):
     category_name = models.CharField(max_length=25)
     description = models.TextField(blank=True)
+    created_date = models.DateTimeField()
 
     def __unicode__(self):
         return self.category_name

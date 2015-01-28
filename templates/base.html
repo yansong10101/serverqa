@@ -8,10 +8,11 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Carousel Template for Bootstrap</title>
+    <title>1 dots | {{ title }}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.css'%}" rel="stylesheet">
+    <link href="{% static 'css/signin.css'%}" rel="stylesheet">
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="{% static "js/ie-emulation-modes-warning.js" %}"></script>
@@ -55,13 +56,14 @@
                 <li><a href="#">By Category</a></li>
               </ul>
             </li>
-            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#">Home</a></li>
             <li><a href="#about">About</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
             {% if user.is_anonymous %}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'design:login' %}">Login</a></li>
+                <li><a href="{% url 'design:login' %}" data-toggle="modal" data-target="#signinModal">Login</a></li>
+{#                <a href="{% url 'design:login' %}">Login</a>#}
             </ul>
             {% else %}
             <ul class="nav navbar-nav navbar-right">
@@ -91,6 +93,15 @@
       </footer>
 
     </div><!-- /.container -->
+
+    <!-- popup Login view -->
+    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                {% block signin %}{% endblock %}
+            </div>
+        </div>
+    </div><!-- End of popup Login view -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

@@ -1,21 +1,52 @@
-{% extends "base.html" %}
+{#{% extends "base.html" %}#}
 {% load staticfiles %}
-<link href="{% static 'css/signin.css'%}" rel="stylesheet">
-{% block content %}
+{#<link href="{% static 'css/signin.css'%}" rel="stylesheet">#}
+{% block signin %}
 
-    <form class="form-signin" action="" method="post">
+    <form class="form-signin" id="login_form" action="" method="post">
         {% csrf_token %}
-        <h2 class="form-signin-heading">Please Sign In</h2>
-        <label for="inputEmail" class="sr-only">User Name</label>
-        <input type="text" name="username" class="form-control" placeholder="Email address" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" value="remember-me"> Remember me
-          </label>
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2 class="modal-title form-signin-heading">Please Sign In</h2>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+
+        <div class="modal-body">
+            <label for="inputEmail" class="sr-only">User Name</label>
+            <input type="text" name="username" class="form-control" placeholder="Email address" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" value="remember-me"> Remember me
+              </label>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-lg btn-primary btn-block" id="login_submit" type="submit">Login</button>
+        </div>
     </form>
+
+    <script>
+    $(document).ready(function() {
+        $('#login_submit').click(function () {
+            $.ajax({
+                type: "POST",
+                url: "127.0.0.1:8000/login/",
+                dataType: "json",
+                data: {
+                    'username': $('input[name="username"]'),
+                    'password': $('input[name="password"]')
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(thrownError);
+                },
+                success: function (data) {
+                    alert("Success");
+                }
+            });
+        });
+    });
+    </script>
 
 {% endblock %}

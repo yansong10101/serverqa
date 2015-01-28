@@ -2,16 +2,18 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth import *
 from django.contrib.auth.forms import UserCreationForm
+from rest_framework import generics
+from designweb.serializer import *
+from rest_framework.decorators import api_view
 
 
-# Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'title': 'HOME', })
 
 
 def home(request):
-    reverse('design:login', current_app=request.resolver_match.namespace)
-    return render(request, 'home.html')
+    # reverse('design:login', current_app=request.resolver_match.namespace)
+    return render(request, 'home.html', {'title': 'HOME', })
 
 
 def signup(request):
@@ -38,7 +40,7 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse('design:index'))
+            return redirect(reverse('index.html'))
         else:
             return render(request, 'login.html')
     else:
@@ -49,6 +51,11 @@ def logout_view(request):
     logout(request)
     return redirect(reverse('design:index'))
 
+
+# rest api product detail
+class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
 # ==============================================
 from django.contrib.auth.models import User, Group
