@@ -2,18 +2,16 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth import *
 from django.contrib.auth.forms import UserCreationForm
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from designweb.serializer import *
-from rest_framework.decorators import api_view
+
+
+def home(request):
+    return render(request, 'home.html', {'title': 'HOME', })
 
 
 def index(request):
     return render(request, 'index.html', {'title': 'HOME', })
-
-
-def home(request):
-    # reverse('design:login', current_app=request.resolver_match.namespace)
-    return render(request, 'home.html', {'title': 'HOME', })
 
 
 def signup(request):
@@ -25,7 +23,7 @@ def signup(request):
             password = request.POST['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect(reverse(index))     # need redirect to successful page, or to home page and show msg
+            return redirect(reverse(home))     # need redirect to successful page, or to home page and show msg
         else:
             return render(request, 'signup.html', {'form': form})
     else:
@@ -52,15 +50,14 @@ def logout_view(request):
     return redirect(reverse('design:index'))
 
 
-# rest api product detail
-class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
+class ProductsList(generics.ListAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductListSerializer
 
-# ==============================================
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from designweb.serializer import UserSerializer, GroupSerializer
+
+class ProductDetail(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductDetailSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
