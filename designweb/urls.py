@@ -4,12 +4,13 @@ from rest_framework import routers
 
 urlpatterns = patterns(
     '',
-    url(r'^$', views.home, name='index'),
-    url(r'^home/', views.home, name='home'),
+    url(r'^$', views.home, name='home'),
+    url(r'^index/$', views.index, name='index'),
     url(r'^logout/', views.logout_view, name='logout'),
     url(r'^login/', views.login_view, name='login'),
     url(r'^signup/', views.signup, name='signup'),
 
+    url(r'^api/products/$', views.ProductsList.as_view(), name='product-list'),
     url(r'^api/products/(?P<pk>[0-9]+)/$', views.ProductDetail.as_view(), name='product-detail'),
 )
 
@@ -17,7 +18,6 @@ urlpatterns = patterns(
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
-router.register(r'products', views.ProductsViewSet)
 
 urlpatterns += patterns(
     '',

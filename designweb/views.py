@@ -6,13 +6,12 @@ from rest_framework import generics, viewsets
 from designweb.serializer import *
 
 
+def home(request):
+    return render(request, 'home.html', {'title': 'HOME', })
+
+
 def index(request):
     return render(request, 'index.html', {'title': 'HOME', })
-
-
-def home(request):
-    # reverse('design:login', current_app=request.resolver_match.namespace)
-    return render(request, 'home.html', {'title': 'HOME', })
 
 
 def signup(request):
@@ -24,7 +23,7 @@ def signup(request):
             password = request.POST['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            return redirect(reverse(index))     # need redirect to successful page, or to home page and show msg
+            return redirect(reverse(home))     # need redirect to successful page, or to home page and show msg
         else:
             return render(request, 'signup.html', {'form': form})
     else:
@@ -51,15 +50,14 @@ def logout_view(request):
     return redirect(reverse('design:index'))
 
 
-# ==============================================
-class ProductsViewSet(viewsets.ModelViewSet):
+class ProductsList(generics.ListAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductListSerializer
 
 
-class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
+class ProductDetail(generics.RetrieveAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = ProductDetailSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):

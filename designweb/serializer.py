@@ -15,9 +15,16 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('name', )
 
 
-class ProductSerializer(serializers.HyperlinkedModelSerializer):
+class ProductListSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='design:product-detail')
 
     class Meta:
         model = Product
         fields = ('url', 'product_name', 'product_code', )
+
+
+class ProductDetailSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Product
+        fields = ('product_name', 'product_code', 'price', 'description', 'is_customize', 'shipping_msg',
+                  'important_msg', )
