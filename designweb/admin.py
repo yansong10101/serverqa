@@ -11,15 +11,16 @@ class ExtensionProductInline(admin.StackedInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('product_name', 'product_code', 'create_date', 'price', 'is_active', )
+    list_display = ('product_name', 'product_code', 'create_date', 'modified_date', 'price', 'is_active', )
     list_filter = ('create_date', 'price', 'is_active', )
+    filter_horizontal = ('category', )
     ordering = ('-create_date', )
 
     inlines = [ExtensionProductInline, ]
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('category_name', 'created_date', )
+    list_display = ('category_name', 'created_date', 'modified_date', )
     list_filter = ('created_date', )
     ordering = ('category_name', )
 

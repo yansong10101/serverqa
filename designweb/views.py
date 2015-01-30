@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth import *
 from django.contrib.auth.forms import UserCreationForm
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from designweb.serializer import *
-from rest_framework.decorators import api_view
 
 
 def index(request):
@@ -52,15 +51,15 @@ def logout_view(request):
     return redirect(reverse('design:index'))
 
 
-# rest api product detail
-class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
+# ==============================================
+class ProductsViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
-# ==============================================
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from designweb.serializer import UserSerializer, GroupSerializer
+
+class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):

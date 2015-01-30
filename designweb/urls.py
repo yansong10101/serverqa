@@ -1,7 +1,6 @@
 from django.conf.urls import url, patterns, include
 from designweb import views
 from rest_framework import routers
-from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = patterns(
     '',
@@ -18,6 +17,7 @@ urlpatterns = patterns(
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
+router.register(r'products', views.ProductsViewSet)
 
 urlpatterns += patterns(
     '',

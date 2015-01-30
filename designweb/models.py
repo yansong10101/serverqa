@@ -1,26 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-
-# class ManageTestDB(models.QuerySet):
-#     def get_all(self):
-#         return self.filter(state='CA')
-#
-#
-# # Create your models here.
-# class TestDB(models.Model):
-#     user_id = models.IntegerField(primary_key=True)
-#     user_name = models.CharField(max_length=50)
-#     user_address = models.CharField(max_length=50)
-#     city = models.CharField(max_length=10)
-#     state = models.CharField(max_length=2)
-#     zip = models.IntegerField(default=00000, blank=True)
-#
-#     objects = models.Manager()
-#     test_objects = ManageTestDB.as_manager()
-#
-#     def __unicode__(self):
-#         return self.user_name
+from datetime import date
 
 
 # User profile
@@ -48,34 +28,47 @@ class UserProfile(models.Model):
         # implement for detecting if this user has full address info for shipping
         pass
 
-    def __unicode__(self):
+    def __str__(self):
         return self.user.id
 
 
 class Category(models.Model):
     category_name = models.CharField(max_length=25)
     description = models.TextField(blank=True)
-    created_date = models.DateTimeField()
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
+    modified_date = models.DateTimeField(auto_now=True, editable=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.category_name
 
 
 class Product(models.Model):
-    category = models.ManyToManyField(Category)
-    designer = models.ForeignKey(User, related_name='products')
-    product_code = models.CharField(max_length=20)
     product_name = models.CharField(max_length=50)
+    product_code = models.CharField(max_length=20, unique=True, editable=False)
     price = models.DecimalField(decimal_places=2, blank=True, max_digits=7)
-    create_date = models.DateTimeField()
+    designer = models.ForeignKey(User, related_name='products')
+    category = models.ManyToManyField(Category)
+    create_date = models.DateTimeField(auto_now_add=True, editable=False)
+    modified_date = models.DateTimeField(auto_now=True, editable=False)
     description = models.TextField(blank=True)
-    modified_date = models.DateTimeField(auto_now=True)
     is_customize = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     shipping_msg = models.CharField(max_length=100, blank=True)
     important_msg = models.CharField(max_length=100, blank=True)
 
-    def __unicode__(self):
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        """
+            call twice save():
+                first time to get pk value from database calculation
+                second save() just use to update product_code value
+        """
+        super(Product, self).save(force_insert=False, force_update=False, using=None, update_fields=None)
+        current_year = str(date.today().year)
+        code_number = str(self.pk).zfill(7)
+        self.product_code = current_year + code_number
+        super(Product, self).save(force_insert=False, force_update=False, using=None, update_fields=None)
+
+    def __str__(self):
         return self.product_name
 
 
@@ -91,5 +84,5 @@ class ProductExtension(models.Model):
     weight = models.CharField(max_length=20, blank=True)
     color = models.CharField(max_length=25, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.product.product_name
