@@ -77,9 +77,9 @@ DATABASES = {
     # },
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mydatabase',
+        'NAME': 'onedots',
         'USER': 'root',
-        'PASSWORD': 'yansong',
+        'PASSWORD': '',
         'HOST': '127.0.0.1',
         'PORT': '3306',
     },
