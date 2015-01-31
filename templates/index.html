@@ -1,35 +1,38 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-
 {% block content %}
     {{ user.username }}
     {% if user.is_anonymous %}
     <p>nobody here...</p>
     {% endif %}
 
-    <button id="btn" onclick="loadProducts()">show products</button>
+    <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
+
+    <button id="btn">show products</button>
 
     <div id="product_list"><p></p><p></p></div>
 
     <div id="product_result"></div>
 
-    <script type="javascript">
-        function loadProducts(){
-            $.ajax({
+    <script>
+        $(document).ready(function(){
+            $("#btn").on('click', function(){
+                $.ajax({
                 type: "GET",
-                url: "http://127.0.0.1:8000/api/products/",
+                url: "http://127.0.0.1:8000/api/products/?format=json",
                 dataType: "json"
-            }).success(function(data, textStatus, jqXHR){
-                $.each(data.result, function(i, item){
-                    var elem = $("#product_list").clone();
-                    elem.children('p').eq(0).html(item.product_name);
-                    elem.children('p').eq(1).html(item.product_code);
-                    $("#product_result").append(elem);
+                }).success(function(data, textStatus, jqXHR){
+                    $.each(data.results, function(i, item){
+                        var elem = $("#product_list").clone();
+                        elem.children('p').eq(0).html(item.product_name.toString());
+                        elem.children('p').eq(1).html(item.product_code.toString());
+                        $("#product_result").append(elem);
+                    });
+                }).fail(function(jqXHR, textStatus){
+                    alert('Request Failed');
                 });
-            }).fail(function(jqXHR, textStatus){
-                alert('Request Failed');
             });
-        }
+        });
     </script>
 
 {% endblock %}
