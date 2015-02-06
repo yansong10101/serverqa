@@ -47,7 +47,7 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect(reverse('design:index'))
+    return redirect(reverse('design:home'))
 
 
 class ProductsList(generics.ListAPIView):

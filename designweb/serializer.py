@@ -20,7 +20,7 @@ class ProductListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('url', 'product_name', 'product_code', )
+        fields = ('url', 'product_name', 'product_code', 'image_root')
 
 
 class ProductDetailSerializer(serializers.HyperlinkedModelSerializer):

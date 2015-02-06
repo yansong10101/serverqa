@@ -50,9 +50,11 @@ class Product(models.Model):
     category = models.ManyToManyField(Category)
     create_date = models.DateTimeField(auto_now_add=True, editable=False)
     modified_date = models.DateTimeField(auto_now=True, editable=False)
+    image_root = models.CharField(max_length=50, blank=True)
     description = models.TextField(blank=True)
     is_customize = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
+    number_in_stock = models.IntegerField(default=0)
     shipping_msg = models.CharField(max_length=100, blank=True)
     important_msg = models.CharField(max_length=100, blank=True)
 
