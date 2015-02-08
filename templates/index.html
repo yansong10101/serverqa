@@ -7,84 +7,80 @@
 
     <div class="row"></div>
 
-    <button id="btn">load more</button>
+    <button id="btn"></button>
 
     <script type="text/javascript">
         var host = window.location.origin;
-        var product_lite = $('<div class="col-lg-4"><a><img class="img-thumbnail" alt="Generic placeholder image" style="width: 320px; height: 350px;" /></a></div>');
+        var product_lite = $('<div class="col-lg-4"><a><img class="img-thumbnail" alt="Generic placeholder image" style="width: 320px; height: 350px;" /></a><p></p></div>');
         var image_dir = host + "/static/products/";
         var container = $(".row");
-        var number_columns = 3; // fixed value, change if need
-        var initial_rows = 10;  // fixed value, change if need
-        var each_load_rows = 5; // fixed value, change if need
+        var number_columns = 3; // fixed value, do not change
 
-        var product_list = null;
-        var total_rows = 0;
-        var total_pages = 0;
-        var page_count = 0;
-        var list_index = 0;
+        var msg_load_more = 'Load More';
+        var msg_no_more = 'No More';
 
-        $( document ).ready(function(){
-            clearAll(); // clean all contents first
+        var catch_data = null;
+
+        $( document ).ready(ajaxCall(null));
+
+        function ajaxCall(api_url){
+            if(api_url == null || api_url == undefined){
+                api_url = host + "/api/products/?format=json";
+            }
             $.ajax({
             type: "GET",
-            url: host + "/api/products/?format=json",
+            url: api_url,
             dataType: "json"
             }).success(function(data, textStatus, jqXHR){
-                // initiate product objects list
-                product_list = data.results;
-                total_rows = parseInt(product_list.length / number_columns);
-                if(total_rows < initial_rows){
-                    initial_rows = total_rows;
-                    total_pages = 1;
-                }else{
-                    var rest_number_of_rows = total_rows - initial_rows;
-                    if(rest_number_of_rows % each_load_rows > 0){
-                        total_pages = rest_number_of_rows / each_load_rows + 2;
-                    }else{
-                        total_pages = rest_number_of_rows / each_load_rows + 1;
-                    }
-                }
-                // initiate product list page
-                initialPage();
+
+                loadPage(data);
 
             }).fail(function(jqXHR, textStatus){
                 alert('Request Failed');
             });
-        });
-
-        $("#btn").on('click', function(){
-
-        });
-
-        function initialPage(){
-            for(list_index; list_index < initial_rows * number_columns; list_index++){
-                var item = product_list[list_index];
-                fillContent(item);
-            }
-            page_count++;
         }
 
-        function loadPage(){
-            if(hasNext()){
-
+        function loadPage(data){
+            catch_data = data;
+            if(hasNext(data)){
+                $('#btn').html(msg_load_more);
+                loadProduct(data.results);
+            }else{
+                $('#btn').html(msg_no_more);
+                loadProduct(data.results);      // To Do -- display number of items only multiple of 3
             }
         }
 
-        function fillContent(item){
-            var elem = product_lite.clone();
-            elem.children('a').eq(0).attr('href', item.url);
-            elem.find('img').attr('src', image_dir + item.image_root + "/main.jpg");
-            container.append(elem);
+        function loadProduct(list){
+            $.each(list, function(i, item){
+                var elem = product_lite.clone();
+                elem.children('a').eq(0).attr('href', item.url);
+                elem.find('img').attr('src', image_dir + item.image_root + "/main.jpg");
+                elem.find('p').html('test item title');
+                container.append(elem);
+            });
         }
 
-        function hasNext(){
-            return page_count < total_pages;
+        function hasNext(data){
+            return data.next != null;
+        }
+
+        function hasPrevious(data){
+            return data.previous != null;
+        }
+
+        function getTotalCount(data){
+            return data.count;
         }
 
         function clearAll(){
             container.empty()
         }
+
+        $("#btn").on('click', function(){
+            var url = catch_data.next;
+            ajaxCall(url);
+        });
     </script>
 
 {% endblock %}

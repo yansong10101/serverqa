@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Category',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('category_name', models.CharField(max_length=25)),
                 ('description', models.TextField(blank=True)),
                 ('created_date', models.DateTimeField(auto_now_add=True)),
@@ -28,19 +28,21 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Product',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
                 ('product_name', models.CharField(max_length=50)),
                 ('product_code', models.CharField(editable=False, max_length=20, unique=True)),
-                ('price', models.DecimalField(blank=True, max_digits=7, decimal_places=2)),
+                ('price', models.DecimalField(decimal_places=2, blank=True, max_digits=7)),
                 ('create_date', models.DateTimeField(auto_now_add=True)),
                 ('modified_date', models.DateTimeField(auto_now=True)),
+                ('image_root', models.CharField(max_length=50, blank=True)),
                 ('description', models.TextField(blank=True)),
                 ('is_customize', models.BooleanField(default=False)),
                 ('is_active', models.BooleanField(default=False)),
+                ('number_in_stock', models.IntegerField(default=0)),
                 ('shipping_msg', models.CharField(max_length=100, blank=True)),
                 ('important_msg', models.CharField(max_length=100, blank=True)),
                 ('category', models.ManyToManyField(to='designweb.Category')),
-                ('designer', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='products')),
+                ('designer', models.ForeignKey(related_name='products', to=settings.AUTH_USER_MODEL)),
             ],
             options={
             },
@@ -49,9 +51,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ProductExtension',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('price_range', models.DecimalField(blank=True, max_digits=8, decimal_places=2)),
-                ('special_price', models.DecimalField(blank=True, max_digits=8, decimal_places=2)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('price_range', models.DecimalField(decimal_places=2, blank=True, max_digits=8)),
+                ('special_price', models.DecimalField(decimal_places=2, blank=True, max_digits=8)),
                 ('message', models.CharField(max_length=100, blank=True)),
                 ('description', models.TextField(blank=True)),
                 ('feature', models.TextField(blank=True)),
@@ -67,8 +69,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserProfile',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False)),
-                ('gender', models.CharField(default='', max_length=1, choices=[('M', 'Male'), ('F', 'Female')], blank=True)),
+                ('id', models.AutoField(serialize=False, primary_key=True, verbose_name='ID', auto_created=True)),
+                ('gender', models.CharField(max_length=1, default='', choices=[('M', 'Male'), ('F', 'Female')], blank=True)),
                 ('is_designer', models.BooleanField(default=False)),
                 ('designer_type', models.CharField(max_length=50, blank=True)),
                 ('address1', models.CharField(max_length=50, blank=True)),

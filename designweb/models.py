@@ -43,11 +43,11 @@ class Category(models.Model):
 
 
 class Product(models.Model):
-    product_name = models.CharField(max_length=50)
+    product_name = models.CharField(max_length=100)
     product_code = models.CharField(max_length=20, unique=True, editable=False)
-    price = models.DecimalField(decimal_places=2, blank=True, max_digits=7)
+    price = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)  # if null show 'please call' msg
     designer = models.ForeignKey(User, related_name='products')
-    category = models.ManyToManyField(Category)
+    category = models.ManyToManyField(Category, blank=True)
     create_date = models.DateTimeField(auto_now_add=True, editable=False)
     modified_date = models.DateTimeField(auto_now=True, editable=False)
     image_root = models.CharField(max_length=50, blank=True)
@@ -88,3 +88,48 @@ class ProductExtension(models.Model):
 
     def __str__(self):
         return self.product.product_name
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, related_name='orders')
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
+    modified_date = models.DateTimeField(auto_now=True, editable=False)
+    total_items = models.IntegerField()
+    shipping_address1 = models.CharField(max_length=50, blank=True)
+    shipping_address2 = models.CharField(max_length=50, blank=True)
+    shipping_city = models.CharField(max_length=20, blank=True)
+    shipping_state = models.CharField(max_length=2, blank=True)
+    shipping_zip = models.CharField(max_length=8, blank=True)
+    shipping_phone1 = models.CharField(max_length=15, blank=True)
+    shipping_phone2 = models.CharField(max_length=15, blank=True)
+    billing_address1 = models.CharField(max_length=50, blank=True)
+    billing_address2 = models.CharField(max_length=50, blank=True)
+    billing_city = models.CharField(max_length=20, blank=True)
+    billing_state = models.CharField(max_length=2, blank=True)
+    billing_zip = models.CharField(max_length=8, blank=True)
+    billing_phone1 = models.CharField(max_length=15, blank=True)
+    billing_phone2 = models.CharField(max_length=15, blank=True)
+    is_paid = models.BooleanField(default=False)
+
+
+class OrderDetails(models.Model):
+    order = models.ForeignKey(Order, related_name='details')
+    products = models.ForeignKey(Product, related_name='products')
+    number_items = models.IntegerField()
+    shipping_company = models.CharField(max_length=50)
+    shipping_status = models.CharField(max_length=1, blank=True)
+    tracking_code = models.CharField(max_length=50, blank=True)
+    shipping_date = models.DateTimeField(blank=True, null=True)
+    receive_date = models.DateTimeField(blank=True, null=True)
+
+
+class WishList(models.Model):
+    user = models.OneToOneField(User, related_name='wish_list')
+    products = models.ManyToManyField(Product, related_name='wish_lists')
+    number_items = models.IntegerField(default=0)
+
+
+class Cart(models.Model):
+    user = models.OneToOneField(User, related_name='cart')
+    products = models.ManyToManyField(Product, related_name='carts')
+    number_items = models.IntegerField(default=0)

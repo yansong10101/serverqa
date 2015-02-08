@@ -1,5 +1,5 @@
 from django.contrib import admin
-from designweb.models import UserProfile, Product, ProductExtension, Category
+from designweb.models import UserProfile, Product, ProductExtension, Category, Order, OrderDetails, WishList, Cart
 from django.utils.translation import ugettext_lazy
 
 admin.site.site_header = ugettext_lazy('1 dots admin')
@@ -29,3 +29,15 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(UserProfile)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
+
+
+# -----------------------------------for testing order tables --------------------------------------
+class CartAdmin(admin.ModelAdmin):
+    list_display = ('user', )
+    filter_horizontal = ('products', )
+
+
+admin.site.register(Order)
+admin.site.register(OrderDetails)
+admin.site.register(WishList)
+admin.site.register(Cart, CartAdmin)
