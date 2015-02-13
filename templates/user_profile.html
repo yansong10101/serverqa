@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <p id="err_msg">{{ form.error_messages }}</p>
+    <form class="form-signin" id="login_form" action="" method="post">
+        {% csrf_token %}
+        <h2 class="modal-title form-signin-heading">Modify you profile</h2>
+
+        <label for="id_gender">Gender:</label>
+        <select id="id_gender" name="gender" autofocus>
+            <option value="" selected="selected">---------</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+        </select>
+
+        <input type="checkbox" name="is_designer"/><label class="vCheckboxLabel" for="id_is_designer">Is designer</label>
+
+        <label for="id_designer_type">Designer type:</label><input type="text" name="designer_type" class="form-control" >
+        <label for="id_address1">Address 1:</label><input type="text" name="address1" class="form-control" >
+        <label for="id_address2">Address 2:</label><input type="text" name="address2" class="form-control" >
+        <label for="id_city">City:</label><input type="text" name="city" class="form-control" >
+        <label for="id_state">State:</label><input type="text" name="state" class="form-control" >
+        <label for="id_zip">Zip:</label><input type="text" name="zip" class="form-control" >
+
+        <a href="home.html">Skip</a>
+        <button class="btn btn-lg btn-primary btn-block" id="submit" type="submit">Save</button>
+    </form>
+
+{#    <form action="/user-profile/" method="post">#}
+{#        {% csrf_token %}#}
+{#        {{ form.address1 }}#}
+{#        <input type="submit" value="Submit" />#}
+{#    </form>#}
+
+{#        {% for hidden in user_profile_form.hidden_fields %}#}
+{#                {{ hidden }}#}
+{#        {% endfor %}#}
+{##}
+{#        {% for field in user_profile_form.visible_fields %}#}
+{#            {{ field.errors }}#}
+{#            {{ field.help_text }}#}
+{#            {{ field }}#}
+{#        {% endfor %}#}
+
+{% endblock %}

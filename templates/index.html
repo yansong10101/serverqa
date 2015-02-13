@@ -14,11 +14,12 @@
         var product_lite = $('<div class="col-lg-4"><a><img class="img-thumbnail" alt="Generic placeholder image" style="width: 320px; height: 350px;" /></a><p></p></div>');
         var image_dir = host + "/static/products/";
         var container = $(".row");
+        var load_btn = $("#btn");
         var number_columns = 3; // fixed value, do not change
 
         var msg_load_more = 'Load More';
         var msg_no_more = 'No More';
-
+        
         var catch_data = null;
 
         $( document ).ready(ajaxCall(null));
@@ -43,19 +44,21 @@
         function loadPage(data){
             catch_data = data;
             if(hasNext(data)){
-                $('#btn').html(msg_load_more);
+                load_btn.html(msg_load_more);
                 loadProduct(data.results);
             }else{
-                $('#btn').html(msg_no_more);
+                load_btn.html(msg_no_more);
                 loadProduct(data.results);      // To Do -- display number of items only multiple of 3
+                catch_data = null;              // set tmp var to null when no use anymore
+                load_btn.disable();// TO DO -- disable load button ?
             }
         }
 
         function loadProduct(list){
             $.each(list, function(i, item){
                 var elem = product_lite.clone();
-                elem.children('a').eq(0).attr('href', item.url);
-                elem.find('img').attr('src', image_dir + item.image_root + "/main.jpg");
+                elem.children('a').eq(0).attr('href', host + "/product/" + item.pk);
+                elem.find('img').attr('src', image_dir + item.image_root);
                 elem.find('p').html('test item title');
                 container.append(elem);
             });
@@ -77,7 +80,7 @@
             container.empty()
         }
 
-        $("#btn").on('click', function(){
+        load_btn.on('click', function(){
             var url = catch_data.next;
             ajaxCall(url);
         });

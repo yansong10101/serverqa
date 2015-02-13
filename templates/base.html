@@ -39,7 +39,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">1 DOTS</a>
+          <a class="navbar-brand" href="{% url 'design:home' %}">1 DOTS</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -62,12 +62,15 @@
           </ul>
             {% if user.is_anonymous %}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'design:login' %}" data-toggle="modal" data-target="#signinModal">Login</a></li>
-{#                <a href="{% url 'design:login' %}">Login</a>#}
+{#                <li><a href="{% url 'design:login' %}" data-toggle="modal" data-target="#signinModal">Login</a></li>#}
+                <li><a href="{% url 'design:signup' %}">Signup</a></li>
+                <li><a href="{% url 'design:login' %}">Login</a></li>
             </ul>
             {% else %}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'design:logout' %}"><span>Hello {{ user.username }}!</span>--Logout</a></li>
+                <li><a href="{% url 'design:user-profile' user.pk %}">Hello {{ user.username }}!</a></li>
+                <li><a href="{% url 'design:my-cart' user.pk %}">MyCart</a></li>
+                <li><a href="{% url 'design:logout' %}">Logout</a></li>
             </ul>
             {% endif %}
         </div>
@@ -97,14 +100,14 @@
 
     </div><!-- /.container -->
 
-    <!-- popup Login view -->
-    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                {% block signin %}{% endblock %}
-            </div>
-        </div>
-    </div><!-- End of popup Login view -->
+{#    <!-- popup Login view -->#}
+{#    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModal" aria-hidden="true">#}
+{#        <div class="modal-dialog">#}
+{#            <div class="modal-content">#}
+{#                {% block signin %}{% endblock %}#}
+{#            </div>#}
+{#        </div>#}
+{#    </div><!-- End of popup Login view -->#}
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

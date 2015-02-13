@@ -54,21 +54,88 @@
 {% endblock %}
 
 {% block content %}
-<!-- Three columns of text below the carousel -->
-          <div class="row">
-            <div class="col-lg-4">
-              <img class="img-thumbnail" src="{% static "products/test/sunshine_collection.jpg" %}" alt="Generic placeholder image" style="width: 320px; height: 350px;">
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-              <img class="img-thumbnail" src="{% static "products/test/printer_3d.jpg" %}" alt="Generic placeholder image" style="width: 320px; height: 350px;">
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!-- /.col-lg-4 -->
-            <div class="col-lg-4">
-              <a href="{% url "design:login" %}">
-                <img class="img-thumbnail" src="{% static "products/test/sun_charger.jpg" %}" alt="Generic placeholder image" style="width: 320px; height: 350px;">
-              </a>
-              <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-            </div><!-- /.col-lg-4 -->
-          </div><!-- /.row -->
+
+    <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
+
+    <div class="row"></div> <!-- Three columns of text below the carousel -->
+
+    <div style="margin-left: auto; margin-right: auto; text-align: center"><button id="btn"></button></div>
+
+    <script type="text/javascript">
+        var host = window.location.origin;
+        var product_lite = $('<div class="col-lg-4"><a><img class="img-thumbnail" alt="Generic placeholder image" style="width: 320px; height: 350px;" /></a><p></p></div>');
+        var image_dir = host + "/static/products/";
+        var container = $(".row");
+        var load_btn = $("#btn");
+        var number_columns = 3; // fixed value, do not change
+
+        var msg_load_more = 'Load More';
+        var msg_no_more = 'No More';
+
+        var catch_data = null;
+
+        $( document ).ready(ajaxCall(null));
+
+        function ajaxCall(api_url){
+            if(api_url == null || api_url == undefined){
+                api_url = host + "/api/products/?format=json";
+            }
+            $.ajax({
+            type: "GET",
+            url: api_url,
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+
+                loadPage(data);
+
+            }).fail(function(jqXHR, textStatus){
+                alert('Request Failed');
+            });
+        }
+
+        function loadPage(data){
+            catch_data = data;
+            if(hasNext(data)){
+                load_btn.html(msg_load_more);
+                loadProduct(data.results);
+            }else{
+                load_btn.html(msg_no_more);
+                loadProduct(data.results);      // To Do -- display number of items only multiple of 3
+                catch_data = null;              // set tmp var to null when no use anymore
+                load_btn.visibility = false;    // TO DO -- disable load button ?
+            }
+        }
+
+        function loadProduct(list){
+            $.each(list, function(i, item){
+                var elem = product_lite.clone();
+                elem.children('a').eq(0).attr('href', host + "/product/" + item.pk);
+                elem.find('img').attr('src', image_dir + item.image_root);
+                elem.find('p').html('test item title');
+                container.append(elem);
+            });
+        }
+
+        function hasNext(data){
+            return data.next != null;
+        }
+
+        function hasPrevious(data){
+            return data.previous != null;
+        }
+
+        function getTotalCount(data){
+            return data.count;
+        }
+
+        function clearAll(){
+            container.empty()
+        }
+
+        load_btn.on('click', function(){
+            var url = catch_data.next;
+            ajaxCall(url);
+        });
+    </script>
+
 {% endblock %}

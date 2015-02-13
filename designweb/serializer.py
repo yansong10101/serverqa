@@ -20,11 +20,11 @@ class ProductListSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Product
-        fields = ('url', 'product_name', 'product_code', 'image_root')
+        fields = ('pk', 'url', 'product_name', 'product_code', 'image_root')
 
 
 class ProductDetailSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Product
-        fields = ('product_name', 'product_code', 'price', 'description', 'is_customize', 'shipping_msg',
-                  'important_msg', )
+        fields = ('pk', 'product_name', 'product_code', 'price', 'description', 'is_customize', 'shipping_msg',
+                  'important_msg', 'image_root', )

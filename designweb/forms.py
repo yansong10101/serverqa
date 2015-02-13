@@ -1,0 +1,17 @@
+__author__ = 'zys'
+from django import forms
+from designweb.models import UserProfile
+
+
+class UserProfileForm(forms.Form):
+    designer_type = forms.CharField(max_length=50, label='Designer Type', help_text='Please enter the type')
+    gender = forms.ChoiceField(choices=UserProfile.GENDER_CHOICE, label='Gender')
+    address1 = forms.CharField(max_length=50, label='Address 1')
+    address2 = forms.CharField(max_length=50, label='Address 2')
+    city = forms.CharField(max_length=20, label='City')
+    state = forms.CharField(max_length=2, label='State')
+    zip = forms.CharField(max_length=9, label='Zip Code')
+
+    class Meta:
+        model = UserProfile
+        fields = ('designer_type', 'gender', 'address1', 'address2', 'city', 'state', 'zip', )

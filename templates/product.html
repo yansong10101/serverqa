@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
+    <img id="mainImg" src="">
+
+    <script type="text/javascript">
+        var host = window.location.origin;
+        var image_dir = host + "/static/products/";
+
+        $( document ).ready(ajaxCall());
+
+        function ajaxCall(){
+            var api_url = host + "/api/products/" + {{ pk }} + "/?format=json";
+            $.ajax({
+            type: "GET",
+            url: api_url,
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+
+                loadPage(data);
+
+            }).fail(function(jqXHR, textStatus){
+                alert('Request Failed');
+            });
+        }
+
+        function loadPage(data){
+            loadProduct(data);
+        }
+
+        function loadProduct(results){
+            var img_url = image_dir + results.image_root;
+            $('#mainImg').attr('src', img_url);
+        }
+
+        function clearAll(){
+            container.empty()
+        }
+    </script>
+
+{% endblock %}

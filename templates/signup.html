@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-    {{ form.username }}
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+
+    <form class="form-signup" id="login_form" action="" method="post">
+        {% csrf_token %}
+        <h2 class="modal-title form-signin-heading">Create new account</h2>
+        <input type="text" name="username" class="form-control" placeholder="Email address" required autofocus>
+        <input type="password" name="password1" class="form-control" placeholder="Password" required>
+        <input type="password" name="password2" class="form-control" placeholder="Re-Enter Password" required>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" value="remember-me"> Remember me
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" id="submit" type="submit">Signup</button>
+    </form>
+
+{% endblock %}
