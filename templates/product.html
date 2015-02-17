@@ -4,16 +4,44 @@
 {% block content %}
 
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
-    <img id="mainImg" src="">
+    <link href="{% static 'css/product_entry.css'%}" rel="stylesheet">
+
+    <h2 id="product_name"></h2>
+    <br>
+
+      <div class="row featurette">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <img id="mainImg" class="img-thumbnail" alt="Generic placeholder image">
+        </div>
+        <div class="col-md-5 product_info">
+          <span>price: </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="regular_price"></span>&nbsp;<span id="is_in_stock"></span>
+          <p id="product_code"></p>
+
+
+          <button id="add_to_cart">Add to cart</button>
+          <button id="remove_from_cart">remove from cart</button>
+          <br>
+          <button id="add_to_wishlist">Add to wishlist</button>
+          <button id="remove_from_wish">remove from wishlist</button>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
 
     <script type="text/javascript">
         var host = window.location.origin;
         var image_dir = host + "/static/products/";
+        var prod_pk = {{ pk }};
+        var btn_add = $('#add_to_cart');
+        var btn_add_wish = $('#add_to_wishlist');
+        var btn_remove_cart = $('#remove_from_cart');
+        var btn_remove_wish = $('#remove_from_wish');
 
+        // loading page section
         $( document ).ready(ajaxCall());
 
         function ajaxCall(){
-            var api_url = host + "/api/products/" + {{ pk }} + "/?format=json";
+            var api_url = host + "/api/products/" + prod_pk + "/?format=json";
             $.ajax({
             type: "GET",
             url: api_url,
@@ -34,11 +62,77 @@
         function loadProduct(results){
             var img_url = image_dir + results.image_root;
             $('#mainImg').attr('src', img_url);
+            $('#product_name').html(results.product_name);
+
+            $('#regular_price').html("$" + results.price);
+            if(results.is_active == false){
+                $('#is_in_stock').html("(out of stock)").attr('style', "color:red; font-size:small");
+            }
+            $('#product_code').html(results.product_code);
         }
 
         function clearAll(){
             container.empty()
         }
+        // End section
+
+        // adding or removing products section
+        btn_add.on('click', function(){
+            $.ajax({
+            type: "POST",
+            url: host + "/cart/" + prod_pk + "/add/",
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+
+                alert(data["Success"]);
+
+            }).fail(function(jqXHR, textStatus){
+                alert('Request Failed');
+            });
+        });
+
+        btn_add_wish.on('click', function(){
+            $.ajax({
+            type: "POST",
+            url: host + "/wish/" + prod_pk + "/add/",
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+
+                alert(data["Success"]);
+
+            }).fail(function(jqXHR, textStatus){
+                alert('Request Failed');
+            });
+        });
+
+        btn_remove_cart.on('click', function(){
+            $.ajax({
+            type: "POST",
+            url: host + "/cart/" + prod_pk + "/remove/",
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+
+                alert(data["Success"]);
+
+            }).fail(function(jqXHR, textStatus){
+                alert('Request Failed');
+            });
+        });
+
+        btn_remove_wish.on('click', function(){
+            $.ajax({
+            type: "POST",
+            url: host + "/wish/" + prod_pk + "/remove/",
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+
+                alert(data["Success"]);
+
+            }).fail(function(jqXHR, textStatus){
+                alert('Request Failed');
+            });
+        });
+        // End section
     </script>
 
 {% endblock %}

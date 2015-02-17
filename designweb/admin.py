@@ -25,19 +25,26 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ('category_name', )
 
 
-# Register your models here.
-admin.site.register(UserProfile)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Product, ProductAdmin)
-
-
-# -----------------------------------for testing order tables --------------------------------------
 class CartAdmin(admin.ModelAdmin):
     list_display = ('user', )
     filter_horizontal = ('products', )
 
 
+class WishListAdmin(admin.ModelAdmin):
+    list_display = ('user', )
+    filter_horizontal = ('products', )
+
+
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', )
+
+
+# Register your models here.
+admin.site.register(UserProfile, UserProfileAdmin)
+admin.site.register(Category, CategoryAdmin)
+admin.site.register(Product, ProductAdmin)
+
 admin.site.register(Order)
 admin.site.register(OrderDetails)
-admin.site.register(WishList)
+admin.site.register(WishList, WishListAdmin)
 admin.site.register(Cart, CartAdmin)

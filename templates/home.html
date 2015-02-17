@@ -111,7 +111,7 @@
                 var elem = product_lite.clone();
                 elem.children('a').eq(0).attr('href', host + "/product/" + item.pk);
                 elem.find('img').attr('src', image_dir + item.image_root);
-                elem.find('p').html('test item title');
+{#                elem.find('p').html("item title");#}
                 container.append(elem);
             });
         }

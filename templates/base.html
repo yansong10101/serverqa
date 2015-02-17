@@ -69,7 +69,8 @@
             {% else %}
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'design:user-profile' user.pk %}">Hello {{ user.username }}!</a></li>
-                <li><a href="{% url 'design:my-cart' user.pk %}">MyCart</a></li>
+                <li><a href="{% url 'design:my-cart' user.pk%}">MyCart</a></li>
+{#                <li><a href="{% url 'design:my-cart' user.pk%}">MyCart</a></li>#}
                 <li><a href="{% url 'design:logout' %}">Logout</a></li>
             </ul>
             {% endif %}
@@ -100,21 +101,13 @@
 
     </div><!-- /.container -->
 
-{#    <!-- popup Login view -->#}
-{#    <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModal" aria-hidden="true">#}
-{#        <div class="modal-dialog">#}
-{#            <div class="modal-content">#}
-{#                {% block signin %}{% endblock %}#}
-{#            </div>#}
-{#        </div>#}
-{#    </div><!-- End of popup Login view -->#}
-
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script src="{% static "js/doc.min.js" %}"></script>
+    <script src="{% static "js/csrf.js" %}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static "js/ie10-viewport-bug-workaround.js" %}"></script>
   </body>

@@ -1,0 +1,17 @@
+#mainImg{
+    width: 350px;
+    height: 400px;
+}
+
+#product_name{
+    text-align: center;
+}
+
+.product_info{
+    font-size: large;
+}
+
+#product_code{
+    font-size: small;
+    font-style: oblique;
+}

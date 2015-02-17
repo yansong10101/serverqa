@@ -9,7 +9,7 @@ class UserProfile(models.Model):
         ('M', 'Male'),
         ('F', 'Female'),
     )
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, primary_key=True, related_name='user_profile')
     gender = models.CharField(max_length=1, choices=GENDER_CHOICE, default='', blank=True)
     is_designer = models.BooleanField(default=False)
     designer_type = models.CharField(max_length=50, blank=True)
@@ -29,7 +29,7 @@ class UserProfile(models.Model):
         pass
 
     def __str__(self):
-        return self.user.id
+        return self.user.first_name + ' ' + self.user.last_name
 
 
 class Category(models.Model):
@@ -75,7 +75,7 @@ class Product(models.Model):
 
 
 class ProductExtension(models.Model):
-    product = models.OneToOneField(Product, related_name='details')
+    product = models.OneToOneField(Product, related_name='details', primary_key=True)
     price_range = models.DecimalField(decimal_places=2, blank=True, max_digits=8)
     special_price = models.DecimalField(decimal_places=2, blank=True, max_digits=8)
     message = models.CharField(max_length=100, blank=True)
@@ -124,12 +124,12 @@ class OrderDetails(models.Model):
 
 
 class WishList(models.Model):
-    user = models.OneToOneField(User, related_name='wish_list')
-    products = models.ManyToManyField(Product, related_name='wish_lists')
+    user = models.OneToOneField(User, related_name='wish_list', primary_key=True)
+    products = models.ManyToManyField(Product, related_name='wish_lists', blank=True)
     number_items = models.IntegerField(default=0)
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(User, related_name='cart')
-    products = models.ManyToManyField(Product, related_name='carts')
+    user = models.OneToOneField(User, related_name='cart', primary_key=True)
+    products = models.ManyToManyField(Product, related_name='carts', blank=True)
     number_items = models.IntegerField(default=0)
