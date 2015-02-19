@@ -18,7 +18,9 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h2 class="page-header">Modify you profile</h2>
           <div class="table-responsive">
+
             <p id="err_msg">{{ form.error_messages }}</p>
+
             <form class="form-signin" id="login_form" action="" method="post">
                 {% csrf_token %}
                 <label for="id_gender">Gender:</label>

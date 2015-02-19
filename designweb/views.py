@@ -129,7 +129,7 @@ def remove_wish(request, pk):
     return Response(data={'Success': 'Success'})
 
 
-# @ensure_csrf_cookie
+@ensure_csrf_cookie
 @login_required(login_url='/login/')
 def my_cart(request, pk):
     user = get_object_or_404(User, pk=pk)

@@ -11,7 +11,7 @@ class UserProfile(models.Model):
     )
     user = models.OneToOneField(User, primary_key=True, related_name='user_profile')
     gender = models.CharField(max_length=1, choices=GENDER_CHOICE, default='', blank=True)
-    is_designer = models.BooleanField(default=False)
+    is_designer = models.BooleanField(default=False, blank=True)
     designer_type = models.CharField(max_length=50, blank=True)
     address1 = models.CharField(max_length=50, blank=True)
     address2 = models.CharField(max_length=50, blank=True)
@@ -126,10 +126,10 @@ class OrderDetails(models.Model):
 class WishList(models.Model):
     user = models.OneToOneField(User, related_name='wish_list', primary_key=True)
     products = models.ManyToManyField(Product, related_name='wish_lists', blank=True)
-    number_items = models.IntegerField(default=0)
+    number_items = models.IntegerField(default=1)
 
 
 class Cart(models.Model):
     user = models.OneToOneField(User, related_name='cart', primary_key=True)
     products = models.ManyToManyField(Product, related_name='carts', blank=True)
-    number_items = models.IntegerField(default=0)
+    number_items = models.IntegerField(default=1)
