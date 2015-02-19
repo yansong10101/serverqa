@@ -797,7 +797,13 @@
       <option name="project" value="LOCAL" />
       <updated>1424328086091</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="02/18/2015 -- add rest changes to git for server testing">
+      <created>1424328178320</created>
+      <option name="number" value="00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1424328178320</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
