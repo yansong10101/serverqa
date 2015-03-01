@@ -51,9 +51,11 @@
                 <li><a href="#">Find your style</a></li>
                 <li class="divider"></li>
                 <li class="dropdown-header">Filter</li>
-                <li><a href="#">By Price</a></li>
-                <li><a href="#">By Color</a></li>
-                <li><a href="#">By Category</a></li>
+                {% for cat_item in categories %}
+                  <li><a href="{% url 'design:category-view' cat_item.pk %}">{{ cat_item.category_name }}</a></li>
+{#                <li><a href="#">By Color</a></li>#}
+{#                <li><a href="#">By Category</a></li>#}
+                {% endfor %}
               </ul>
             </li>
             <li><a href="#">Home</a></li>
@@ -70,7 +72,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'design:user-profile' user.pk %}">Hello {{ user.username }}!</a></li>
                 <li><a href="{% url 'design:my-cart' user.pk%}">MyCart</a></li>
-{#                <li><a href="{% url 'design:my-cart' user.pk%}">MyCart</a></li>#}
+                <li><a href="{% url 'design:my-wish' user.pk%}">MyWish</a></li>
                 <li><a href="{% url 'design:logout' %}">Logout</a></li>
             </ul>
             {% endif %}

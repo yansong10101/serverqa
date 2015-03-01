@@ -10,10 +10,7 @@
         <label>product name --- </label>{{ product.product_name }}<br>
         <label>product code --- </label>{{ product.product_code }}<br>
         <label>price ---------- </label>{{ product.price }}<br>
-        <label>designer name -- </label>{{ product.designer }}<br>
+        <label>designer name -- </label>{{ product.designer }}
     {% endfor %}
-
-    <br>
-    <a id="btnpay" href="{% url 'design:my-order' user.pk %}">Place to order</a>
 
 {% endblock %}

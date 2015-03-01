@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import date
+from datetime import date, datetime, timedelta
 
 
 # User profile
@@ -10,6 +10,8 @@ class UserProfile(models.Model):
         ('F', 'Female'),
     )
     user = models.OneToOneField(User, primary_key=True, related_name='user_profile')
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICE, default='', blank=True)
     is_designer = models.BooleanField(default=False, blank=True)
     designer_type = models.CharField(max_length=50, blank=True)
@@ -47,7 +49,7 @@ class Product(models.Model):
     product_code = models.CharField(max_length=20, unique=True, editable=False)
     price = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)  # if null show 'please call' msg
     designer = models.ForeignKey(User, related_name='products')
-    category = models.ManyToManyField(Category, blank=True)
+    category = models.ManyToManyField(Category, blank=True, related_name='products')
     create_date = models.DateTimeField(auto_now_add=True, editable=False)
     modified_date = models.DateTimeField(auto_now=True, editable=False)
     image_root = models.CharField(max_length=50, blank=True)
@@ -57,6 +59,9 @@ class Product(models.Model):
     number_in_stock = models.IntegerField(default=0)
     shipping_msg = models.CharField(max_length=100, blank=True)
     important_msg = models.CharField(max_length=100, blank=True)
+    group_duration = models.IntegerField(default=4)
+    group_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=1.00)  # ex, 10% off : 0.90
+    general_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=1.00)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """
@@ -94,7 +99,9 @@ class Order(models.Model):
     user = models.ForeignKey(User, related_name='orders')
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
     modified_date = models.DateTimeField(auto_now=True, editable=False)
-    total_items = models.IntegerField()
+    total_items = models.IntegerField(blank=True, default=1)
+    is_paid = models.BooleanField(default=False)
+
     shipping_address1 = models.CharField(max_length=50, blank=True)
     shipping_address2 = models.CharField(max_length=50, blank=True)
     shipping_city = models.CharField(max_length=20, blank=True)
@@ -109,18 +116,23 @@ class Order(models.Model):
     billing_zip = models.CharField(max_length=8, blank=True)
     billing_phone1 = models.CharField(max_length=15, blank=True)
     billing_phone2 = models.CharField(max_length=15, blank=True)
-    is_paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.pk
 
 
 class OrderDetails(models.Model):
     order = models.ForeignKey(Order, related_name='details')
-    products = models.ForeignKey(Product, related_name='products')
-    number_items = models.IntegerField()
-    shipping_company = models.CharField(max_length=50)
+    product = models.ForeignKey(Product, related_name='products', unique=True)
+    number_items = models.IntegerField(default=1, blank=True)
+    shipping_company = models.CharField(max_length=50, blank=True)
     shipping_status = models.CharField(max_length=1, blank=True)
     tracking_code = models.CharField(max_length=50, blank=True)
     shipping_date = models.DateTimeField(blank=True, null=True)
     receive_date = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return str(self.order.pk)
 
 
 class WishList(models.Model):
@@ -128,8 +140,34 @@ class WishList(models.Model):
     products = models.ManyToManyField(Product, related_name='wish_lists', blank=True)
     number_items = models.IntegerField(default=1)
 
+    def __str__(self):
+        return self.user.username
+
 
 class Cart(models.Model):
     user = models.OneToOneField(User, related_name='cart', primary_key=True)
     products = models.ManyToManyField(Product, related_name='carts', blank=True)
     number_items = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.user.username
+
+
+class MicroGroup(models.Model):
+    members = models.ManyToManyField(User, related_name='micro_groups')
+    product = models.ForeignKey(Product, related_name='micro_groups')
+    owner = models.ForeignKey(User, related_name='micro_group')
+    is_active = models.BooleanField(default=False)
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
+    duration_time = models.IntegerField(default=4)
+    group_price = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)
+    group_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=1.00)
+    activate_line = models.IntegerField(default=4)
+
+    def __str__(self):
+        return self.owner.username + '-' + self.product.product_name
+
+    def get_remain_time(self):
+        time_now = datetime.now()
+        end_time = timedelta(self.created_date) + timedelta(hours=self.duration_time)
+        return end_time - time_now

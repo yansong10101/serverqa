@@ -12,13 +12,21 @@ urlpatterns = patterns(
     url(r'^user-profile/(?P<pk>[0-9]+)/$', views.user_profile, name='user-profile'),
     url(r'^product/(?P<pk>[0-9]+)/$', views.product_view, name='product-view'),
     url(r'^cart/(?P<pk>[0-9]+)/', views.my_cart, name='my-cart'),
+    url(r'^wish/(?P<pk>[0-9]+)/', views.my_wish, name='my-wish'),
+    url(r'^order/(?P<pk>[0-9]+)/', views.my_order, name='my-order'),
+    url(r'^category/(?P<pk>[0-9]+)/', views.category_view, name='category-view'),
+    # url(r'^microgroup/(?P<pk>[0-9]+)/(?P<product_id>[0-9]+)/$', views.micro_group_view, name='micro-group'),
+    url(r'^microgroup/(?P<product_id>[0-9]+)/(?P<group_id>[0-9]+)/$', views.micro_group_view, name='micro-group-id'),
+    url(r'^microgroup/(?P<product_id>[0-9]+)//$', views.micro_group_view, name='micro-group'),
 
     # api for ajax add and delete
-    url(r'^cart/(?P<pk>[0-9]+)/add/$', views.add_cart, name='add-to-cart'),
-    url(r'^wish/(?P<pk>[0-9]+)/add/$', views.add_wish, name='add-to-wish'),
-    url(r'^cart/(?P<pk>[0-9]+)/remove/$', views.remove_cart, name='remove-from-cart'),
-    url(r'^wish/(?P<pk>[0-9]+)/remove/$', views.remove_wish, name='remove-from-wish'),
+    url(r'^api/cart/(?P<pk>[0-9]+)/add/$', views.add_cart, name='add-to-cart'),
+    url(r'^api/wish/(?P<pk>[0-9]+)/add/$', views.add_wish, name='add-to-wish'),
+    url(r'^api/cart/(?P<pk>[0-9]+)/remove/$', views.remove_cart, name='remove-from-cart'),
+    url(r'^api/wish/(?P<pk>[0-9]+)/remove/$', views.remove_wish, name='remove-from-wish'),
+    url(r'^api/order-detail/(?P<pk>[0-9]+)/(?P<num>[0-9]+)/update/$', views.update_order_detail, name='update-order'),
 
+    # api using rest-framework
     url(r'^api/products/$', views.ProductsList.as_view(), name='product-list'),
     url(r'^api/products/(?P<pk>[0-9]+)/$', views.ProductDetail.as_view(), name='product-detail'),
 )

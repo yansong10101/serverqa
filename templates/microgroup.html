@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
+    <img id="mainImg" src="">
+
+    <label>product name --- </label>{{ product.product_name }}<br>
+    <label>product code --- </label>{{ product.product_code }}<br>
+    <label>price ---------- </label>{{ product.price }}<br>
+    <label>designer name -- </label>{{ product.designer }}<br>
+
+    <br>
+    {% if show_join %}
+        <button>Join M-Group</button>
+    {% else %}
+        <label style="color: red;">You already in M-Group</label>
+    {% endif %}
+
+    <br>
+    <br>
+    <label>group name --- </label>{{ group.pk }}<br>
+    <label>owner name --- </label>{{ group.owner.username }}<br>
+    <label>create date ---------- </label>{{ group.created_date }}<br>
+    <label>activate line -- </label>{{ group.activate_line }}<br>
+
+{% endblock %}
