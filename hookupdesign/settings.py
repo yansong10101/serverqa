@@ -18,6 +18,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'lz@7$^!s2(%@yx+)2kv-&f!t$qs1p=g0bp(+l7()g2tm2i4u5t'
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+INTERNAL_IPS = ("127.0.0.1", )
+ALLOWED_HOSTS = ["fierce-savannah-6613.herokuapp.com", ]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
