@@ -70,20 +70,34 @@ WSGI_APPLICATION = 'hookupdesign.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'onedots',
-    #     'USER': 'root',
-    #     'PASSWORD': '',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '3306',
-    # },
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     },
+#     # 'default': {
+#     #     'ENGINE': 'django.db.backends.mysql',
+#     #     'NAME': 'onedots',
+#     #     'USER': 'root',
+#     #     'PASSWORD': '',
+#     #     'HOST': '127.0.0.1',
+#     #     'PORT': '3306',
+#     # },
+# }
+
+if os.path.exists("/Users/zys"):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        },
+    }
+else:
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.parse(
+            'postgres://ibrnkmazrogfmz:PWirpwoiTAOfdQ5VsbR_Q13HI3@ec2-50-17-181-147.compute-1.amazonaws.com:5432/d7kohs1o80d15d')
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
