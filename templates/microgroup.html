@@ -25,4 +25,31 @@
     <label>create date ---------- </label>{{ group.created_date }}<br>
     <label>activate line -- </label>{{ group.activate_line }}<br>
 
+    <script type="text/javascript">
+
+        var total_seconds = {{ remain_time }};
+        var interval = 1000;
+
+        $( document ).ready(loadPage());
+
+        function loadPage(){
+            console.log(total_seconds);
+        }
+
+
+        function ShowCountDown(divname)
+        {
+            var leftsecond = total_seconds--;
+            var hour=Math.floor(leftsecond/3600);
+            var minute=Math.floor((leftsecond-hour*3600)/60);
+            var second=Math.floor(leftsecond-hour*3600-minute*60);
+            var cc = document.getElementById(divname);
+            cc.innerHTML = ('0' + hour).slice(-2) + ":" + ('0' + minute).slice(-2) + ":" + ('0' + second).slice(-2);
+        }
+        window.setInterval(function(){ShowCountDown('divdown1');}, interval);
+
+    </script>
+
+    <div id="divdown1"></div>
+
 {% endblock %}

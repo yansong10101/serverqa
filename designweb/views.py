@@ -41,10 +41,11 @@ def signup(request):
             login(request, user)
             return render(request, 'home.html', get_display_dict(title='HOME'))
         else:
-            return render(request, 'signup.html', {'form': form, 'title': 'SIGNUP', 'error_msg': form.error_messages})
+            pass_dicts = {'form': form, 'error_msg': form.error_messages}
+            return render(request, 'signup.html', get_display_dict('SIGNUP', pass_dict=pass_dicts))
     else:
         form = UserCreationForm()
-        return render(request, 'signup.html', {'form': form})
+        return render(request, 'signup.html', get_display_dict('SIGNUP', pass_dict={'form': form, }))
 
 
 def login_view(request):
@@ -81,17 +82,16 @@ def user_profile(request, pk):
             user.user_profile.state = request.POST['state']
             user.user_profile.zip = request.POST['zip']
             user.user_profile.save()
-            return redirect(reverse('design:home'), {'title': 'HOME', })
-    return render(request, 'user_profile.html', {'title': 'USER PROFILE',
-                                                 'designer_type': user.user_profile.designer_type,
-                                                 'gender': user.user_profile.gender,
-                                                 'address1': user.user_profile.address1,
-                                                 'address2': user.user_profile.address2,
-                                                 'city': user.user_profile.city,
-                                                 'state': user.user_profile.state,
-                                                 'zip': user.user_profile.zip,
-                                                 'categories': get_display_dict(title='')['categories'],
-                                                 })
+            return redirect(reverse('design:home'), get_display_dict('HOME'))
+
+    pass_dicts = {'designer_type': user.user_profile.designer_type,
+                  'gender': user.user_profile.gender,
+                  'address1': user.user_profile.address1,
+                  'address2': user.user_profile.address2,
+                  'city': user.user_profile.city,
+                  'state': user.user_profile.state,
+                  'zip': user.user_profile.zip, }
+    return render(request, 'user_profile.html', get_display_dict('USER PROFILE', pass_dict=pass_dicts))
 
 
 @ensure_csrf_cookie
@@ -102,10 +102,10 @@ def product_view(request, pk):
     micro_group = is_user_already_in_group(user, product)
     if micro_group is None:
         show_create = True
-    return render(request, 'product.html', {'title': 'PRODUCT',
-                                            'pk': product.pk,
-                                            'show_create': show_create,
-                                            'group': micro_group, })
+    pass_dicts = {'pk': product.pk,
+                  'show_create': show_create,
+                  'group': micro_group, }
+    return render(request, 'product.html', (get_display_dict('PRODUCT', pass_dict=pass_dicts)))
 
 
 """     --Ajax views--      """
@@ -164,9 +164,8 @@ def my_cart(request, pk):
     user = get_object_or_404(User, pk=pk)
     if user is not None:
         products = user.cart.products.all()
-        return render(request, 'mycart.html', {'title': 'MY CART',
-                                               'products': products,
-                                               'categories': get_display_dict(title='')['categories']})
+        pass_dicts = {'products': products, }
+        return render(request, 'mycart.html', get_display_dict('MY CART', pass_dict=pass_dicts))
 
 
 @ensure_csrf_cookie
@@ -175,9 +174,8 @@ def my_wish(request, pk):
     user = get_object_or_404(User, pk=pk)
     if user is not None:
         products = user.wish_list.products.all()
-        return render(request, 'mywishlist.html', {'title': 'MY WISH LIST',
-                                                   'products': products,
-                                                   'categories': get_display_dict(title='')['categories']})
+        pass_dicts = {'products': products, }
+        return render(request, 'mywishlist.html', get_display_dict('MY WISH LIST', pass_dict=pass_dicts))
 # ===============================================
 
 
@@ -191,17 +189,15 @@ def my_order(request, pk):
         for item in products:
             if not is_order_list_contain_product(order.details.all(), item.pk):
                 OrderDetails.objects.create(order=order, product=item)
-        return render(request, 'myorder.html', {'title': 'MY ORDER',
-                                                'orders': order.details,
-                                                'categories': get_display_dict(title='')['categories']})
+        pass_dicts = {'orders': order.details, }
+        return render(request, 'myorder.html', get_display_dict('MY ORDER', pass_dict=pass_dicts))
 
 
 def category_view(request, pk):
     category = get_object_or_404(Category, pk=pk)
     products = Product.objects.filter(category=category)
-    return render(request, 'category.html', {'title': 'CATEGORY',
-                                             'products': products,
-                                             'categories': get_display_dict(title='')['categories']})
+    pass_dicts = {'products': products, }
+    return render(request, 'category.html', get_display_dict('CATEGORY', pass_dict=pass_dicts))
 
 
 def micro_group_view(request, product_id, group_id=None):
@@ -221,23 +217,25 @@ def micro_group_view(request, product_id, group_id=None):
                 micro_group = MicroGroup.objects.create(product=product, owner=user, is_active=True,
                                                         group_price=group_price, group_discount=product.group_discount)
                 micro_group.members.add(user)
-            return render(request, 'microgroup.html', {'title': 'M-GROUP',
-                                                       'group': micro_group,
-                                                       'product': micro_group.product,
-                                                       'show_join': show_join, })
+            pass_dicts = {'group': micro_group,
+                          'product': micro_group.product,
+                          'show_join': show_join,
+                          'remain_time': micro_group.get_remain_time_by_seconds(), }
+            return render(request, 'microgroup.html', get_display_dict('M-GROUP', pass_dict=pass_dicts))
         else:
-            return redirect(reverse('design:login'), {'title': 'LOGIN', })
+            return redirect(reverse('design:login'), get_display_dict('LOGIN'))
     else:   # outside call
         group = get_object_or_404(MicroGroup, pk=group_id)
         if group is not None:
             if not group.objects.filter(user=user).exists():
                 show_join = True
-            return render(request, 'microgroup.html', {'title': 'M-GROUP',
-                                                       'group': group,
-                                                       'product': group.product[0],
-                                                       'show_join': show_join, })
+            pass_dicts = {'group': group,
+                          'product': group.product[0],
+                          'show_join': show_join,
+                          'remain_time': group.get_remain_time_by_seconds(), }
+            return render(request, 'microgroup.html', get_display_dict('M-GROUP', pass_dict=pass_dicts))
         else:
-            return redirect(reverse('design:home', {'title': 'HOME', }))
+            return redirect(reverse('design:home', get_display_dict('HOME')))
 
 
 # ===============================================

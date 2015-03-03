@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, time
 
 
 # User profile
@@ -169,5 +169,21 @@ class MicroGroup(models.Model):
 
     def get_remain_time(self):
         time_now = datetime.now()
-        end_time = timedelta(self.created_date) + timedelta(hours=self.duration_time)
-        return end_time - time_now
+        end_time = self.created_date.replace(tzinfo=None) + timedelta(hours=self.duration_time)
+        remain_time = end_time - time_now
+        if remain_time.days < 0:
+            return time(hour=0, minute=0, second=0)
+        seconds = remain_time.seconds
+        hour = seconds // 3600
+        minute = (seconds % 3600) // 60
+        second = (seconds % 60)
+        remain_time = time(hour=hour, minute=minute, second=second)
+        return remain_time
+
+    def get_remain_time_by_seconds(self):
+        time_now = datetime.now()
+        end_time = self.created_date.replace(tzinfo=None) + timedelta(hours=self.duration_time)
+        remain_time = end_time - time_now
+        if remain_time.days < 0:
+            return 0
+        return remain_time.seconds

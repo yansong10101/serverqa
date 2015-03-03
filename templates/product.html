@@ -28,7 +28,7 @@
           {% if show_create %}
             <a id="create_group">Create M-Group</a>
           {% else %}
-            <label>Already in the group</label>
+            <a id="view_group">Already in the group</a>
           {% endif %}
 
         </div>
@@ -63,6 +63,7 @@
                 alert('Request Failed');
             });
             $("#create_group").attr('href', generate_group_url());
+            $("#view_group").attr('href', generate_group_url());
         }
 
         function loadPage(data){
