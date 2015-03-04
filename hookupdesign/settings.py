@@ -97,7 +97,7 @@ else:
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.parse(
-            'postgres://ibrnkmazrogfmz:PWirpwoiTAOfdQ5VsbR_Q13HI3@ec2-50-17-181-147.compute-1.amazonaws.com:5432/d7kohs1o80d15d')
+            'postgres://rluxmcyaxgesgz:LRqb2dNv1dKEtzy4aTB3o99h3q@ec2-50-19-249-214.compute-1.amazonaws.com:5432/d35kgnmou4uo7g')
     }
 
 # Internationalization
