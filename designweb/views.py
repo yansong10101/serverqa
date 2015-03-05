@@ -11,6 +11,7 @@ from designweb.serializer import *
 from designweb.forms import *
 from designweb.models import Order, OrderDetails, Category, MicroGroup
 from designweb.utils import is_order_list_contain_product, get_display_dict, is_user_already_in_group
+from designweb.tests import mail_test
 
 
 def home(request):
@@ -18,6 +19,7 @@ def home(request):
 
 
 def index(request):
+    mail_test()
     return render(request, 'index.html', {'title': 'HOME', })
 
 
