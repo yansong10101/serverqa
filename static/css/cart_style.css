@@ -1,6 +1,7 @@
 .cartImg{
-    height: 120px;
-    width: 100px;
+    height: 125px;
+    width: 110px;
+    margin-bottom: 0px;
 }
 
 .product_name{
@@ -15,4 +16,8 @@
 .product_price{
     font-size: medium;
     color: red;
+}
+
+#btnpay{
+    float: right;
 }

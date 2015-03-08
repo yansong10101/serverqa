@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     # 'twitter_bootstrap',
     'designweb',
     'rest_framework',
+    'django_crontab',
 )
 
 # 12-30-2014 add for admin utility
@@ -143,3 +144,7 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yansongzhang10101@gmail.com'
 EMAIL_HOST_PASSWORD = 'popdesign'
 EMAIL_USE_TLS = True
+
+CRONJOBS = [
+    ('*/1 * * * *', 'designweb.management.commands.group_mail_schedule.testing_call', ),
+]

@@ -13,23 +13,24 @@
     <table class="table table-hover">
         {% for product in products %}
             <tr id="row_{{ product.pk }}" class="row featurette">
-                <td class="col-md-2 product_image"><img class="cartImg" src="{% static 'products' %}/{{ product.image_root }}"></td>
-                <td class="col-md-6">
+                <td class="col-md-2 product_image"><img class="cartImg thumbnail" src="{% static 'products' %}/{{ product.image_root }}"></td>
+                <td class="col-md-4">
                     <div class="row featurette">
                         <p class="product_name"><a href="{% url 'design:product-view' product.pk %}">{{ product.product_name }}</a></p>
                         <p class="product_number">{{ product.product_code }}</p>
                         <p class="product_price">${{ product.price }}</p>
                     </div>
                 </td>
-                <td class="col-md-3">
-                    <input class="form-control">
+                <td class="col-md-4">
+                    <article  class="text-justify">{{ product.description }}</article>
                 </td>
+                <td class="col-md-1"></td>
                 <td class="col-md-1"><button class="btn btn-default" onclick='remove_row("{{ product.pk }}")'>remove</button></td>
             </tr>
         {% endfor %}
     </table>
     <br>
-    <a id="btnpay" href="{% url 'design:my-order' user.pk %}">Place to order</a>
+    <a id="btnpay" class="btn btn-info" href="{% url 'design:my-order' user.pk %}">Place to order</a>
 
     <script type="text/javascript">
         var host = window.location.origin;

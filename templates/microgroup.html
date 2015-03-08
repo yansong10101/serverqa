@@ -1,29 +1,55 @@
 {% extends "base.html" %}
 {% load staticfiles %}
+{% load tags %}
 
 {% block content %}
 
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
-    <img id="mainImg" src="">
+    <link href="{% static 'css/microgroup.css'%}" rel="stylesheet">
 
-    <label>product name --- </label>{{ product.product_name }}<br>
-    <label>product code --- </label>{{ product.product_code }}<br>
-    <label>price ---------- </label>{{ product.price }}<br>
-    <label>designer name -- </label>{{ product.designer }}<br>
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({publisher: "1d0d7a7d-7be0-4769-ab66-f1a5620bb556", doNotHash: false, doNotCopy: false, hashAddressBar: true});</script>
 
-    <br>
-    {% if show_join %}
-        <button>Join M-Group</button>
-    {% else %}
-        <label style="color: red;">You already in M-Group</label>
-    {% endif %}
+    <div id="alert_msg" class="" style="display:none;"></div>
 
-    <br>
-    <br>
-    <label>group name --- </label>{{ group.pk }}<br>
-    <label>owner name --- </label>{{ group.owner.username }}<br>
-    <label>create date ---------- </label>{{ group.created_date }}<br>
-    <label>activate line -- </label>{{ group.activate_line }}<br>
+    <h2 id="product_name">{{ product.product_name }}</h2>
+
+    <div class="row featurette">
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <img id="mainImg" src="{% static 'products' %}/{{ product.image_root }}" class="img-thumbnail" alt="Generic placeholder image">
+            <div id="social_block">
+                <span class='st_facebook_large'></span>
+                <span class='st_twitter_large'></span>
+                <span class='st_googleplus_large'></span>
+                <span class='st_linkedin_large'></span>
+                <span class='st_pinterest_large'></span>
+            </div>
+        </div>
+
+        <div class="col-md-5 product_info">
+          <span id="regular_price">${{ product.price }}</span>
+        <br>
+          <span id="group_discount">{%  show_percentage product.general_discount %}</span>
+          <p id="product_code"></p>
+          <label>group number : </label>{{ group.pk }}<br>
+          <label>owner name --- </label>{% cut_email group.owner.username %}<br>
+          <label>create date ---------- </label>{{ group.created_date }}<br>
+          <label>activate line -- </label>{{ group.activate_line }}<br>
+          <label>total members -- </label>{{ total_members }}<br>
+          <label>remained time : </label><span id="remain_time"></span>
+          <br>
+
+            {% if show_join %}
+                <button>Join M-Group</button>
+            {% else %}
+                <label style="color: red;">You already in M-Group, share now to invite your friends to join !</label>
+            {% endif %}
+
+        </div>
+        <div class="col-md-1"></div>
+      </div>
 
     <script type="text/javascript">
 
@@ -45,11 +71,16 @@
             var second=Math.floor(leftsecond-hour*3600-minute*60);
             var cc = document.getElementById(divname);
             cc.innerHTML = ('0' + hour).slice(-2) + ":" + ('0' + minute).slice(-2) + ":" + ('0' + second).slice(-2);
+            if(leftsecond == 0){
+                cc.innerHTML = "00:00:00";
+                request_failed();
+            }
         }
-        window.setInterval(function(){ShowCountDown('divdown1');}, interval);
+        window.setInterval(function(){ShowCountDown('remain_time');}, interval);
 
+        function request_failed(){
+            $("#alert_msg").attr("class", "alert alert-warning").html("Event time end !").fadeIn(2000, 0);
+        }
     </script>
-
-    <div id="divdown1"></div>
 
 {% endblock %}

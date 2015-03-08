@@ -60,7 +60,7 @@ class Product(models.Model):
     shipping_msg = models.CharField(max_length=100, blank=True)
     important_msg = models.CharField(max_length=100, blank=True)
     group_duration = models.IntegerField(default=4)
-    group_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=1.00)  # ex, 10% off : 0.90
+    group_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=0.90)  # ex, 10% off : 0.90
     general_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=1.00)
     number_like = models.IntegerField(default=0)
 

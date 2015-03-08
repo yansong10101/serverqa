@@ -231,22 +231,26 @@ def micro_group_view(request, product_id, group_id=None):
                 micro_group = MicroGroup.objects.create(product=product, owner=user, is_active=True,
                                                         group_price=group_price, group_discount=product.group_discount)
                 micro_group.members.add(user)
+            total_members = micro_group.members.count()
             pass_dicts = {'group': micro_group,
                           'product': micro_group.product,
                           'show_join': show_join,
-                          'remain_time': micro_group.get_remain_time_by_seconds(), }
+                          'remain_time': micro_group.get_remain_time_by_seconds(),
+                          'total_members': total_members, }
             return render(request, 'microgroup.html', get_display_dict('M-GROUP', pass_dict=pass_dicts))
         else:
             return redirect(reverse('design:login'), get_display_dict('LOGIN'))
     else:   # outside call
         group = get_object_or_404(MicroGroup, pk=group_id)
         if group is not None:
+            total_members = group.members.count()
             if not group.objects.filter(user=user).exists():
                 show_join = True
             pass_dicts = {'group': group,
                           'product': group.product[0],
                           'show_join': show_join,
-                          'remain_time': group.get_remain_time_by_seconds(), }
+                          'remain_time': group.get_remain_time_by_seconds(),
+                          'total_members': total_members, }
             return render(request, 'microgroup.html', get_display_dict('M-GROUP', pass_dict=pass_dicts))
         else:
             return redirect(reverse('design:home', get_display_dict('HOME')))

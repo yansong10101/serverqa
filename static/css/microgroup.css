@@ -1,0 +1,9 @@
+#group_discount{
+    font-size: large;
+    color: red;
+}
+
+#product_name{
+    text-align: center;
+    margin-bottom: 25px;
+}
