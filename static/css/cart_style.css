@@ -1,0 +1,18 @@
+.cartImg{
+    height: 120px;
+    width: 100px;
+}
+
+.product_name{
+    color: #003366;
+}
+
+.product_code{
+    font-size: small;
+    color: #3c3c3c;
+}
+
+.product_price{
+    font-size: medium;
+    color: red;
+}

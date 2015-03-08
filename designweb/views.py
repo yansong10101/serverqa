@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth import *
 from django.contrib.auth.decorators import login_required
@@ -9,9 +9,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from designweb.serializer import *
 from designweb.forms import *
-from designweb.models import Order, OrderDetails, Category, MicroGroup
-from designweb.utils import is_order_list_contain_product, get_display_dict, is_user_already_in_group
-from designweb.tests import mail_test
+from designweb.utils import *
 
 
 def home(request):
@@ -19,7 +17,7 @@ def home(request):
 
 
 def index(request):
-    mail_test()
+    # print(is_product_in_user_cart(25, 8))
     return render(request, 'index.html', {'title': 'HOME', })
 
 
@@ -40,8 +38,9 @@ def signup(request):
             user.user_profile.save()
             user.cart = Cart.objects.create(user=user)
             user.wish_list = WishList.objects.create(user=user)
+            sending_mail_for_new_signup(username)
             login(request, user)
-            return render(request, 'home.html', get_display_dict(title='HOME'))
+            return render(request, 'home.html', get_display_dict(title='HOME', pass_dict={'welcome': True, }))
         else:
             pass_dicts = {'form': form, 'error_msg': form.error_messages}
             return render(request, 'signup.html', get_display_dict('SIGNUP', pass_dict=pass_dicts))
@@ -104,9 +103,10 @@ def product_view(request, pk):
     micro_group = is_user_already_in_group(user, product)
     if micro_group is None:
         show_create = True
-    pass_dicts = {'pk': product.pk,
+    pass_dicts = {'product': product,
                   'show_create': show_create,
-                  'group': micro_group, }
+                  'group': micro_group,
+                  'is_in_cart': is_product_in_user_cart(user, pk)}
     return render(request, 'product.html', (get_display_dict('PRODUCT', pass_dict=pass_dicts)))
 
 
@@ -134,7 +134,7 @@ def add_wish(request, pk):
 def remove_cart(request, pk):
     user = request.user
     product = get_object_or_404(Product, pk=pk)
-    user.wish_list.products.remove(product)
+    user.cart.products.remove(product)
     return Response(data={'Success': 'Success'})
 
 
@@ -156,6 +156,15 @@ def update_order_detail(request, pk, num):
     print('Before -- ' + str(num))
     order_detail.save()
     print('After -- ' + str(order_detail.number_items))
+    return Response(data={'Success': 'Success'})
+
+
+@ensure_csrf_cookie
+@api_view(['GET', 'POST', ])
+def like_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    product.number_like += 1
+    product.save()
     return Response(data={'Success': 'Success'})
 
 
@@ -185,12 +194,15 @@ def my_wish(request, pk):
 @login_required(login_url='/login/')
 def my_order(request, pk):
     user = get_object_or_404(User, pk=pk)
-    if user is not None:
+    if user.is_authenticated():
         products = user.cart.products.all()
         order = user.orders.get_or_create(user=user, is_paid=False)[0]
         for item in products:
             if not is_order_list_contain_product(order.details.all(), item.pk):
                 OrderDetails.objects.create(order=order, product=item)
+        for item in order.details.all():
+            if not is_cart_list_contain_order_detail(products, item.product.pk):
+                order.details.filter(pk=item.pk).delete()
         pass_dicts = {'orders': order.details, }
         return render(request, 'myorder.html', get_display_dict('MY ORDER', pass_dict=pass_dicts))
 

@@ -3,6 +3,13 @@
 
 {% block slides %}
 <!-- Carousel ================================================== -->
+
+    {% if welcome %}
+        <div class="alert alert-success">
+            Well done! You successfully read this important alert message.
+        </div>
+    {% endif %}
+
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
       <ol class="carousel-indicators">

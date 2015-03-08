@@ -62,6 +62,7 @@ class Product(models.Model):
     group_duration = models.IntegerField(default=4)
     group_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=1.00)  # ex, 10% off : 0.90
     general_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=1.00)
+    number_like = models.IntegerField(default=0)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """
@@ -123,7 +124,7 @@ class Order(models.Model):
 
 class OrderDetails(models.Model):
     order = models.ForeignKey(Order, related_name='details')
-    product = models.ForeignKey(Product, related_name='products', unique=True)
+    product = models.ForeignKey(Product, related_name='products')  # , unique=True
     number_items = models.IntegerField(default=1, blank=True)
     shipping_company = models.CharField(max_length=50, blank=True)
     shipping_status = models.CharField(max_length=1, blank=True)

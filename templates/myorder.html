@@ -4,15 +4,25 @@
 {% block content %}
 
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
-    <img id="mainImg" src="">
+    <link href="{% static 'css/cart_style.css'%}" rel="stylesheet">
 
-    {% for order in orders.all %}
-        <label>product name --- </label>{{ order.product.product_name }}<br>
-        <label>product code --- </label>{{ order.product.product_code }}<br>
-        <label>price ---------- </label>{{ order.product.price }}<br>
-        <label>designer name -- </label>{{ order.product.designer }}<br>
-        <label for="product_quantity">Number items --- </label><input class="product_quantity" type="text" value="{{ order.number_items }}" name="{{ order.pk }}"><br>
-    {% endfor %}
+    <table class="table table-hover">
+        {% for order in orders.all %}
+            <tr id="row_{{ order.product.pk }}" class="row featurette">
+                <td class="col-md-2 product_image"><img class="cartImg" src="{% static 'products' %}/{{ order.product.image_root }}"></td>
+                <td class="col-md-6">
+                    <div class="row featurette">
+                        <p class="product_name"><a href="{% url 'design:product-view' order.product.pk %}">{{ order.product.product_name }}</a></p>
+                        <p class="product_number">{{ order.product.product_code }}</p>
+                        <p class="product_price">${{ order.product.price }}</p>
+                    </div>
+                </td>
+                <td class="col-md-4">
+                    <input class="product_quantity form-control" type="text" value="{{ order.number_items }}" name="{{ order.pk }}"><br>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 
     <button id="btn_update">test update</button>
 

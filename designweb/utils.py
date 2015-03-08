@@ -1,10 +1,19 @@
 __author__ = 'zys'
-from designweb.models import Category, MicroGroup
+from django.core.mail import send_mail
+from hookupdesign.settings import EMAIL_HOST_USER
+from django.shortcuts import get_object_or_404
+from designweb.models import *
 
 
 def is_order_list_contain_product(order_list, target):
     for item in order_list:
         if item.product.pk == target:
+            return True
+
+
+def is_cart_list_contain_order_detail(product_list, target):
+    for item in product_list:
+        if item.pk == target:
             return True
 
 
@@ -26,3 +35,24 @@ def is_user_already_in_group(user, product):
                 if member == user:
                     return group
     return None
+
+
+def is_product_in_user_cart(user, p_id):
+    if user.is_authenticated():
+        cart = get_object_or_404(Cart, user=user)
+        if cart.products.filter(pk=p_id).exists():
+            return True
+    return False
+
+
+# functions for sending mail
+def sending_mail_to_multiple(mail_to_list, mail_subject, mail_content):
+    send_mail(mail_subject, mail_content, EMAIL_HOST_USER, mail_to_list, fail_silently=False)
+
+
+def sending_mail_to_single(mail_to, mail_subject, mail_content):
+    sending_mail_to_multiple([mail_to, ], mail_subject, mail_content)
+
+
+def sending_mail_for_new_signup(mail_to):
+    sending_mail_to_single(mail_to, 'welcome to use 1 dots', 'this is content for welcome!')
