@@ -146,5 +146,5 @@ EMAIL_HOST_PASSWORD = 'popdesign'
 EMAIL_USE_TLS = True
 
 CRONJOBS = [
-    ('*/1 * * * *', 'designweb.management.commands.group_mail_schedule.testing_call', ),
+    ('*/1 * * * *', 'designweb.management.commands.group_mail_schedule.testing_call', '> /tmp/last_scheduled_job.log'),
 ]
