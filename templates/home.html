@@ -71,7 +71,7 @@
     <script type="text/javascript">
         var host = window.location.origin;
         var product_lite = $('<div class="col-lg-4"><a><img class="img-thumbnail" alt="Generic placeholder image" style="width: 320px; height: 350px;" /></a><p></p></div>');
-        var image_dir = host + "/static/products/";
+        var image_dir = "{{ storage_host }}" + "{% static 'products/' %}";
         var container = $(".row");
         var load_btn = $("#btn");
         var number_columns = 3; // fixed value, do not change

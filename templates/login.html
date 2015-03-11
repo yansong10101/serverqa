@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load staticfiles %}
-{#<link href="{% static 'css/signin.css'%}" rel="stylesheet">#}
 {% block content %}
+
+    <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
 
     <form class="form-signin" id="login_form" action="" method="post">
         {% csrf_token %}
@@ -9,17 +10,49 @@
             <h2 class="modal-title form-signin-heading">Please Sign In</h2>
 
             <label for="inputEmail" class="sr-only">User Name</label>
-            <input type="email" name="username" class="form-control" placeholder="Email address" required autofocus>
+            <input type="email" id="id_email" name="username" class="form-control" placeholder="Email address" required autofocus>
             <div class="help-block with-errors"></div>
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
             <div class="checkbox">
               <label>
-                <input type="checkbox" value="remember-me"> Remember me
+                <input type="checkbox" value="" checked>Remember me
               </label>
             </div>
 
             <button class="btn btn-lg btn-primary btn-block" id="login_submit" type="submit">Login</button>
     </form>
+
+    <script type="text/javascript">
+        var btn_submit = $("#login_submit");
+        var input_email = $("#id_email");
+        var input_password = $("#inputPassword");
+
+        btn_submit.on("click", function(){
+            validate_password();
+            validate_name();
+        });
+
+        input_email.focusout(function(){
+            var email = input_email.val();
+            var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            if(!re.test(email)){
+                btn_submit.prop("disabled", true);
+                alert("email failed");
+            }
+            else{
+                btn_submit.prop("disabled", false);
+            }
+        });
+
+        function validate_password(){
+
+        }
+
+        function validate_name(){
+
+        }
+
+    </script>
 
 {% endblock %}

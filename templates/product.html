@@ -60,7 +60,7 @@
 
         <script type="text/javascript">
         var host = window.location.origin;
-        var image_dir = host + "/static/products/";
+        var image_dir = "{{ storage_host }}" + "{% static 'products/' %}";
         var prod_pk = {{ product.pk }};
         var btn_add = $('#add_to_cart');
         var btn_add_wish = $('#add_to_wishlist');

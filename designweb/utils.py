@@ -1,6 +1,6 @@
 __author__ = 'zys'
 from django.core.mail import send_mail
-from hookupdesign.settings import EMAIL_HOST_USER
+from hookupdesign.settings import EMAIL_HOST_USER, S3_URL
 from django.shortcuts import get_object_or_404
 from designweb.models import *
 
@@ -18,7 +18,7 @@ def is_cart_list_contain_order_detail(product_list, target):
 
 
 def get_display_dict(title, pass_dict={}):
-    display_dict = {'title': title, 'categories': Category.objects.all()}
+    display_dict = {'title': title, 'categories': Category.objects.all(), 'storage_host': S3_URL, }
     if pass_dict != {}:
         return dict(list(pass_dict.items()) + list(display_dict.items()))
     return display_dict

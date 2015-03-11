@@ -5,18 +5,17 @@
     <link href="{% static "css/user_profile.css" %}" rel="stylesheet">
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
 
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">User Profile</a></li>
-            <li><a href="#">Credential</a></li>
-            <li><a href="#">something else</a></li>
-            <li><a href="#">something else</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h2 class="page-header">Modify you profile</h2>
+	<div class="col-sm-2">
+        <nav class="nav-sidebar">
+            <ul class="nav tabs">
+              <li class="active"><a href="#tab1" data-toggle="tab">User Profile</a></li>
+              <li class=""><a href="#tab2" data-toggle="tab">Credential</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!-- tab content -->
+    <div class="tab-content">
+        <div class="tab-pane active text-style" id="tab1">
           <div class="table-responsive">
 
             <p id="err_msg">{{ form.error_messages }}</p>
@@ -35,21 +34,30 @@
                     {% endif %}
                 </select>
 
-{#                <input type="checkbox" name="is_designer"/><label class="vCheckboxLabel" for="id_is_designer">Is designer</label>#}
+                <input type="checkbox" id="id_is_designer" name="is_designer"/><label class="vCheckboxLabel" for="id_is_designer">Is designer</label>
                 <br>
-                <label for="id_designer_type">Designer type:</label><input type="text" name="designer_type" class="form-control" value="{{ designer_type }}">
-                <label for="id_address1">Address 1:</label><input type="text" name="address1" class="form-control" value="{{ address1 }}">
-                <label for="id_address2">Address 2:</label><input type="text" name="address2" class="form-control" value="{{ address2 }}">
-                <label for="id_city">City:</label><input type="text" name="city" class="form-control" value="{{ city }}">
-                <label for="id_state">State:</label><input type="text" name="state" class="form-control" value="{{ state }}">
-                <label for="id_zip">Zip:</label><input type="text" name="zip" class="form-control" value="{{ zip }}">
+                <label for="id_designer_type">Designer type:</label><input type="text" id="id_designer_type" name="designer_type" class="form-control" value="{{ designer_type }}">
+                <label for="id_address1">Address 1:</label><input type="text" id="id_address1" name="address1" class="form-control" value="{{ address1 }}">
+                <label for="id_address2">Address 2:</label><input type="text" id="id_address2" name="address2" class="form-control" value="{{ address2 }}">
+                <label for="id_city">City:</label><input type="text" id="id_city" name="city" class="form-control" value="{{ city }}">
+                <label for="id_state">State:</label><input id="id_state" type="text" name="state" class="form-control" value="{{ state }}">
+                <label for="id_zip">Zip:</label><input type="text" id="id_zip" name="zip" class="form-control" value="{{ zip }}">
 
                 <a href="home.html">Skip</a>
                 <button class="btn btn-lg btn-primary btn-block" id="submit" type="submit">Save</button>
             </form>
           </div>
         </div>
-      </div>
+
+        <div class="tab-pane text-style" id="tab2">
+          <h2>Changed you password</h2>
+           <p>Dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+            ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+            dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
+            et dolore magna aliquyam erat, sed diam voluptua.</p>
+            <hr>
+        </div>
     </div>
 
 {% endblock %}

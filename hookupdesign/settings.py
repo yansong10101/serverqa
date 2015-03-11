@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'designweb',
     'rest_framework',
     'django_crontab',
+    'storages',
 )
 
 # 12-30-2014 add for admin utility
@@ -114,12 +115,30 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+# AWS S3 setup
+USE_S3 = True
+AWS_ACCESS_KEY = 'AKIAJAZ5UY6AQL3BLMWA'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'popdesign'
+AWS_QUERYSTRING_AUTH = False
+S3_STORAGE = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+S3_URL = 'http://127.0.0.1:8000'   # initial with local for testing
+IS_TEST = True
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 # STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+if USE_S3:
+    S3_URL = S3_STORAGE
+    if IS_TEST:
+        S3_URL = S3_STORAGE + '/test'
+    MEDIA_URL = S3_URL + '/products/'
+    MEDIA_ROOT = S3_URL
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
