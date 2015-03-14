@@ -117,6 +117,8 @@ def add_cart(request, pk):
     user = request.user
     product = get_object_or_404(Product, pk=pk)
     user.cart.products.add(product)
+    if not is_product_in_cart_details(user, product):
+        user.cart.cart_details.create(cart=user.cart, product=product)
     return Response(data={'Success': 'Success'})
 
 
@@ -135,6 +137,8 @@ def remove_cart(request, pk):
     user = request.user
     product = get_object_or_404(Product, pk=pk)
     user.cart.products.remove(product)
+    if is_product_in_cart_details(user, product):
+        user.cart.cart_details.filter(product=product).delete()
     return Response(data={'Success': 'Success'})
 
 
@@ -153,9 +157,17 @@ def remove_wish(request, pk):
 def update_order_detail(request, pk, num):
     order_detail = get_object_or_404(OrderDetails, pk=pk)
     order_detail.number_items = num
-    print('Before -- ' + str(num))
     order_detail.save()
-    print('After -- ' + str(order_detail.number_items))
+    return Response(data={'Success': 'Success'})
+
+
+@ensure_csrf_cookie
+@api_view(['GET', 'POST', ])
+@login_required(login_url='/login/')
+def update_cart_detail(request, pk, num):
+    cart_detail = get_object_or_404(CartDetail, pk=pk)
+    cart_detail.number_in_cart = num
+    cart_detail.save()
     return Response(data={'Success': 'Success'})
 
 
@@ -175,7 +187,7 @@ def my_cart(request, pk):
     user = get_object_or_404(User, pk=pk)
     if user is not None:
         products = user.cart.products.all()
-        pass_dicts = {'products': products, }
+        pass_dicts = {'products': products, 'orders': user.cart.cart_details.all()}
         return render(request, 'mycart.html', get_display_dict('MY CART', pass_dict=pass_dicts))
 
 
@@ -195,11 +207,21 @@ def my_wish(request, pk):
 def my_order(request, pk):
     user = get_object_or_404(User, pk=pk)
     if user.is_authenticated():
-        products = user.cart.products.all()
+        details = user.cart.cart_details.all()
+        products = []
+        for detail in details:
+            products.append(detail.product)
         order = user.orders.get_or_create(user=user, is_paid=False)[0]
-        for item in products:
-            if not is_order_list_contain_product(order.details.all(), item.pk):
-                OrderDetails.objects.create(order=order, product=item)
+        # for item in products:
+        #     if not is_order_list_contain_product(order.details.all(), item.pk):
+        #         OrderDetails.objects.create(order=order, product=item)
+        for item in details:
+            if not is_order_list_contain_product(order.details.all(), item.product.pk):
+                OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart)
+            else:
+                order_detail = OrderDetails.objects.get(order=order, product=item.product)
+                order_detail.number_items = item.number_in_cart
+                order_detail.save()
         for item in order.details.all():
             if not is_cart_list_contain_order_detail(products, item.product.pk):
                 order.details.filter(pk=item.pk).delete()

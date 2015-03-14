@@ -21,3 +21,8 @@
 #btnpay{
     float: right;
 }
+
+.prod_description{
+    font-size: small;
+    font-family: "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
+}

@@ -102,6 +102,7 @@ class Order(models.Model):
     modified_date = models.DateTimeField(auto_now=True, editable=False)
     total_items = models.IntegerField(blank=True, default=1)
     is_paid = models.BooleanField(default=False)
+    # total_pay = models.DecimalField(default=0.00, max_digits=)
 
     shipping_address1 = models.CharField(max_length=50, blank=True)
     shipping_address2 = models.CharField(max_length=50, blank=True)
@@ -152,6 +153,12 @@ class Cart(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class CartDetail(models.Model):
+    cart = models.ForeignKey(Cart, related_name='cart_details')
+    product = models.ForeignKey(Product, related_name='product')
+    number_in_cart = models.IntegerField(default=1)
 
 
 class MicroGroup(models.Model):

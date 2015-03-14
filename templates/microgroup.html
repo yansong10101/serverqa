@@ -18,7 +18,7 @@
     <div class="row featurette">
         <div class="col-md-1"></div>
         <div class="col-md-5">
-          <img id="mainImg" src="{% static 'products' %}/{{ product.image_root }}" class="img-thumbnail" alt="Generic placeholder image">
+          <img id="mainImg" src="{{ storage_host }}{% static 'products' %}/{{ product.image_root }}" class="img-thumbnail" alt="Generic placeholder image">
             <div id="social_block">
                 <span class='st_facebook_large'></span>
                 <span class='st_twitter_large'></span>

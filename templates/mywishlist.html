@@ -19,7 +19,7 @@
             </tr>
         {% for product in products %}
             <tr id="row_{{ product.pk }}" class="row featurette">
-                <td class="col-md-2"><img class="cartImg" src="{% static 'products' %}/{{ product.image_root }}"></td>
+                <td class="col-md-2"><img class="cartImg" src="{{ storage_host }}{% static 'products' %}/{{ product.image_root }}"></td>
                 <td class="col-md-3">{{ product.product_name }}</td>
                 <td class="col-md-2">{{ product.product_code }}</td>
                 <td class="col-md-2">${{ product.price }}</td>

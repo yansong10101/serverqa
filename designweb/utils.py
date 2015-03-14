@@ -45,6 +45,14 @@ def is_product_in_user_cart(user, p_id):
     return False
 
 
+def is_product_in_cart_details(user, product):
+    if user.is_authenticated():
+        cart = get_object_or_404(Cart, user=user)
+        if cart.cart_details.filter(product=product).exists():
+            return True
+    return False
+
+
 # functions for sending mail
 def sending_mail_to_multiple(mail_to_list, mail_subject, mail_content):
     send_mail(mail_subject, mail_content, EMAIL_HOST_USER, mail_to_list, fail_silently=False)
