@@ -5,7 +5,6 @@
 {% block content %}
 
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
-    <link href="{% static 'css/cart_style.css'%}" rel="stylesheet">
     <link href="{% static 'css/order_process.css'%}" rel="stylesheet">
 
     <div class="row">
@@ -15,26 +14,35 @@
                 <ul class="nav nav-tabs" id="myTab">
                     <div class="liner"></div>
                     <li class="active">
-                        <a href="#home" data-toggle="tab" title="welcome"><span class="round-tabs one"><i class="glyphicon glyphicon-shopping-cart"></i></span></a>
+                        <a href="#summary" data-toggle="tab" title="order summary"><span class="round-tabs one"><i class="glyphicon glyphicon-shopping-cart"></i></span></a>
                     </li>
+
+                    <li><a href="#" data-toggle="tab" title="" style="visibility: hidden;"><span class="round-tabs two"><i class="glyphicon glyphicon-ok"></i></span></a></li>
+
                     <li>
-                        <a href="#done" data-toggle="tab" title="completed" style="visibility: hidden;"><span class="round-tabs two"><i class="glyphicon glyphicon-ok"></i></span></a>
+                        <a href="#shipping" data-toggle="tab" title="shipping address"><span class="round-tabs three"><i class="glyphicon glyphicon-gift"></i></span></a>
                     </li>
+
+                    <li><a href="#" data-toggle="tab" title="" style="visibility: hidden;"><span class="round-tabs four"><i class="glyphicon glyphicon-comment"></i></span></a></li>
+
                     <li>
-                        <a href="#messages" data-toggle="tab" title="bootsnipp goodies"><span class="round-tabs three"><i class="glyphicon glyphicon-gift"></i></span></a>
-                    </li>
-                    <li>
-                        <a href="#settings" data-toggle="tab" title="blah blah" style="visibility: hidden;"><span class="round-tabs four"><i class="glyphicon glyphicon-comment"></i></span></a>
-                    </li>
-                    <li>
-                        <a href="#done" data-toggle="tab" title="completed"><span class="round-tabs five"><i class="glyphicon glyphicon-ok"></i></span></a>
+                        <a href="#done" data-toggle="tab" title="process completed"><span class="round-tabs five"><i class="glyphicon glyphicon-ok"></i></span></a>
                     </li>
                 </ul>
             </div>
 
             <div class="tab-content">
-                <div class="tab-pane fade in active" id="home">
+                <div class="row tab-pane fade in active" id="summary">
                     <table class="table table-hover">
+                            <tr class="row header_row">
+                                <th class="col-md-2"></th>
+                                <th class="col-md-5">product</th>
+                                <th class="col-md-1">price</th>
+                                <th class="col-md-1"></th>
+                                <th class="col-md-1">quantity</th>
+                                <th class="col-md-1"></th>
+                                <th class="col-md-1">total</th>
+                            </tr>
                         {% for order in orders.all %}
                             <tr id="row_{{ order.product.pk }}" class="row featurette">
                                 <td class="col-md-2 product_image"><img class="cartImg thumbnail" src="{{ storage_host }}{% static 'products' %}/{{ order.product.image_root }}"></td>
@@ -52,21 +60,76 @@
                             </tr>
                         {% endfor %}
                     </table>
+                    <p class="text-center"><a href="#shipping" data-toggle="tab" class="btn btn-success btn-outline-rounded green">Next<span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></a></p>
                 </div>
 
-                <div class="tab-pane fade" id="messages">
-                    <h3 class="head text-center">Shipping Address</h3>
-                    <p class="narrow text-center">Lorem ipsum dolor sit amet, his ea mollis fabellas principes. Quo mazim facilis tincidunt ut, utinam saperet facilisi an vim.</p>
-                    <p class="text-center"><a href="" class="btn btn-success btn-outline-rounded green"> start using bootsnipp <span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></a></p>
+                <div class="tab-pane fade row" id="shipping">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-5">
+                        <h3 class="head text-center">Shipping Address</h3>
+                        <form class="form-signin" id="" action="" method="">
+                            <label for="s_address1">Address 1:</label><input type="text" id="s_address1" name="address1" class="form-control" value="{{ profile.address1 }}">
+                            <label for="s_address2">Address 2:</label><input type="text" id="s_address2" name="address2" class="form-control" value="{{ profile.address2 }}">
+                            <label for="s_city">City:</label><input type="text" id="s_city" name="city" class="form-control" value="{{ profile.city }}">
+                            <label for="s_state">State:</label><input id="s_state" type="text" name="state" class="form-control" value="{{ profile.state }}">
+                            <label for="s_zip">Zip:</label><input type="text" id="s_zip" name="zip" class="form-control" value="{{ profile.zip }}">
+                            <input type="checkbox" id="is_billing_address"/><label class="vCheckboxLabel" for="is_billing_address">Check if same as billing address</label>
+                        </form>
+                    </div>
+                    <div class="col-md-5">
+                        <h3 class="head text-center">Bill Address</h3>
+                        <form class="form-signin" id="" action="" method="">
+                            <label for="b_address1">Address 1:</label><input type="text" id="b_address1" name="address1" class="form-control">
+                            <label for="b_address2">Address 2:</label><input type="text" id="b_address2" name="address2" class="form-control">
+                            <label for="b_city">City:</label><input type="text" id="b_city" name="city" class="form-control">
+                            <label for="b_state">State:</label><input id="b_state" type="text" name="state" class="form-control">
+                            <label for="b_zip">Zip:</label><input type="text" id="b_zip" name="zip" class="form-control">
+                            <p></p>
+                        </form>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <br>
+                    <p class="text-center"><button class="btn btn-success btn-outline-rounded green" id="address_submit" type="submit">Confirm<span style="margin-left:10px;" class="glyphicon glyphicon-send"></span></button></p>
                 </div>
-
                 <div class="tab-pane fade" id="done"><div class="text-center"><i class="img-intro icon-checkmark-circle"></i></div>
-                    <h3 class="head text-center">thanks for staying tuned! <span style="color:#f48260;">♥</span> Bootstrap</h3>
-                    <p class="narrow text-center">Lorem ipsum dolor sit amet, his ea mollis fabellas principes. Quo mazim facilis tincidunt ut, utinam saperet facilisi an vim.</p>
+                    <h3 class="head text-center">thanks for shopping! <span style="color:#f48260;">♥</span> 1 dots</h3>
+                    <p class="narrow text-center">We are serving international funny ideas, high tech stuffs, independent design...</p>
                 </div>
             </div>
-
         </div>
     </div>
+
+    <script type="text/javascript">
+        $('#is_billing_address').change(function(){
+            if (this.checked) {
+                var add1 = $("#s_address1").val();
+                var add2 = $("#s_address2").val();
+                var city = $("#s_city").val();
+                var state = $("#s_state").val();
+                var zip = $("#s_zip").val();
+
+                if (add1 == "" || city == "" || state == "" || zip == "") {
+                    alert("shipping address info required !");
+                    this.checked = false;
+                }
+                else {
+                    $("#b_address1").val(add1);
+                    $("#b_address2").val(add2);
+                    $("#b_city").val(city);
+                    $("#b_state").val(state);
+                    $("#b_zip").val(zip);
+                    $("input[type=text]").prop('disabled', true);
+                }
+            }
+            else{
+                $("#b_address1").val("");
+                $("#b_address2").val("");
+                $("#b_city").val("");
+                $("#b_state").val("");
+                $("#b_zip").val("");
+                $("input[type=text]").prop('disabled', false);
+            }
+        });
+    </script>
 
 {% endblock %}

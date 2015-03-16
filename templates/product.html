@@ -39,19 +39,19 @@
           <article id="product_description" class="text-justify">{{ product.description }}</article>
           <br>
 
-          <button id="product_like" class="btn btn-default btn-primary"><span id="like_count" class="badge">{{ product.number_like }}</span> Like</button>
+          <button id="product_like" class="btn btn-default btn-primary"><span id="like_count" class="badge">{{ product.number_like }}</span> Like<i style="margin-left: 5px;" class="glyphicon glyphicon-thumbs-up"></i></button>
           <br>
 
           <div class="btn-group">
-              <button id="add_to_cart" class="btn btn-default">Add to cart</button>
-              <button id="add_to_wishlist" class="btn btn-default">Add to wishlist</button>
+              <button id="add_to_cart" class="btn btn-default"><i style="margin-right: 5px;" class="glyphicon glyphicon-shopping-cart"></i>Add to cart</button>
+              <button id="add_to_wishlist" class="btn btn-default"><i style="margin-right: 5px;" class="glyphicon glyphicon-heart-empty"></i>Add to wishlist</button>
           </div>
 
           <br>
           {% if show_create %}
-            <a id="create_group" class="btn btn-default">Create M-Group</a>
+            <a id="create_group" class="btn btn-info"><span style="margin-right: 5px;" class="glyphicon glyphicon-user"></span>Create M-Group</a>
           {% else %}
-            <a id="view_group" class="btn btn-default">See created group</a>
+            <a id="view_group" class="btn btn-info"><span style="margin-right: 5px;" class="glyphicon glyphicon-user"></span>See created group</a>
           {% endif %}
 
         </div>

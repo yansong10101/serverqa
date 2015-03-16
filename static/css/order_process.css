@@ -172,3 +172,7 @@ product summary view
 #btnpay{
     float: right;
 }
+
+.table>tbody>.header_row{
+    border-top: hidden;
+}

@@ -30,23 +30,9 @@
         </div>
         <div class="item">
           <img src="{{ storage_host }}/static/slides/slide_2.jpg" alt="Second slide">
-{#          <div class="container">#}
-{#            <div class="carousel-caption">#}
-{#              <h1>Another example headline.</h1>#}
-{#              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>#}
-{#              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>#}
-{#            </div>#}
-{#          </div>#}
         </div>
         <div class="item">
           <img src="{{ storage_host }}/static/slides/slide_3.jpg" alt="Third slide">
-{#          <div class="container">#}
-{#            <div class="carousel-caption">#}
-{#              <h1>One more for good measure.</h1>#}
-{#              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>#}
-{#              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>#}
-{#            </div>#}
-{#          </div>#}
         </div>
       </div>
       <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
@@ -77,7 +63,6 @@
         var number_columns = 3; // fixed value, do not change
 
         var msg_load_more = 'Load More';
-        var msg_no_more = 'No More';
 
         var catch_data = null;
 
@@ -106,7 +91,7 @@
                 load_btn.html(msg_load_more);
                 loadProduct(data.results);
             }else{
-                load_btn.html(msg_no_more);
+                load_btn.hide();
                 loadProduct(data.results);      // To Do -- display number of items only multiple of 3
                 catch_data = null;              // set tmp var to null when no use anymore
                 load_btn.visibility = false;    // TO DO -- disable load button ?

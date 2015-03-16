@@ -212,9 +212,6 @@ def my_order(request, pk):
         for detail in details:
             products.append(detail.product)
         order = user.orders.get_or_create(user=user, is_paid=False)[0]
-        # for item in products:
-        #     if not is_order_list_contain_product(order.details.all(), item.pk):
-        #         OrderDetails.objects.create(order=order, product=item)
         for item in details:
             if not is_order_list_contain_product(order.details.all(), item.product.pk):
                 OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart)
@@ -226,6 +223,9 @@ def my_order(request, pk):
             if not is_cart_list_contain_order_detail(products, item.product.pk):
                 order.details.filter(pk=item.pk).delete()
         pass_dicts = {'orders': order.details, }
+        profile = get_profile_address_or_empty(user)
+        if profile:
+            pass_dicts['profile'] = profile
         return render(request, 'myorder.html', get_display_dict('MY ORDER', pass_dict=pass_dicts))
 
 

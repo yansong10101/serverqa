@@ -29,8 +29,16 @@
         </div>
 
         <div class="col-md-5 product_info">
+
+            <table class="table row ">
+                <tr>
+                    <td class="col-md-4">group number</td>
+                    <td class="col-md-4">{{ group.pk }}</td>
+                </tr>
+            </table>
+
           <span id="regular_price">${{ product.price }}</span>
-        <br>
+          <br>
           <span id="group_discount">{%  show_percentage product.general_discount %}</span>
           <p id="product_code"></p>
           <label>group number : </label>{{ group.pk }}<br>

@@ -27,8 +27,6 @@ def get_display_dict(title, pass_dict={}):
 def is_user_already_in_group(user, product):
     groups = MicroGroup.objects.filter(is_active=True, product=product)
     for group in groups:
-        # remain_time = group.get_remain_time()
-        # if remain_time.hour != 0 or remain_time.minute != 0 or remain_time.second != 0:
         remain_time = group.get_remain_time_by_seconds()
         if remain_time > 0:
             for member in group.members.all():
@@ -51,6 +49,24 @@ def is_product_in_cart_details(user, product):
         if cart.cart_details.filter(product=product).exists():
             return True
     return False
+
+
+# fro order summary page shipping and billing info
+def get_profile_address_or_empty(user):
+    if user.is_authenticated():
+        profile = user.user_profile
+        if profile is not None and \
+           profile.address1 != '' and \
+           profile.city != '' and \
+           profile.state != '' and \
+           profile.zip != '':
+            return profile
+    return None
+
+
+# update address info to database, from user input
+def update_order_address_info(order, data):
+    pass
 
 
 # functions for sending mail
