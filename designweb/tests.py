@@ -3,6 +3,7 @@
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from hookupdesign.settings import EMAIL_HOST_USER
+import paypalrestsdk
 
 
 # Create your tests here.
@@ -22,3 +23,8 @@ def mail_test():
               EMAIL_HOST_USER,
               ['yansong10101@gmail.com'],
               fail_silently=False)
+
+
+def payment_test():
+    
+    pass
