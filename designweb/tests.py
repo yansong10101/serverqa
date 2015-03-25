@@ -26,5 +26,5 @@ def mail_test():
 
 
 def payment_test():
-    
+
     pass
