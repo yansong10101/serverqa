@@ -36,7 +36,7 @@
           <ul class="nav nav-tabs">
             <li role="presentation" class="active"><a href="#">Description</a></li>
           </ul>
-          <article id="product_description" class="text-justify">{{ product.description }}</article>
+          <article id="product_description" class="text-justify">{{ product.description | safe }}</article>
           <br>
 
           <button id="product_like" class="btn btn-default btn-primary"><span id="like_count" class="badge">{{ product.number_like }}</span> Like<i style="margin-left: 5px;" class="glyphicon glyphicon-thumbs-up"></i></button>

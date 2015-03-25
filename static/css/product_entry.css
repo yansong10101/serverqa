@@ -41,3 +41,7 @@
 #view_group{
     margin-top: 15px;
 }
+
+article ul, article ul li{
+    margin-left: 0;
+}

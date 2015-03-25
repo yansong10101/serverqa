@@ -10,6 +10,8 @@ from rest_framework.response import Response
 from designweb.serializer import *
 from designweb.forms import *
 from designweb.utils import *
+from django.http import HttpResponse
+import json
 
 
 def home(request):
@@ -17,7 +19,7 @@ def home(request):
 
 
 def index(request):
-    # print(is_product_in_user_cart(25, 8))
+    print(request.session)
     return render(request, 'index.html', {'title': 'HOME', })
 
 
@@ -222,7 +224,7 @@ def my_order(request, pk):
         for item in order.details.all():
             if not is_cart_list_contain_order_detail(products, item.product.pk):
                 order.details.filter(pk=item.pk).delete()
-        pass_dicts = {'orders': order.details, }
+        pass_dicts = {'orders': order.details, 'order_id': order.pk, }
         profile = get_profile_address_or_empty(user)
         if profile:
             pass_dicts['profile'] = profile
@@ -276,6 +278,35 @@ def micro_group_view(request, product_id, group_id=None):
             return render(request, 'microgroup.html', get_display_dict('M-GROUP', pass_dict=pass_dicts))
         else:
             return redirect(reverse('design:home', get_display_dict('HOME')))
+
+
+@ensure_csrf_cookie
+@login_required(login_url='/login/')
+def update_order_info(request, pk, order_id):
+    shipping_data = {
+        'shipping_address1': request.POST.get('shipping_address1'),
+        'shipping_address2': request.POST.get('shipping_address2'),
+        'shipping_city': request.POST.get('shipping_city'),
+        'shipping_state': request.POST.get('shipping_state'),
+        'shipping_zip': request.POST.get('shipping_zip'),
+        'shipping_phone1': request.POST.get('shipping_phone1'),
+        'shipping_phone2': request.POST.get('shipping_phone2'),
+        'billing_address1': request.POST.get('billing_address1'),
+        'billing_address2': request.POST.get('billing_address2'),
+        'billing_city': request.POST.get('billing_city'),
+        'billing_state': request.POST.get('billing_state'),
+        'billing_zip': request.POST.get('billing_zip'),
+        'billing_phone1': request.POST.get('billing_phone1'),
+        'billing_phone2': request.POST.get('billing_phone2'),
+    }
+
+    msg = update_order_address_info(pk, order_id, shipping_data)
+    response_data = {}
+    try:
+        response_data['result'] = 'writing successful !'
+    except:
+        response_data['message'] = 'failed processing ...\n' + msg
+    return HttpResponse(json.dumps(response_data), content_type='application/json')
 
 
 # ===============================================

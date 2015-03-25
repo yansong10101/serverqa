@@ -67,23 +67,30 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-5">
                         <h3 class="head text-center">Shipping Address</h3>
-                        <form class="form-signin" id="" action="" method="">
+                        <form class="form-signin" id="ship_form" action="" method="">
+                            {% csrf_token %}
                             <label for="s_address1">Address 1:</label><input type="text" id="s_address1" name="address1" class="form-control" value="{{ profile.address1 }}">
                             <label for="s_address2">Address 2:</label><input type="text" id="s_address2" name="address2" class="form-control" value="{{ profile.address2 }}">
                             <label for="s_city">City:</label><input type="text" id="s_city" name="city" class="form-control" value="{{ profile.city }}">
                             <label for="s_state">State:</label><input id="s_state" type="text" name="state" class="form-control" value="{{ profile.state }}">
                             <label for="s_zip">Zip:</label><input type="text" id="s_zip" name="zip" class="form-control" value="{{ profile.zip }}">
+                            <label for="s_phone1">mobile phone:</label><input type="text" id="s_phone1" name="phone1" class="form-control" value="{{ profile.phone1 }}">
+                            <label for="s_phone2">home phone:</label><input type="text" id="s_phone2" name="phone2" class="form-control" value="{{ profile.phone2 }}">
                             <input type="checkbox" id="is_billing_address"/><label class="vCheckboxLabel" for="is_billing_address">Check if same as billing address</label>
+
                         </form>
                     </div>
                     <div class="col-md-5">
                         <h3 class="head text-center">Bill Address</h3>
-                        <form class="form-signin" id="" action="" method="">
+                        <form class="form-signin" id="bill_form" action="" method="">
+                            {% csrf_token %}
                             <label for="b_address1">Address 1:</label><input type="text" id="b_address1" name="address1" class="form-control">
                             <label for="b_address2">Address 2:</label><input type="text" id="b_address2" name="address2" class="form-control">
                             <label for="b_city">City:</label><input type="text" id="b_city" name="city" class="form-control">
                             <label for="b_state">State:</label><input id="b_state" type="text" name="state" class="form-control">
                             <label for="b_zip">Zip:</label><input type="text" id="b_zip" name="zip" class="form-control">
+                            <label for="b_phone1">mobile phone:</label><input type="text" id="b_phone1" name="phone1" class="form-control">
+                            <label for="b_phone2">home phone:</label><input type="text" id="b_phone2" name="phone2" class="form-control">
                             <p></p>
                         </form>
                     </div>
@@ -99,7 +106,33 @@
         </div>
     </div>
 
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_s-xclick">
+    <input type="hidden" name="hosted_button_id" value="RS28UWF9LFWPL">
+    <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+    </form>
+
+
     <script type="text/javascript">
+        var host = window.location.origin;
+
+        var b_address1 = $("#b_address1");
+        var b_address2 = $("#b_address2");
+        var b_city = $("#b_city");
+        var b_state = $("#b_state");
+        var b_zip = $("#b_zip");
+        var b_phone1 = $('#b_phone1');
+        var b_phone2 = $('#b_phone2');
+
+        var s_address1 = $("#s_address1");
+        var s_address2 = $("#s_address2");
+        var s_city = $("#s_city");
+        var s_state = $("#s_state");
+        var s_zip = $("#s_zip");
+        var s_phone1 = $('#s_phone1');
+        var s_phone2 = $('#s_phone2');
+
         $('#is_billing_address').change(function(){
             if (this.checked) {
                 var add1 = $("#s_address1").val();
@@ -129,6 +162,35 @@
                 $("#b_zip").val("");
                 $("input[type=text]").prop('disabled', false);
             }
+        });
+
+        $('#address_submit').on('click', function(){
+            var api_url = host + "/api/address/" + {{ user.pk }} + "/" + {{ order_id }} + "/";
+            $.ajax({
+            type: "POST",
+            url: api_url,
+            data : { csrfmiddlewaretoken: '{{ csrf_token }}',
+                     shipping_address1: s_address1.val(),
+                     shipping_address2: s_address2.val(),
+                     shipping_city: s_city.val(),
+                     shipping_state: s_state.val(),
+                     shipping_zip: s_zip.val(),
+                     shipping_phone1: s_phone1.val(),
+                     shipping_phone2: s_phone2.val(),
+                     billing_address1: b_address1.val(),
+                     billing_address2: b_address2.val(),
+                     billing_city: b_city.val(),
+                     billing_state: b_state.val(),
+                     billing_zip: b_zip.val(),
+                     billing_phone1: b_phone1.val(),
+                     billing_phone2: b_phone2.val() },
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+                alert(data["result"]);
+            }).fail(function(jqXHR, textStatus){
+                alert("Failed !");
+            });
+
         });
     </script>
 

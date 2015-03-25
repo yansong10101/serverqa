@@ -27,6 +27,7 @@ urlpatterns = patterns(
     url(r'^api/order-detail/(?P<pk>[0-9]+)/(?P<num>[0-9]+)/update/$', views.update_order_detail, name='update-order'),
     url(r'^api/cart-detail/(?P<pk>[0-9]+)/(?P<num>[0-9]+)/update/$', views.update_cart_detail, name='update-cart'),
     url(r'^api/like/(?P<pk>[0-9]+)/$', views.like_product, name='like-product'),
+    url(r'^api/address/(?P<pk>[0-9]+)/(?P<order_id>[0-9]+)/$', views.update_order_info, name='shipping-address'),
 
     # api using rest-framework
     url(r'^api/products/$', views.ProductsList.as_view(), name='product-list'),

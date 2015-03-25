@@ -3,6 +3,14 @@ from django.core.mail import send_mail
 from hookupdesign.settings import EMAIL_HOST_USER, S3_URL
 from django.shortcuts import get_object_or_404
 from designweb.models import *
+from designweb.session_secure import update_session_timeout
+
+
+def get_display_dict(title, pass_dict={}):
+    display_dict = {'title': title, 'categories': Category.objects.all(), 'storage_host': S3_URL, }
+    if pass_dict != {}:
+        return dict(list(pass_dict.items()) + list(display_dict.items()))
+    return display_dict
 
 
 def is_order_list_contain_product(order_list, target):
@@ -15,13 +23,6 @@ def is_cart_list_contain_order_detail(product_list, target):
     for item in product_list:
         if item.pk == target:
             return True
-
-
-def get_display_dict(title, pass_dict={}):
-    display_dict = {'title': title, 'categories': Category.objects.all(), 'storage_host': S3_URL, }
-    if pass_dict != {}:
-        return dict(list(pass_dict.items()) + list(display_dict.items()))
-    return display_dict
 
 
 def is_user_already_in_group(user, product):
@@ -65,8 +66,28 @@ def get_profile_address_or_empty(user):
 
 
 # update address info to database, from user input
-def update_order_address_info(order, data):
-    pass
+def update_order_address_info(user_id, order_id, data):
+    user = get_object_or_404(User, pk=user_id)
+    order = get_object_or_404(Order, pk=order_id)
+    order.shipping_address1 = data['shipping_address1']
+    order.shipping_address2 = data['shipping_address2']
+    order.shipping_city = data['shipping_city']
+    order.shipping_state = data['shipping_state']
+    order.shipping_zip = data['shipping_zip']
+    order.shipping_phone1 = data['shipping_phone1']
+    order.shipping_phone2 = data['shipping_phone2']
+    order.billing_address1 = data['billing_address1']
+    order.billing_address2 = data['billing_address2']
+    order.billing_city = data['billing_city']
+    order.billing_state = data['billing_state']
+    order.billing_zip = data['billing_zip']
+    order.billing_phone1 = data['billing_phone1']
+    order.billing_phone2 = data['billing_phone2']
+    try:
+        order.save()
+    except:
+        return 'error to save shipping info into database'
+    return None
 
 
 # functions for sending mail

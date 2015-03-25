@@ -165,7 +165,7 @@ class MicroGroup(models.Model):
     members = models.ManyToManyField(User, related_name='micro_groups')
     product = models.ForeignKey(Product, related_name='micro_groups')
     owner = models.ForeignKey(User, related_name='micro_group')
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
     duration_time = models.IntegerField(default=4)
     group_price = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)
