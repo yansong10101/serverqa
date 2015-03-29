@@ -28,10 +28,12 @@ urlpatterns = patterns(
     url(r'^api/cart-detail/(?P<pk>[0-9]+)/(?P<num>[0-9]+)/update/$', views.update_cart_detail, name='update-cart'),
     url(r'^api/like/(?P<pk>[0-9]+)/$', views.like_product, name='like-product'),
     url(r'^api/address/(?P<pk>[0-9]+)/(?P<order_id>[0-9]+)/$', views.update_order_info, name='shipping-address'),
+    url(r'^api/products-review/(?P<pk>[0-9]+)/$', views.get_product_review, name='product-review'),
 
     # api using rest-framework
     url(r'^api/products/$', views.ProductsList.as_view(), name='product-list'),
     url(r'^api/products/(?P<pk>[0-9]+)/$', views.ProductDetail.as_view(), name='product-detail'),
+    url(r'^api/auth/user/(?P<pk>[0-9]+)/$', views.CustomerList.as_view(), name='auth-user'),
 )
 
 
@@ -40,6 +42,7 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'carts', views.CartViewSet)
 router.register(r'wishlists', views.WishListViewSet)
+router.register(r'reviews', views.ReviewSet)
 
 urlpatterns += patterns(
     '',

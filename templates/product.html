@@ -21,7 +21,7 @@
         <div class="col-md-5">
           <img id="mainImg" class="img-thumbnail" alt="Generic placeholder image">
             <div id="social_block">
-                <span class='st_facebook_large'></span>
+                <span class='st_facebook_large' st_title="1 dots | {{ product.product_name }}" st_image="https://popdesign.s3.amazonaws.com/test/static/products/20150000004/main.jpg"></span>
                 <span class='st_twitter_large'></span>
                 <span class='st_googleplus_large'></span>
                 <span class='st_linkedin_large'></span>
@@ -58,6 +58,8 @@
         <div class="col-md-1"></div>
       </div>
 
+    <div id="product_review"></div>
+
         <script type="text/javascript">
         var host = window.location.origin;
         var image_dir = "{{ storage_host }}" + "{% static 'products/' %}";
@@ -82,6 +84,7 @@
 
                 loadPage(data);
 
+                reviews();
             }).fail(function(jqXHR, textStatus){
                 $("#alert_msg").attr("class", "alert alert-warning").html("action failed  !").fadeIn(1000, 0).fadeOut(2000, 0);
             });
@@ -91,6 +94,7 @@
 
         function loadPage(data){
             loadProduct(data);
+
         }
 
         function loadProduct(results){
@@ -108,6 +112,20 @@
                 $("#number_in_stock").show();
             }
             $('#product_code').html(results.product_code);
+
+            bound_social_btn(img_url, results.product_name, "");
+        }
+
+        function bound_social_btn(image_url, title, description){
+            set_social_template($('.st_facebook_large'), image_url, title, description);
+            set_social_template($('.st_twitter_large'), image_url, title, description);
+            set_social_template($('.st_googleplus_large'), image_url, title, description);
+            set_social_template($('.st_linkedin_large'), image_url, title, description);
+            set_social_template($('.st_pinterest_large'), image_url, title, description);
+        }
+
+        function set_social_template(btn_class, image_url, title, description){
+            btn_class.attr('st_title', title).attr('st_image', image_url).attr('st_summary', description);
         }
 
         function clearAll(){
@@ -166,6 +184,28 @@
             return host + "/microgroup/" + prod_pk + "/{{ group.pk }}/";
         }
         // End section
+
+        // product reviews
+        function reviews(){
+            var product_lite = $('<p></p>');
+            $.ajax({
+            type: "GET",
+            url: host + "/api/reviews/?format=json&product_id=" + prod_pk,
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+                $.each(data.results, function(i, item){
+{#                    var elem = product_lite.clone();#}
+{#                    elem.find('p').html(item.pk);#}
+{#                    $("#product_review").append(elem);#}
+{##}
+{#                    console.log(item.pk);#}
+                    $("#product_review").val(item.product_name);
+                });
+            }).fail(function(jqXHR, textStatus){
+                request_failed();
+            });
+        }
+        // end section
     </script>
 
 {% endblock %}

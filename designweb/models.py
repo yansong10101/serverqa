@@ -63,6 +63,7 @@ class Product(models.Model):
     group_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=0.90)  # ex, 10% off : 0.90
     general_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=1.00)
     number_like = models.IntegerField(default=0)
+    average_review_score = models.DecimalField(default=5, decimal_places=1, max_digits=2)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """
@@ -78,6 +79,18 @@ class Product(models.Model):
 
     def __str__(self):
         return self.product_name
+
+
+class CustomerReview(models.Model):
+    product = models.ForeignKey(Product, related_name='product_review')
+    customer = models.ForeignKey(User, related_name='reviewed_customer')
+    total_number = models.IntegerField(default=0)
+    review_score = models.DecimalField(default=5, decimal_places=1, max_digits=2)
+    message = models.TextField(blank=True)
+    create_date = models.DateTimeField(auto_now_add=True, editable=False)
+
+    def __str__(self):
+        return self.product.product_name
 
 
 class ProductExtension(models.Model):

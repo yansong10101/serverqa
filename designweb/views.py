@@ -20,6 +20,8 @@ def home(request):
 
 def index(request):
     print(request.session)
+    from designweb.tests import payment_test
+    payment_test()
     return render(request, 'index.html', {'title': 'HOME', })
 
 
@@ -182,6 +184,14 @@ def like_product(request, pk):
     return Response(data={'Success': 'Success'})
 
 
+@ensure_csrf_cookie
+@api_view(['GET', 'POST', ])
+def get_product_review(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    reviews = CustomerReview.objects.filter(product=product)
+    # return Response(data={'review_list': reviews})
+    return Response(data={'Success': 'Success'})
+
 # ===============================================
 @ensure_csrf_cookie
 @login_required(login_url='/login/')
@@ -320,6 +330,32 @@ class ProductDetail(generics.RetrieveAPIView):
     serializer_class = ProductDetailSerializer
 
 
+class CartViewSet(viewsets.ModelViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+
+class WishListViewSet(viewsets.ModelViewSet):
+    queryset = WishList.objects.all()
+    serializer_class = WishListSerializer
+
+
+class ProductReviewList(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductReviewSerializer
+
+
+class CustomerList(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class ReviewSet(viewsets.ModelViewSet):
+    queryset = CustomerReview.objects.all()
+    serializer_class = ProductReviewSerializer
+    filter_fields = ('product_id', )
+
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -334,14 +370,4 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-
-
-class CartViewSet(viewsets.ModelViewSet):
-    queryset = Cart.objects.all()
-    serializer_class = CartSerializer
-
-
-class WishListViewSet(viewsets.ModelViewSet):
-    queryset = WishList.objects.all()
-    serializer_class = WishListSerializer
 # ===============================================
