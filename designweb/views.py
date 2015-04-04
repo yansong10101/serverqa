@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from designweb.serializer import *
 from designweb.forms import *
 from designweb.utils import *
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 import json
 
 
@@ -19,9 +19,9 @@ def home(request):
 
 
 def index(request):
-    print(request.session)
+    # print(request.session)
     from designweb.tests import payment_test
-    payment_test()
+    payment_test(request.META['HTTP_HOST'])
     return render(request, 'index.html', {'title': 'HOME', })
 
 
@@ -371,3 +371,9 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
 # ===============================================
+
+
+def payment_view(request):
+    from designweb.tests import payment_execute
+    payment_execute(request.GET['paymentId'], request.GET['PayerID'], request.GET['token'])
+    return render(request, 'index.html', {'title': 'HOME', })

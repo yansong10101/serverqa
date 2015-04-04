@@ -162,9 +162,16 @@ REST_FRAMEWORK = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yansongzhang10101@gmail.com'
-EMAIL_HOST_PASSWORD = 'popdesign'
+EMAIL_HOST_PASSWORD = 'popdesign1dots'
 EMAIL_USE_TLS = True
 
 CRONJOBS = [
     ('*/1 * * * *', 'designweb.management.commands.group_mail_schedule.testing_call', '> /tmp/last_scheduled_job.log'),
 ]
+
+# Paypal api section
+PAYMENT_SANDBOX = {
+    'mode': 'sandbox',
+    'client_id': 'AbQpRdq8rpVgUkfWBv7ItV7kbmhNizliedoHoj1BbKijMUZuJyVtYgyHVEiDHWLGYubYflq1v8JVl-6m',
+    'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXnKg2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
+}

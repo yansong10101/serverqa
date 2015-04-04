@@ -2,13 +2,15 @@
 # from designweb import models
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from hookupdesign.settings import EMAIL_HOST_USER
+from hookupdesign.settings import EMAIL_HOST_USER, PAYMENT_SANDBOX
 import paypalrestsdk
+from paypalrestsdk import Payment
+import logging
+import apscheduler.schedulers.background as aps_background
 
 
 # Create your tests here.
 def db_read():
-    # user = models.UserProfile.user.objects.all()
     user = User.get_full_name(User.objects.filter(username='yansong').first())
     return str(user)
 
@@ -25,44 +27,53 @@ def mail_test():
               fail_silently=False)
 
 
-def payment_test():
-    paypalrestsdk.configure({
-        'mode': 'sandbox',
-        'client_id': 'AbQpRdq8rpVgUkfWBv7ItV7kbmhNizliedoHoj1BbKijMUZuJyVtYgyHVEiDHWLGYubYflq1v8JVl-6m',
-        'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXnKg2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
-    })
-    my_api = paypalrestsdk.Api({
-        'mode': 'sandbox',
-        'client_id': 'AbQpRdq8rpVgUkfWBv7ItV7kbmhNizliedoHoj1BbKijMUZuJyVtYgyHVEiDHWLGYubYflq1v8JVl-6m',
-        'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXnKg2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
-    })
+def payment_test(hostname):
+    logging.basicConfig(level=logging.INFO)
+    print(hostname)
+
+    api = paypalrestsdk.configure(PAYMENT_SANDBOX)
+
+    # print(api.get_token_hash())
+
     payment = paypalrestsdk.Payment({
         "intent": "sale",
         "payer": {
-            "payment_method": "credit_card",
-            "funding_instruments": [{
-                "credit_card": {
-                    "type": "visa",
-                    "number": "4417119669820331",
-                    "expire_month": "11",
-                    "expire_year": "2018",
-                    "cvv2": "874",
-                    "first_name": "Joe",
-                    "last_name": "Shopper", }}]},
-        "transactions": [{
-            "item_list": {
-                "items": [{
-                    "name": "item",
-                    "sku": "item",
-                    "price": "1.00",
-                    "currency": "USD",
-                    "quantity": 1, }]},
-                "amount": {
-                    "total": "1.00",
-                    "currency": "USD", },
-            "description": "This is the payment transaction description.", }]
-        }, api=my_api)
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "http://" + hostname + "/payment/approval/",
+            "cancel_url": "http://" + hostname + "/admin"
+        },
+        "transactions": [
+            {
+                "amount":
+                    {
+                        "total": "14",
+                        "currency": "USD"
+                    },
+                "description": "creating a payment"
+            }
+        ]
+    })
+
     if payment.create():
-        print("Payment created successfully")
+        print("Payment[%s] created successfully" % payment.id)
+        for link in payment.links:
+            if link.method == "REDIRECT":
+                redirect_url = str(link.href)
+                print("Redirect for approval: %s" % redirect_url)
+
+
+def payment_execute(payment_id, payer_id, token):
+
+    api = paypalrestsdk.configure(PAYMENT_SANDBOX)
+
+    payment = Payment.find(payment_id)
+    if payment.execute({"payer_id": payer_id}):  # return True or False
+        print("Payment[%s] execute successfully" % payment.id)
     else:
         print(payment.error)
+
+
+def scheduler_test():
+    pass
