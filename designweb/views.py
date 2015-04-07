@@ -8,9 +8,9 @@ from rest_framework import generics, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from designweb.serializer import *
-from designweb.forms import *
+# from designweb.forms import *
 from designweb.utils import *
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 import json
 
 
@@ -20,8 +20,8 @@ def home(request):
 
 def index(request):
     # print(request.session)
-    from designweb.tests import payment_test
-    payment_test(request.META['HTTP_HOST'])
+    from designweb.tests import test_memcachier
+    test_memcachier()
     return render(request, 'index.html', {'title': 'HOME', })
 
 
@@ -373,7 +373,27 @@ class GroupViewSet(viewsets.ModelViewSet):
 # ===============================================
 
 
+# ==================== payment pages =============
 def payment_view(request):
-    from designweb.tests import payment_execute
+    from designweb.payment.payment_utils import payment_execute
     payment_execute(request.GET['paymentId'], request.GET['PayerID'], request.GET['token'])
+    return render(request, 'home.html', {'title': 'HOME', })
+
+
+def payment_success(request):
+    return render(request, 'payment/payment_success.html', {'title': 'Payment Success'})
+
+
+def payment_failed(request):
+    return render(request, 'payment/payment_fail.html', {'title': 'Payment Fail'})
+
+
+# need modify later
+def test(request):
+    from designweb.payment.payment_utils import payment_process
+    redirect_url = payment_process('paypal', request.META['HTTP_HOST'])
+    print(redirect_url)
+    if redirect_url:
+            return HttpResponseRedirect(redirect_url)
     return render(request, 'index.html', {'title': 'HOME', })
+# ===============================================

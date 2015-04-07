@@ -115,7 +115,11 @@ class Order(models.Model):
     modified_date = models.DateTimeField(auto_now=True, editable=False)
     total_items = models.IntegerField(blank=True, default=1)
     is_paid = models.BooleanField(default=False)
-    # total_pay = models.DecimalField(default=0.00, max_digits=)
+    payment_transaction_id = models.CharField(max_length=50, blank=True)
+    payment_resource = models.CharField(max_length=50, blank=True)
+    payment_status = models.CharField(max_length=10, blank=True)
+    payment_method = models.CharField(max_length=15, blank=True)
+    total_amount = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)
 
     shipping_address1 = models.CharField(max_length=50, blank=True)
     shipping_address2 = models.CharField(max_length=50, blank=True)
@@ -140,6 +144,9 @@ class OrderDetails(models.Model):
     order = models.ForeignKey(Order, related_name='details')
     product = models.ForeignKey(Product, related_name='products')  # , unique=True
     number_items = models.IntegerField(default=1, blank=True)
+    subtotal = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)
+    shipping_costs = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)
+    tax = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)
     shipping_company = models.CharField(max_length=50, blank=True)
     shipping_status = models.CharField(max_length=1, blank=True)
     tracking_code = models.CharField(max_length=50, blank=True)

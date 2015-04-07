@@ -69,25 +69,6 @@ ROOT_URLCONF = 'hookupdesign.urls'
 
 WSGI_APPLICATION = 'hookupdesign.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     },
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.mysql',
-#     #     'NAME': 'onedots',
-#     #     'USER': 'root',
-#     #     'PASSWORD': '',
-#     #     'HOST': '127.0.0.1',
-#     #     'PORT': '3306',
-#     # },
-# }
-
 if os.path.exists("/Users/zys"):
     DATABASES = {
         'default': {
@@ -154,7 +135,7 @@ TEMPLATE_DIRS = (
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
-    # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAdminUser',),
     'DEFAULT_FILTER_BACKENDS': ('rest_framework.filters.DjangoFilterBackend',),
     'PAGINATE_BY': 15,
 }
@@ -171,7 +152,31 @@ CRONJOBS = [
 
 # Paypal api section
 PAYMENT_SANDBOX = {
-    'mode': 'sandbox',
+    'mode': 'sandbox',  # sandbox or live
     'client_id': 'AbQpRdq8rpVgUkfWBv7ItV7kbmhNizliedoHoj1BbKijMUZuJyVtYgyHVEiDHWLGYubYflq1v8JVl-6m',
     'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXnKg2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
 }
+
+
+# Memcache set up
+def get_cache():
+    try:
+        os.environ['MEMCACHE_SERVERS'] = os.environ['mc5.dev.ec2.memcachier.com:11211'].replace(',', ';')
+        os.environ['MEMCACHE_USERNAME'] = os.environ['4cdff9']
+        os.environ['MEMCACHE_PASSWORD'] = os.environ['696829c4d1']
+        return {
+            'default': {
+                'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+                'TIMEOUT': 500,
+                'BINARY': True,
+                'OPTIONS': {'tcp_nodelay': True }
+            }
+        }
+    except:
+        return {
+            'default': {
+                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+            }
+        }
+
+CACHES = get_cache()

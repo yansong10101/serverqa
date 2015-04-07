@@ -37,6 +37,8 @@ urlpatterns = patterns(
 
     # payment redirect view
     url(r'^payment/approval/', views.payment_view, name='payment-approval'),
+    url(r'^payment/success/', views.payment_success, name='payment-success'),
+    url(r'^payment/failed/', views.payment_failed, name='payment-failed'),
 )
 
 
