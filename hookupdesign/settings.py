@@ -164,6 +164,7 @@ def get_cache():
         os.environ['MEMCACHE_SERVERS'] = os.environ['mc5.dev.ec2.memcachier.com:11211'].replace(',', ';')
         os.environ['MEMCACHE_USERNAME'] = os.environ['4cdff9']
         os.environ['MEMCACHE_PASSWORD'] = os.environ['696829c4d1']
+        print('success tested remote cache')
         return {
             'default': {
                 'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
@@ -173,6 +174,7 @@ def get_cache():
             }
         }
     except:
+        print('success tested local cache')
         return {
             'default': {
                 'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
