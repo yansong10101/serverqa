@@ -29,5 +29,23 @@ def scheduler_test():
 
 def test_memcachier():
     from django.core.cache import cache
-    cache.set("foo", "bar")
-    print(cache.get("foo"))
+    c_list = ['item one', 'item two', 'item three', 'item four']
+    cache.set('list', c_list)
+    print(cache.get('list'))
+    for item in cache.get('list'):
+        print(item)
+
+    c_dict = {'key 1': 'item 1', 'key 2': 'item 2',
+              'key 3': {
+                  'inner key': 'inner value',
+                  'inner test': 'testing'
+              }}
+    cache.set('dict', c_dict)
+    print(cache.get('dict'))
+
+    print(cache.get('dict')['key 1'])
+    print(cache.get('dict')['key 3']['inner key'])
+
+    cache.delete('dict')
+
+    print(cache.get('dict'))

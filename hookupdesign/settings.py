@@ -157,28 +157,23 @@ PAYMENT_SANDBOX = {
     'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXnKg2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
 }
 
+# MemCache setup
+os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', 'mc5.dev.ec2.memcachier.com:11211').replace(',', ';')
+os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '4cdff9')
+os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '696829c4d1')
 
-# Memcache set up
-def get_cache():
-    try:
-        os.environ['MEMCACHE_SERVERS'] = os.environ['mc5.dev.ec2.memcachier.com:11211'].replace(',', ';')
-        os.environ['MEMCACHE_USERNAME'] = os.environ['4cdff9']
-        os.environ['MEMCACHE_PASSWORD'] = os.environ['696829c4d1']
-        print('success tested remote cache')
-        return {
-            'default': {
-                'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
-                'TIMEOUT': 500,
-                'BINARY': True,
-                'OPTIONS': {'tcp_nodelay': True }
-            }
+CACHES = {
+    'default': {
+        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+        'BINARY': True,
+        'OPTIONS': {
+            'no_block': True,
+            'tcp_nodelay': True,
+            'tcp_keepalive': True,
+            'remove_failed': 4,
+            'retry_timeout': 2,
+            'dead_timeout': 10,
+            '_poll_timeout': 2000
         }
-    except:
-        print('success tested local cache')
-        return {
-            'default': {
-                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
-            }
-        }
-
-CACHES = get_cache()
+    }
+}

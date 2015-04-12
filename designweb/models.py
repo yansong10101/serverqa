@@ -215,3 +215,11 @@ class MicroGroup(models.Model):
         if remain_time.days < 0:
             return 0
         return remain_time.seconds
+
+
+class GroupDetails(models.Model):
+    group = models.ForeignKey(MicroGroup, related_name='group_detail')
+    member = models.ForeignKey(User, related_name='group_detail')
+    join_date = models.DateTimeField(auto_now_add=True, editable=False)
+    email = models.CharField(max_length=70)
+    is_sent = models.BooleanField(default=False)
