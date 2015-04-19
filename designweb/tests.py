@@ -49,3 +49,11 @@ def test_memcachier():
     cache.delete('dict')
 
     print(cache.get('dict'))
+
+
+def test_memcachier_2():
+    from django.core.cache import cache
+    cache.set('index', [1, 2, 3, 4])
+    c_list = cache.get('index')
+    c_list[0] = c_list[0] + 10
+    print(c_list)

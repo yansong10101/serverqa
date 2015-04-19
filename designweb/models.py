@@ -216,6 +216,9 @@ class MicroGroup(models.Model):
             return 0
         return remain_time.seconds
 
+    def get_end_time(self):
+        return self.created_date.replace(tzinfo=None) + timedelta(hours=self.duration_time)
+
 
 class GroupDetails(models.Model):
     group = models.ForeignKey(MicroGroup, related_name='group_detail')

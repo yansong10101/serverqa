@@ -319,7 +319,7 @@ def update_order_info(request, pk, order_id):
     return HttpResponse(json.dumps(response_data), content_type='application/json')
 
 
-# ===============================================
+# ================ api =======================
 class ProductsList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductListSerializer
