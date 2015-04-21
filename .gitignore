@@ -1,1 +1,3 @@
 *.pyc
+*.diff
+.DS_Store
