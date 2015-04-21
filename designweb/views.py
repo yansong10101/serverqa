@@ -12,6 +12,7 @@ from designweb.serializer import *
 from designweb.utils import *
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 import json
+from designweb.caches.group_utils import *
 
 
 def home(request):
@@ -20,8 +21,7 @@ def home(request):
 
 def index(request):
     # print(request.session)
-    from designweb.tests import test_memcachier
-    test_memcachier()
+
     return render(request, 'index.html', {'title': 'HOME', })
 
 
@@ -256,7 +256,7 @@ def micro_group_view(request, product_id, group_id=None):
     if product is None:
         return
 
-    if group_id is None or not isinstance(group_id, int):   # inside call
+    if group_id is None or not isinstance(group_id, int):   # inside call -- create or to product page
         if user.is_authenticated():
             micro_group = is_user_already_in_group(user, product)
             if micro_group is None:
@@ -265,6 +265,8 @@ def micro_group_view(request, product_id, group_id=None):
                 micro_group = MicroGroup.objects.create(product=product, owner=user, is_active=True,
                                                         group_price=group_price, group_discount=product.group_discount)
                 micro_group.members.add(user)
+                # update cache <timestamp_group_cache> & <user_group_cache>
+                update_caches_by_new_group(user, micro_group)
             total_members = micro_group.members.count()
             pass_dicts = {'group': micro_group,
                           'product': micro_group.product,
@@ -274,7 +276,7 @@ def micro_group_view(request, product_id, group_id=None):
             return render(request, 'microgroup.html', get_display_dict('M-GROUP', pass_dict=pass_dicts))
         else:
             return redirect(reverse('design:login'), get_display_dict('LOGIN'))
-    else:   # outside call
+    else:   # outside call -- group page or to product page
         group = get_object_or_404(MicroGroup, pk=group_id)
         if group is not None:
             total_members = group.members.count()
@@ -287,7 +289,7 @@ def micro_group_view(request, product_id, group_id=None):
                           'total_members': total_members, }
             return render(request, 'microgroup.html', get_display_dict('M-GROUP', pass_dict=pass_dicts))
         else:
-            return redirect(reverse('design:home', get_display_dict('HOME')))
+            return redirect(reverse('design:product-view', kwargs={'pk': product_id}), get_display_dict('PRODUCT'))
 
 
 @ensure_csrf_cookie

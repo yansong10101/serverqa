@@ -8,7 +8,7 @@ import operator
 
 CODE_EXPIRED = 60 * 60 * 24  # hard code for 1 day
 USER_CACHE_EXPIRED = 0  # 30 days or never
-M_GROUP_CACHE_EXPIRED = 0 # 30 days or never
+M_GROUP_CACHE_EXPIRED = 0  # 30 days or never
 
 
 def is_in_cache(code):
@@ -20,7 +20,7 @@ def update_micro_group_dict(micro_group):
     for member in micro_group.members.all():
         member_list.append(member.pk)
     return {'member_list': member_list,
-            'total_members': member_list.count(),
+            'total_members': len(member_list),
             'remained_time': micro_group.get_remain_time_by_seconds(),
             'end_of_time': micro_group.get_end_time(),
             'bottom_line': micro_group.activate_line}
@@ -63,6 +63,16 @@ def create_or_update_timestamp_cache_model(micro_group):
         group_dict['index'].append(micro_group.pk)
     group_dict[micro_group.pk] = update_micro_group_dict(micro_group)
     cache.set(cache_key, group_dict, timeout=M_GROUP_CACHE_EXPIRED)
+
+
+def remove_user_from_group_cache(end_of_time, group_id):
+    cache_key = generate_timestamp_key(end_of_time)
+    if is_in_cache(cache_key):
+        group_dict = cache.get(cache_key)
+        if group_id in group_dict['index']:
+            group_dict['index'].remove(group_id)
+            del group_dict[group_id]
+        cache.set(cache_key, group_dict, timeout=M_GROUP_CACHE_EXPIRED)
 # end of section
 
 
@@ -92,7 +102,7 @@ def create_or_update_user_cache_model(user, micro_group):
     cache.set(cache_key, user_dict, timeout=USER_CACHE_EXPIRED)
 
 
-def clean_group_cache(user):
+def clean_user_group_cache(user):
     if not isinstance(user, User) or not user.is_authenticated():
         return
     user_cache_key = set_cache_user_key_prefix(user.pk)
@@ -104,6 +114,8 @@ def clean_group_cache(user):
             if int(group_dict['remained_time']) <= 0 and group_dict['total_members'] < group_dict['bottom_line']:
                 user_cache['index'].remove(item)
                 del user_cache[item]
+                remove_user_from_group_cache(group_dict['end_of_time'], item)
+        cache.set(user_cache_key, user_cache, timeout=USER_CACHE_EXPIRED)
     else:
         return None
 
@@ -126,3 +138,8 @@ def fetch_user_group_cache(user):
         return sorted_list
     return None
 # end of section
+
+
+def update_caches_by_new_group(user, micro_group):
+    create_or_update_timestamp_cache_model(micro_group)
+    create_or_update_user_cache_model(user, micro_group)

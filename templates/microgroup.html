@@ -60,16 +60,22 @@
       </div>
 
     <script type="text/javascript">
-
+        var image_dir = "{{ storage_host }}" + "{% static 'products/' %}";
         var total_seconds = {{ remain_time }};
         var interval = 1000;
 
-        $( document ).ready(loadPage());
+        $( document ).ready(function(){
+            $(window).load(function() {
+                console.log('print++++++++++++++++++');
+            });
+        });
 
         function loadPage(){
             console.log(total_seconds);
+            console.log('print++++++++++++++++++');
+            var img_url = image_dir + {{ product.image_root }};
+            bound_social_btn(img_url, {{ product.product_name }}, "shared from m-group");
         }
-
 
         function ShowCountDown(divname)
         {
@@ -88,6 +94,18 @@
 
         function request_failed(){
             $("#alert_msg").attr("class", "alert alert-warning").html("Event time end !").fadeIn(2000, 0);
+        }
+
+        function bound_social_btn(image_url, title, description){
+            set_social_template($('.st_facebook_large'), image_url, title, description);
+            set_social_template($('.st_twitter_large'), image_url, title, description);
+            set_social_template($('.st_googleplus_large'), image_url, title, description);
+            set_social_template($('.st_linkedin_large'), image_url, title, description);
+            set_social_template($('.st_pinterest_large'), image_url, title, description);
+        }
+
+        function set_social_template(btn_class, image_url, title, description){
+            btn_class.attr('st_title', title).attr('st_image', image_url).attr('st_summary', description);
         }
     </script>
 
