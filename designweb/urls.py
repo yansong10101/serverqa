@@ -34,6 +34,11 @@ urlpatterns = patterns(
     url(r'^api/products/$', views.ProductsList.as_view(), name='product-list'),
     url(r'^api/products/(?P<pk>[0-9]+)/$', views.ProductDetail.as_view(), name='product-detail'),
     url(r'^api/auth/user/(?P<pk>[0-9]+)/$', views.CustomerList.as_view(), name='auth-user'),
+
+    # payment redirect view
+    url(r'^payment/approval/', views.payment_view, name='payment-approval'),
+    url(r'^payment/success/', views.payment_success, name='payment-success'),
+    url(r'^payment/failed/', views.payment_failed, name='payment-failed'),
 )
 
 

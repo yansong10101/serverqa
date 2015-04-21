@@ -8,10 +8,11 @@ from rest_framework import generics, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from designweb.serializer import *
-from designweb.forms import *
+# from designweb.forms import *
 from designweb.utils import *
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 import json
+from designweb.caches.group_utils import *
 
 
 def home(request):
@@ -19,9 +20,8 @@ def home(request):
 
 
 def index(request):
-    print(request.session)
-    from designweb.tests import payment_test
-    payment_test()
+    # print(request.session)
+
     return render(request, 'index.html', {'title': 'HOME', })
 
 
@@ -256,7 +256,7 @@ def micro_group_view(request, product_id, group_id=None):
     if product is None:
         return
 
-    if group_id is None or not isinstance(group_id, int):   # inside call
+    if group_id is None or not isinstance(group_id, int):   # inside call -- create or to product page
         if user.is_authenticated():
             micro_group = is_user_already_in_group(user, product)
             if micro_group is None:
@@ -265,6 +265,8 @@ def micro_group_view(request, product_id, group_id=None):
                 micro_group = MicroGroup.objects.create(product=product, owner=user, is_active=True,
                                                         group_price=group_price, group_discount=product.group_discount)
                 micro_group.members.add(user)
+                # update cache <timestamp_group_cache> & <user_group_cache>
+                update_caches_by_new_group(user, micro_group)
             total_members = micro_group.members.count()
             pass_dicts = {'group': micro_group,
                           'product': micro_group.product,
@@ -274,7 +276,7 @@ def micro_group_view(request, product_id, group_id=None):
             return render(request, 'microgroup.html', get_display_dict('M-GROUP', pass_dict=pass_dicts))
         else:
             return redirect(reverse('design:login'), get_display_dict('LOGIN'))
-    else:   # outside call
+    else:   # outside call -- group page or to product page
         group = get_object_or_404(MicroGroup, pk=group_id)
         if group is not None:
             total_members = group.members.count()
@@ -287,7 +289,7 @@ def micro_group_view(request, product_id, group_id=None):
                           'total_members': total_members, }
             return render(request, 'microgroup.html', get_display_dict('M-GROUP', pass_dict=pass_dicts))
         else:
-            return redirect(reverse('design:home', get_display_dict('HOME')))
+            return redirect(reverse('design:product-view', kwargs={'pk': product_id}), get_display_dict('PRODUCT'))
 
 
 @ensure_csrf_cookie
@@ -319,7 +321,7 @@ def update_order_info(request, pk, order_id):
     return HttpResponse(json.dumps(response_data), content_type='application/json')
 
 
-# ===============================================
+# ================ api =======================
 class ProductsList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductListSerializer
@@ -370,4 +372,30 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
+# ===============================================
+
+
+# ==================== payment pages =============
+def payment_view(request):
+    from designweb.payment.payment_utils import payment_execute
+    payment_execute(request.GET['paymentId'], request.GET['PayerID'], request.GET['token'])
+    return render(request, 'home.html', {'title': 'HOME', })
+
+
+def payment_success(request):
+    return render(request, 'payment/payment_success.html', {'title': 'Payment Success'})
+
+
+def payment_failed(request):
+    return render(request, 'payment/payment_fail.html', {'title': 'Payment Fail'})
+
+
+# need modify later
+def test(request):
+    from designweb.payment.payment_utils import payment_process
+    redirect_url = payment_process('paypal', request.META['HTTP_HOST'])
+    print(redirect_url)
+    if redirect_url:
+            return HttpResponseRedirect(redirect_url)
+    return render(request, 'index.html', {'title': 'HOME', })
 # ===============================================

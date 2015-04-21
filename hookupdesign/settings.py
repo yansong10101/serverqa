@@ -69,25 +69,6 @@ ROOT_URLCONF = 'hookupdesign.urls'
 
 WSGI_APPLICATION = 'hookupdesign.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     },
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.mysql',
-#     #     'NAME': 'onedots',
-#     #     'USER': 'root',
-#     #     'PASSWORD': '',
-#     #     'HOST': '127.0.0.1',
-#     #     'PORT': '3306',
-#     # },
-# }
-
 if os.path.exists("/Users/zys"):
     DATABASES = {
         'default': {
@@ -107,7 +88,8 @@ else:
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Los_Angeles'
 
 USE_I18N = True
 
@@ -162,9 +144,37 @@ REST_FRAMEWORK = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yansongzhang10101@gmail.com'
-EMAIL_HOST_PASSWORD = 'popdesign'
+EMAIL_HOST_PASSWORD = 'popdesign1dots'
 EMAIL_USE_TLS = True
 
 CRONJOBS = [
     ('*/1 * * * *', 'designweb.management.commands.group_mail_schedule.testing_call', '> /tmp/last_scheduled_job.log'),
 ]
+
+# Paypal api section
+PAYMENT_SANDBOX = {
+    'mode': 'sandbox',  # sandbox or live
+    'client_id': 'AbQpRdq8rpVgUkfWBv7ItV7kbmhNizliedoHoj1BbKijMUZuJyVtYgyHVEiDHWLGYubYflq1v8JVl-6m',
+    'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXnKg2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
+}
+
+# MemCache setup
+os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', 'mc5.dev.ec2.memcachier.com:11211').replace(',', ';')
+os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '4cdff9')
+os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '696829c4d1')
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
+        'BINARY': True,
+        'OPTIONS': {
+            'no_block': True,
+            'tcp_nodelay': True,
+            'tcp_keepalive': True,
+            'remove_failed': 4,
+            'retry_timeout': 2,
+            'dead_timeout': 10,
+            '_poll_timeout': 2000
+        }
+    }
+}
