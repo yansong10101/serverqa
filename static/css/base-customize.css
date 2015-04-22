@@ -67,7 +67,9 @@ body {
 /* Center align the text within the three columns below the carousel */
 .marketing .col-lg-4 {
   margin-bottom: 20px;
+    padding: 10px;
   text-align: center;
+    background-color: #ffffff;
 }
 .marketing h2 {
   font-weight: normal;
