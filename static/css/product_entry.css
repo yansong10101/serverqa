@@ -1,47 +1,124 @@
-#mainImg{
+#heart, #like{
+    float: right;
+    margin: 10px 5px;
+}
+#mainImg {
     width: 350px;
     height: 400px;
 }
 
-#product_name{
-    text-align: center;
+br {
+    display: block;
+    margin: 20px 0;
+    line-height: 150%;
+    border-bottom: 1px solid grey;
+    content: " ";
 }
 
-.product_info{
-    font-size: large;
+.featurette > div{
+    background-color: white;
+}
+.product_info {
+    padding-bottom: 10px;
 }
 
-#product_code{
+.product_detail{
+    padding-bottom: 10px;
+}
+#product_code {
     font-size: small;
     font-style: oblique;
 }
 
-#regular_price #sale_price{
+#regular_price #sale_price {
     color: darkred;
 }
 
-.nav-tabs>li>a{
+.nav-tabs>li>a {
     font-size: medium;
     padding-bottom: 0px;
     padding-top: 0px;
 }
 
-#social_block{
+#social_block {
     text-align: left;
 }
 
-#product_like{
+#product_like {
     margin-bottom: 10px;
 }
 
-#create_group{
+#create_group {
     margin-top: 15px;
 }
 
-#view_group{
+#view_group {
     margin-top: 15px;
 }
 
-article ul, article ul li{
+.size {
+    margin-top: 10px;
+}
+
+article ul,
+article ul li {
     margin-left: 0;
+}
+
+.size label {
+    font-size: 100%;
+    font-weight: normal;
+    padding-top: 5px;
+}
+
+.bottom-info-header{
+    margin-top: 10px;
+}
+
+.title{
+    margin: 0px;
+    padding:10px;
+}
+
+.header{
+    background-color: #cccccc;
+}
+
+.bottom-info > div{
+    background-color: white;
+    height: 200px;
+}
+
+/****carousel*****/
+#carousel-custom {
+    margin: 20px auto;
+    width: 100%;
+}
+#carousel-custom .carousel-indicators {
+    margin: 10px 0 0;
+    position: static;
+    text-align: left;
+    white-space: nowrap;
+}
+#carousel-custom .carousel-indicators li {
+    background-color: transparent;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    display: block;
+    height: auto;
+    margin: 0 !important;
+    width: auto;
+}
+#carousel-custom .carousel-indicators li img {
+    display: block;
+    opacity: 0.5;
+}
+#carousel-custom .carousel-indicators li.active img {
+    opacity: 1;
+}
+#carousel-custom .carousel-indicators li:hover img {
+    opacity: 0.75;
+}
+#carousel-custom .carousel-outer {
+    position: relative;
 }

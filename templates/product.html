@@ -9,56 +9,140 @@
     <script type="text/javascript">var switchTo5x=true;</script>
     <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
     <script type="text/javascript">stLight.options({publisher: "1d0d7a7d-7be0-4769-ab66-f1a5620bb556", doNotHash: false, doNotCopy: false, hashAddressBar: true});</script>
+    <script type="text/javascript" src="http://coolcarousels.frebsite.nl/js/jquery.js"></script>
+  <script type="text/javascript" src="http://coolcarousels.frebsite.nl/js/jquery.carouFredSel.js"></script>
 
 
     <div id="alert_msg" class="" style="display:none;"></div>
+    <div class="row featurette">
+        <div class="col-md-7 product_detail">
 
-    <h2 id="product_name"></h2>
-    <br>
-
-      <div class="row featurette">
-        <div class="col-md-1"></div>
-        <div class="col-md-5">
-          <img id="mainImg" class="img-thumbnail" alt="Generic placeholder image">
-            <div id="social_block">
+          <div id='carousel-custom' class='carousel slide row' data-ride='carousel'>
+            <!-- Indicators -->
+    <div class="col-sm-3">
+    <ol class='carousel-indicators mCustomScrollbar'>
+        <li data-target='#carousel-custom' data-slide-to='0' class='active'><img src='http://placehold.it/100x50&text=slide1' alt='' /></li>
+        <li data-target='#carousel-custom' data-slide-to='1'><img src='http://placehold.it/100x50&text=slide2' alt='' /></li>
+        <li data-target='#carousel-custom' data-slide-to='2'><img src='http://placehold.it/100x50&text=slide3' alt='' /></li>
+    </ol>
+    </div>
+    <div class='carousel-outer col-sm-9'>
+        <!-- Wrapper for slides -->
+        <div class='carousel-inner'>
+            <div class='item active'>
+                <img src='http://placehold.it/400x200&text=slide1' alt='' />
+            </div>
+            <div class='item'>
+                <img src='http://placehold.it/400x200&text=slide2' alt='' />
+            </div>
+            <div class='item'>
+                <img src='http://placehold.it/400x200&text=slide3' alt='' />
+            </div>
+        </div>
+            
+        <!-- Controls -->
+        <a class='left carousel-control' href='#carousel-custom' data-slide='prev'>
+            <span class='glyphicon glyphicon-chevron-left'></span>
+        </a>
+        <a class='right carousel-control' href='#carousel-custom' data-slide='next'>
+            <span class='glyphicon glyphicon-chevron-right'></span>
+        </a>
+    </div>
+    
+    
+</div>
+<span id="like">230000+</span><span id="heart" class="glyphicon glyphicon-heart"></span>
+          <!--<img id="mainImg" class="img-thumbnail" alt="Generic placeholder image">
+           <div id="social_block">
                 <span class='st_facebook_large' st_title="1 dots | {{ product.product_name }}" st_image="https://popdesign.s3.amazonaws.com/test/static/products/20150000004/main.jpg"></span>
                 <span class='st_twitter_large'></span>
                 <span class='st_googleplus_large'></span>
                 <span class='st_linkedin_large'></span>
                 <span class='st_pinterest_large'></span>
-            </div>
+            </div>-->
         </div>
-        <div class="col-md-5 product_info">
+        <div class="col-md-4 col-md-offset-1 product_info">
+        <h1 id="product_name"></h1>
+                  <p id="product_code"></p>
+
           <span id="regular_price"></span>&nbsp;<span id="sale_price"></span>&nbsp;<span id="is_in_stock"></span>
-          <span id="number_in_stock">{{ product.number_in_stock }}</span>
-          <p id="product_code"></p>
+          <h3 id="number_in_stock">{{ product.number_in_stock }}</h3>
+                <br />
 
-          <ul class="nav nav-tabs">
-            <li role="presentation" class="active"><a href="#">Description</a></li>
-          </ul>
-          <article id="product_description" class="text-justify">{{ product.description | safe }}</article>
-          <br>
+          <h4>Description</h4>
+          <small id="product_description">{{ product.description | safe }}</small>
+          <form class="form-horizontal"> 
+          <div class="form-group size">
+          <label class="col-sm-2">Size</label>
+          <div class="col-sm-4">
+          <select class="form-control">
+  <option>XS</option>
+  <option>S</option>
+  <option>M</option>
+  <option>L</option>
+</select>
+</div>
+</div>
+<div class="form-group size">
+          <label class="col-sm-2">Color</label>
+          <div class="col-sm-4">
+          <select class="form-control">
+  <option>Red</option>
+  <option>Yellow</option>
+  <option>Blue</option>
+  <option>Brown</option>
+</select>
+</div>
+</div>
+<div class="form-group size">
+          <label class="col-sm-2">Qty</label>
+          <div class="col-sm-4">
+          <select class="form-control">
+  <option>1</option>
+  <option>2</option>
+  <option>3</option>
+  <option>4</option>
+</select>
+</div>
+</div>
+</form>
+          <br />
 
-          <button id="product_like" class="btn btn-default btn-primary"><span id="like_count" class="badge">{{ product.number_like }}</span> Like<i style="margin-left: 5px;" class="glyphicon glyphicon-thumbs-up"></i></button>
-          <br>
+          <!--<button id="product_like" class="btn btn-default btn-primary"><span id="like_count" class="badge">{{ product.number_like }}</span> Like<i style="margin-left: 5px;" class="glyphicon glyphicon-thumbs-up"></i></button>
+          <br />-->
 
-          <div class="btn-group">
-              <button id="add_to_cart" class="btn btn-default"><i style="margin-right: 5px;" class="glyphicon glyphicon-shopping-cart"></i>Add to cart</button>
-              <button id="add_to_wishlist" class="btn btn-default"><i style="margin-right: 5px;" class="glyphicon glyphicon-heart-empty"></i>Add to wishlist</button>
-          </div>
-
-          <br>
-          {% if show_create %}
-            <a id="create_group" class="btn btn-info"><span style="margin-right: 5px;" class="glyphicon glyphicon-user"></span>Create M-Group</a>
+              <button id="add_to_cart" class="btn btn-default btn-block"><i style="margin-right: 5px;" class="glyphicon glyphicon-shopping-cart"></i>Add to cart</button>
+              {% if show_create %}
+            <a id="create_group" class="btn btn-info btn-block"><span style="margin-right: 5px;" class="glyphicon glyphicon-user"></span>Create M-Group</a>
           {% else %}
-            <a id="view_group" class="btn btn-info"><span style="margin-right: 5px;" class="glyphicon glyphicon-user"></span>See created group</a>
+            <a id="view_group" class="btn btn-info btn-block"><span style="margin-right: 5px;" class="glyphicon glyphicon-user"></span>See created group</a>
           {% endif %}
-
+              <!--<button id="add_to_wishlist" class="btn btn-default"><i style="margin-right: 5px;" class="glyphicon glyphicon-heart-empty"></i>Add to wishlist</button>-->
         </div>
-        <div class="col-md-1"></div>
+      </div>
+      <div class="row bottom-info-header">
+      <div class="col-md-7  header">
+      <h4 class="title">Product Info</h4>
+      </div>
+      <div class="col-md-4 col-md-offset-1 header">
+      <h4 class="title">M-Group</h4>
+      </div>
+      </div>
+      <div class="row bottom-info my-row">
+      <div class="col-md-7">
+      <h6 class="title">More Details</h6>
+      <p></p>
+        <h6 class="title">Care</h6>
+<p></p>
+      <h6 class="title">Finish</h6>
+<p></p>
+      <h6 class="title">Material</h6>
+<p></p>
+      </div>
+      <div class="col-md-4 col-md-offset-1">
+      </div>
       </div>
 
-    <div id="product_review"></div>
 
         <script type="text/javascript">
         var host = window.location.origin;
