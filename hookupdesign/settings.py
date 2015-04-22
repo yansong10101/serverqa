@@ -100,8 +100,8 @@ USE_TZ = True
 
 # AWS S3 setup
 USE_S3 = True
-AWS_ACCESS_KEY = 'AKIAJAZ5UY6AQL3BA'
-AWS_SECRET_ACCESS_KEY = 'JdTgE44NichF9izS4EHqJUQuZdOQ73EHnYCdz'
+AWS_ACCESS_KEY = 'AKIAJAZ5UY6AQL3BLMWA'
+AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'popdesign'
 AWS_QUERYSTRING_AUTH = False
 S3_STORAGE = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
@@ -144,7 +144,7 @@ REST_FRAMEWORK = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'yansongzhang10101@gmail.com'
-EMAIL_HOST_PASSWORD = 'popdesign'
+EMAIL_HOST_PASSWORD = 'popdesign1dots'
 EMAIL_USE_TLS = True
 
 CRONJOBS = [
@@ -154,14 +154,14 @@ CRONJOBS = [
 # Paypal api section
 PAYMENT_SANDBOX = {
     'mode': 'sandbox',  # sandbox or live
-    'client_id': 'AbQpRdq8rpVgUkfWBv7ItV7kbmhNizliedoHoj1BbKijMUZuJyVtYgyHVEiDHWLGYubYflv8JVl-6m',
-    'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXn2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
+    'client_id': 'AbQpRdq8rpVgUkfWBv7ItV7kbmhNizliedoHoj1BbKijMUZuJyVtYgyHVEiDHWLGYubYflq1v8JVl-6m',
+    'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXnKg2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
 }
 
 # MemCache setup
 os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', 'mc5.dev.ec2.memcachier.com:11211').replace(',', ';')
-os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '4ff9')
-os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '69c4d1')
+os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '4cdff9')
+os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '696829c4d1')
 
 CACHES = {
     'default': {
