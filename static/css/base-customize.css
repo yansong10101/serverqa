@@ -38,28 +38,169 @@ body {
 -------------------------------------------------- */
 
 /* Carousel base class */
-.carousel {
-  height: 500px;
+.main-slider .carousel {
   margin-bottom: 60px;
 }
 /* Since positioning the image, we need to help out the caption */
-.carousel-caption {
+.main-slider .carousel-caption {
   z-index: 10;
 }
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
-  height: 500px;
-  background-color: #777;
+    height: 500px;
 }
 .carousel-inner > .item > img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 100%;
-  height: 500px;
+    width: 100%;
+    height:auto;
 }
 
+.main-slider .carousel a, .main-slider .carousel a:focus
+{
+    text-decoration: none;
+    opacity: 1;
+}
+.main-slider a:hover
+{
+    zoom: 1;
+    filter: alpha(opacity=60);
+    opacity: 0.6;
+    text-decoration: none;
+}
+
+/* Carousel Fading slide */
+.main-slider .carousel-inner .item {
+  -webkit-transition: opacity .5s ease-in-out;
+  -moz-transition: opacity .5s ease-in-out;
+  -ms-transition: opacity .5s ease-in-out;
+  -o-transition: opacity .5s ease-in-out;
+  transition: opacity .5s ease;
+}
+
+.carousel-fade .active.left,
+.carousel-fade .active.right {
+  left: 0;
+  z-index: 2;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.carousel-fade .carousel-control { z-index: 3; }
+.carousel-fade .next,
+.carousel-fade .prev {
+  left: 0;
+  z-index: 1;
+}
+
+/* Carousel Control */
+.carousel-control {
+  top: 43%;
+  font-size: 48px;
+  }
+
+  /* Animation */
+  .control-box, a.carousel-control, .carousel-indicators li {
+    -webkit-transition: all 250ms ease;
+    -moz-transition: all 250ms ease;
+    -ms-transition: all 250ms ease;
+    -o-transition: all 250ms ease;
+    transition: all 250ms ease;
+    /* hardware acceleration will cause Bootstrap carousel controlbox margin error in webkit browsers */
+    /* Assigning animation to indicator li will make slides flicker */
+   }
+
+  /* Removing BS background */
+  .carousel .control-box { opacity: 0; }
+  a.carousel-control.left  { left: 0; background: none; border: 0;}
+  a.carousel-control.right { right: 0; background: none; border: 0;}
+
+  /* Hover animation */
+  .carousel:hover .control-box { opacity: 1; }
+  .carousel:hover a.carousel-control.left { left: 15px; }
+  .carousel:hover a.carousel-control.right { right: 15px; }
+
+
+
+/* Carouse Indicator */
+.carousel-indicators li.active,
+.carousel-indicators li {
+  border: 0;
+}
+
+.carousel-indicators li {
+  background: #666;
+  margin: 0 3px;
+  width: 12px;
+  height: 12px;
+}
+
+.carousel-indicators li.active {
+  background: #fff;
+  margin: 0 3px;
+}
+
+/****hand picked carousel **********/
+#carousel{
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+#carousel .handpick-header{
+    overflow: hidden;
+}
+#carousel .handpick-header .title {
+    font-weight: normal;
+    text-align: center;
+    font-size: 24px;
+    padding-top: 10px;
+    cursor: default;
+}
+#carousel .handpick-header > h6 {
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.arrow.next{
+    text-align: right;
+}
+
+#carousel .arrow:hover {
+	color: #0FC491;
+}
+
+#carousel .content_carousel {
+	overflow: hidden;
+	float: left;
+}
+
+#carousel .content_carousel ul {
+	float: left;
+    padding: 10px;
+    list-style: none;
+}
+
+#carousel .content_carousel li {
+	float: left;
+}
+
+#carousel .content_carousel li+li {
+	margin-left: 10px;
+}
+
+#carousel .content_carousel li a {
+	color: #000;
+	text-decoration: none;
+	float: left;
+}
+
+#carousel .content_carousel li a img {
+	width: 100%;
+    padding-bottom: 5px;
+}
 
 /* MARKETING CONTENT
 -------------------------------------------------- */
@@ -68,15 +209,45 @@ body {
 .marketing .col-lg-4 {
   margin-bottom: 20px;
     padding: 10px;
-  text-align: center;
-    background-color: #ffffff;
+    text-align: center;
 }
-.marketing h2 {
+
+.marketing .col-lg-4 .inner{
+    background-color: #ffffff;
+    padding: 10px 15px;
+    -webkit-box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+    box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+}
+.marketing h5 {
   font-weight: normal;
+    text-align: left;
+    padding: 0px 10px;
 }
 .marketing .col-lg-4 p {
   margin-right: 10px;
   margin-left: 10px;
+}
+
+
+/*****button****/
+#btn{
+    font-size: 150%;
+    padding: 5px;
+	background: #5DC3A7;
+	border: none;
+	color: #fff;
+	border-bottom: 3px solid #23AA84;
+	border-radius: 3px;
+	cursor: pointer;
+}
+#btn:active{
+	margin: 18px 10px;
+}
+
+#btn:hover{
+	background-color: #0FC491;
+
 }
 
 
