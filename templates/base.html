@@ -71,21 +71,68 @@
                 {% endfor %}
               </ul>
             </li>
-            <li><a href="{% url 'design:home' %}">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Help<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">New Stuff</a></li>
+                <li><a href="#">Funny &amp; Fancy</a></li>
+                <li><a href="#">Find your style</a></li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Filter</li>
+                {% for cat_item in categories %}
+                  <li><a href="{% url 'design:category-view' cat_item.pk %}">{{ cat_item.category_name }}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+            <!--<li><a href="{% url 'design:home' %}">Home</a></li>
             <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li><a href="#contact">Contact</a></li>-->
           </ul>
-            {% if user.is_anonymous %}
+           {% if user.is_anonymous %}
             <ul class="nav navbar-nav navbar-right">
 {#                <li><a href="{% url 'design:login' %}" data-toggle="modal" data-target="#signinModal">Login</a></li>#}
-                <li><a href="{% url 'design:signup' %}">Signup</a></li>
-                <li><a href="{% url 'design:login' %}">Login</a></li>
+                <!--<li><a class="signup-btn" href="{% url 'design:signup' %}">Sign Up</a></li>-->
+                <!--- signup modal window -->
+                <!--<li><a class="signup-btn">Sign up</a></li>
+                <div class="modal-bg">
+                    <div id="signup-modal">
+                        <span>Sign up<a href="#close" id="close">&#215;</a></span>
+                        <form>
+                            <input id="username" name="username" type="textbox" placeholder="Username" required>
+                            <input id="password" name="password" type="password" placeholder="Password" required>
+                            <button name="submit" id="submit" type="submit">Sign up</button>
+                        </form>
+                    </div>
+                </div>-->
+
+                <!-- signup dropdown --->
+                <li class="dropdown" id="menuLogin">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign up</a>
+                    <div class="dropdown-content dropdown-menu">
+                        <form class="form form-style" id="form-signup">
+                            <input name="username" id="username" type="text" placeholder="Username">
+                            <input name="password" id="password" type="password" placeholder="Password"><br>
+                            <button type="button" id="signup-btn" class="btn">Sign up</button>
+                        </form>
+                    </div>
+                </li>
+                <li class="dropdown" id="menuLogin">
+                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign in</a>
+                    <div class="dropdown-content dropdown-menu">
+                        <form class="form form-style" id="form-signin">
+                            <input name="username" id="username" type="text" placeholder="Username">
+                            <input name="password" id="password" type="password" placeholder="Password"><br>
+                            <a id="forgot-link" href="#">Forgot password?</a>
+                            <button type="button" id="signin-btn" class="btn">Sign in</button>
+                        </form>
+                    </div>
+                </li>
             </ul>
             {% else %}
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'design:user-profile' user.pk %}">Hello {%  cut_email user.username %}</a></li>
                 <li><a href="{% url 'design:my-cart' user.pk%}">MyCart</a></li>
                 <li><a href="{% url 'design:my-wish' user.pk%}">MyWish</a></li>
+                <li><a href="{% url 'design:user-profile' user.pk %}">Hello {%  cut_email user.username %}</a></li>
                 <li><a href="{% url 'design:logout' %}">Logout</a></li>
             </ul>
             {% endif %}
@@ -119,6 +166,8 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
+    <script>
+    </script>
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script src="{% static "js/doc.min.js" %}"></script>
