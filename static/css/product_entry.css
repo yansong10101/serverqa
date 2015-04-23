@@ -1,3 +1,50 @@
+/* reset the bootstrap */
+.container *[class^="col-"] {
+    padding: 0px;
+}
+
+.container *.form-group {
+    margin: 0px;
+}
+
+/****font*****/
+h1#product_name{
+    font-size: 200%;
+}
+
+.title{
+    margin: 0px;
+    padding:10px;
+}
+
+/***Layout***/
+.clearboth {
+    clear: both;
+}
+.hr {
+    display: block;
+    margin: 20px 0;
+    line-height: 150%;
+    border-bottom: 1px solid grey;
+    content: " ";
+}
+
+.container .outer-left
+{
+    padding-right: 10px;
+}
+
+.container .outer-left .inner, .container .outer-right .inner{
+    background-color: #ffffff;
+    padding: 10px 15px;
+}
+
+
+.header{
+    margin-top: 10px;
+}
+/******left top box*****/
+
 #heart, #like{
     float: right;
     margin: 10px 5px;
@@ -7,89 +54,7 @@
     height: 400px;
 }
 
-br {
-    display: block;
-    margin: 20px 0;
-    line-height: 150%;
-    border-bottom: 1px solid grey;
-    content: " ";
-}
-
-.featurette > div{
-    background-color: white;
-}
-.product_info {
-    padding-bottom: 10px;
-}
-
-.product_detail{
-    padding-bottom: 10px;
-}
-#product_code {
-    font-size: small;
-    font-style: oblique;
-}
-
-#regular_price #sale_price {
-    color: darkred;
-}
-
-.nav-tabs>li>a {
-    font-size: medium;
-    padding-bottom: 0px;
-    padding-top: 0px;
-}
-
-#social_block {
-    text-align: left;
-}
-
-#product_like {
-    margin-bottom: 10px;
-}
-
-#create_group {
-    margin-top: 15px;
-}
-
-#view_group {
-    margin-top: 15px;
-}
-
-.size {
-    margin-top: 10px;
-}
-
-article ul,
-article ul li {
-    margin-left: 0;
-}
-
-.size label {
-    font-size: 100%;
-    font-weight: normal;
-    padding-top: 5px;
-}
-
-.bottom-info-header{
-    margin-top: 10px;
-}
-
-.title{
-    margin: 0px;
-    padding:10px;
-}
-
-.header{
-    background-color: #cccccc;
-}
-
-.bottom-info > div{
-    background-color: white;
-    height: 200px;
-}
-
-/****carousel*****/
+    /****carousel*****/
 #carousel-custom {
     margin: 20px auto;
     width: 100%;
@@ -122,3 +87,118 @@ article ul li {
 #carousel-custom .carousel-outer {
     position: relative;
 }
+
+
+/******right top box****/
+#product_code {
+    font-size: small;
+    font-style: oblique;
+}
+
+#regular_price #sale_price {
+    color: darkred;
+}
+
+.container .margin-top-10 {
+    margin-top: 10px;
+}
+
+.container .margin-top-10 label {
+    font-size: 100%;
+    font-weight: normal;
+    padding-top: 5px;
+}
+
+/***middle row****/
+.header{
+    background-color: #cccccc;
+}
+
+/******bottom row****/
+    /*****carousel****/
+.row-3{
+    overflow: hidden;
+}
+#carousel{
+    width: 100%;
+    margin: 0 auto;
+}
+#carousel .arrow {
+	display: block;
+	width: 40px;
+	font-size: 35px;
+	font-weight: bold;
+	line-height: 160px;
+	text-align: center;
+	cursor: pointer;
+	float: left;
+}
+
+#carousel .arrow:hover {
+	color: #0FC491;
+}
+
+
+#carousel #content_carousel {
+	overflow: hidden;
+	float: left;
+}
+
+#content_carousel ul {
+	float: left;
+    padding: 10px;
+    margin-left: -5px;
+}
+
+#content_carousel li {
+	width: 150px;
+	text-align: center;
+	float: left;
+}
+
+#content_carousel li+li {
+	margin-left: 10px;
+}
+
+#content_carousel li a {
+	color: #000;
+	text-decoration: none;
+	float: left;
+}
+
+#content_carousel li a img {
+	width: 100%;
+}
+
+.nav-tabs>li>a {
+    font-size: medium;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+#social_block {
+    text-align: left;
+}
+
+#product_like {
+    margin-bottom: 10px;
+}
+
+#create_group {
+    margin-top: 15px;
+}
+
+#view_group {
+    margin-top: 15px;
+}
+
+
+article ul,
+article ul li {
+    margin-left: 0;
+}
+
+
+
+
+
