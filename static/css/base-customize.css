@@ -92,7 +92,7 @@ body {
 }
 
 /* Carousel Control */
-.carousel-control {
+.main-slider .carousel-control {
   top: 43%;
   font-size: 48px;
   }
@@ -121,19 +121,19 @@ body {
 
 
 /* Carouse Indicator */
-.carousel-indicators li.active,
-.carousel-indicators li {
+.main-slider .carousel-indicators li.active,
+.main-slider .carousel-indicators li {
   border: 0;
 }
 
-.carousel-indicators li {
+.main-slider .carousel-indicators li {
   background: #666;
   margin: 0 3px;
   width: 12px;
   height: 12px;
 }
 
-.carousel-indicators li.active {
+.main-slider .carousel-indicators li.active {
   background: #fff;
   margin: 0 3px;
 }
