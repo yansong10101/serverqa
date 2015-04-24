@@ -89,24 +89,18 @@
             <li><a href="#contact">Contact</a></li>-->
           </ul>
            {% if user.is_anonymous %}
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right user-modal-nav">
 {#                <li><a href="{% url 'design:login' %}" data-toggle="modal" data-target="#signinModal">Login</a></li>#}
                 <!--<li><a class="signup-btn" href="{% url 'design:signup' %}">Sign Up</a></li>-->
+
                 <!--- signup modal window -->
-                <!--<li><a class="signup-btn">Sign up</a></li>
-                <div class="modal-bg">
-                    <div id="signup-modal">
-                        <span>Sign up<a href="#close" id="close">&#215;</a></span>
-                        <form>
-                            <input id="username" name="username" type="textbox" placeholder="Username" required>
-                            <input id="password" name="password" type="password" placeholder="Password" required>
-                            <button name="submit" id="submit" type="submit">Sign up</button>
-                        </form>
-                    </div>
-                </div>-->
+                <li><a class="signup">Sign up</a></li>
+                <li><a class="signin">Sign in</a> </li>
+
+
 
                 <!-- signup dropdown --->
-                <li class="dropdown" id="menuLogin">
+                <!--<li class="dropdown" id="menuLogin">
                     <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign up</a>
                     <div class="dropdown-content dropdown-menu">
                         <form class="form form-style" id="form-signup">
@@ -126,8 +120,56 @@
                             <button type="button" id="signin-btn" class="btn">Sign in</button>
                         </form>
                     </div>
-                </li>
+                </li>-->
             </ul>
+           <!----sign in or sign up modal window ------>
+            <div class="user-modal">
+                <div class="user-modal-container">
+                    <div class="switcher">
+                        <li><a href="#">Sign Up</a></li>
+                        <li><a href="#">Sign In</a></li>
+                    </div>
+                    <div id="signup">
+                        <form class="user-form">
+                            <p class="fieldset">
+                                <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
+                            </p>
+
+                            <p class="fieldset">
+                                <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">
+                            </p>
+
+                            <p class="fieldset">
+                                <input type="checkbox" id="accept-terms">
+                                <label class="form-message" for="accept-terms">I agree to the <a href="#0">Terms</a></label>
+                            </p>
+
+                            <p class="fieldset">
+                                <input class="has-padding" type="submit" value="Sign up">
+                            </p>
+                        </form>
+                    </div>
+                    <div id="signin">
+                        <form class="user-form">
+                            <p class="fieldset">
+                                <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
+                            </p>
+
+                            <p class="fieldset">
+                                <input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="Password">
+                            </p>
+                            <p class="form-message"><a href="#0">Forgot your password?</a></p>
+
+
+                            <p class="fieldset">
+                                <input class="has-padding" type="submit" value="Sign in">
+                            </p>
+                        </form>
+                    </div>
+                    <a href="#" class="full-width close-form">Close</a>
+
+                </div>
+            </div>
             {% else %}
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'design:my-cart' user.pk%}">MyCart</a></li>
@@ -166,13 +208,66 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script>
-    </script>
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script src="{% static "js/doc.min.js" %}"></script>
     <script src="{% static "js/csrf.js" %}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static "js/ie10-viewport-bug-workaround.js" %}"></script>
+
+    <!--------modal window script-------->
+
+    <script>
+        $(document).ready(function($){
+            var $form_modal = $('.user-modal'),
+                $form_signup = $form_modal.find('#signup'),
+                $form_signin = $form_modal.find('#signin'),
+                $form_modal_tab = $form_modal.find('.switcher'),
+                $tab_signup = $form_modal_tab.children('li').eq(0).children('a'),
+                $tab_signin = $form_modal_tab.children('li').eq(1).children('a');
+
+            //open modal
+            $('.user-modal-nav').on('click', function(e){
+               $form_modal.addClass('is-visible');
+                ($(e.target).is('.signup')) ? signup_selected() : signin_selected();
+            });
+
+            //close modal
+            $('.user-modal').on('click', function(event){
+                if($(event.target).is($form_modal) || $(event.target).is('.close-form')){
+                    $form_modal.removeClass('is-visible');
+                }
+            });
+
+            // close when click esc on the keyboard
+            $(document).keyup(function(event){
+                if(event.which == '27'){
+                    $form_modal.removeClass('is-visible');
+                }
+            });
+
+            //switch tabs
+            $form_modal_tab.on('click', function (e){
+                        e.preventDefault();
+                        ($(e.target).is($tab_signup)) ? signup_selected():signin_selected();
+            });
+
+
+            function signup_selected(){
+                $form_signup.addClass('is-selected');
+                $form_signin.removeClass('is-selected');
+                $tab_signup.addClass('selected');
+                $tab_signin.removeClass('selected');
+            }
+
+            function signin_selected(){
+                $form_signin.addClass('is-selected');
+                $form_signup.removeClass('is-selected');
+                $tab_signin.addClass('selected');
+                $tab_signup.removeClass('selected');
+            }
+
+        });
+    </script>
   </body>
 </html>
