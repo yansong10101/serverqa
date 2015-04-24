@@ -1,6 +1,6 @@
 function array_controlled_carousel($container, $num) {
     var ul = $container.find('ul');
-    var secondLi = ul.find('li+li');
+    var secondLi = ul.find('li');
     var visibleEle = $container.find('.content_carousel');
     var prevArrow = $container.find('.arrow.prev');
     var nextArrow = $container.find('.arrow.next');
@@ -8,7 +8,7 @@ function array_controlled_carousel($container, $num) {
     var liLen = secondLi.width();
     var margLeftLi = parseInt(secondLi.css('margin-left'));
     var visibleLen = liLen * $num + margLeftLi * $num;
-    var totalLen = ul.children().length * liLen + (ul.children().length - 1) * margLeftLi;
+    var totalLen = ul.children().length * liLen + ul.children().length * margLeftLi;
 
     visibleEle.width(visibleLen);
     ul.width(totalLen);

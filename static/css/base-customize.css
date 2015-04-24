@@ -179,16 +179,13 @@ body {
 
 #carousel .content_carousel ul {
 	float: left;
-    padding: 10px;
+    padding: 0px;
     list-style: none;
 }
 
 #carousel .content_carousel li {
 	float: left;
-}
-
-#carousel .content_carousel li+li {
-	margin-left: 10px;
+    margin-left: 10px;
 }
 
 #carousel .content_carousel li a {
