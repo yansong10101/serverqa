@@ -1,12 +1,14 @@
-function array_controlled_carousel($container, $num) {
+function scroll_carousel($container, $num) {
     var ul = $container.find('ul');
-    var secondLi = ul.find('li');
+    var firstLi = $(ul.find('li').get(0));
+    var secondLi = ul.find('li+li');
     var visibleEle = $container.find('.content_carousel');
     var prevArrow = $container.find('.arrow.prev');
     var nextArrow = $container.find('.arrow.next');
 
     var liLen = secondLi.width();
     var margLeftLi = parseInt(secondLi.css('margin-left'));
+    firstLi.css('margin-left', margLeftLi / 2);
     var visibleLen = liLen * $num + margLeftLi * $num;
     var totalLen = ul.children().length * liLen + ul.children().length * margLeftLi;
 
@@ -52,7 +54,7 @@ function array_controlled_carousel($container, $num) {
             'margin-left': '-=' + visibleLen
         }, 1000, function() {
             var margLeftUl = -parseInt(ul.css('margin-left'));
-            console.log("visibleLen: " + visibleLen + ", totalLen: " + totalLen + ", margLeftUl: " + margLeftUl);
+            //console.log("visibleLen: " + visibleLen + ", totalLen: " + totalLen + ", margLeftUl: " + margLeftUl);
             if (margLeftUl + visibleLen >= totalLen) { // no more
                 enableNext(false);
             }
@@ -77,7 +79,7 @@ function array_controlled_carousel($container, $num) {
             'margin-left': '+=' + visibleLen
         }, 1000, function() {
             var margLeftUl = parseInt(ul.css('margin-left'));
-            console.log("visibleLen: " + visibleLen + ", totalLen: " + totalLen + ", margLeftUl: " + margLeftUl);
+            //console.log("visibleLen: " + visibleLen + ", totalLen: " + totalLen + ", margLeftUl: " + margLeftUl);
             if (margLeftUl >= 0) { // no prev
                 enablePrev(false);
             }
