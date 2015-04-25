@@ -150,16 +150,17 @@
                         </form>
                     </div>
                     <div id="signin">
-                        <form class="user-form">
+                        <form class="user-form" action="/login/" method="post">
+                            {% csrf_token %}
                             <p class="fieldset">
-                                <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
+                                {{ form.username }}
                             </p>
 
                             <p class="fieldset">
-                                <input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="Password">
+                                {{ form.password }}
                             </p>
+
                             <p class="form-message"><a href="#0">Forgot your password?</a></p>
-
 
                             <p class="fieldset">
                                 <input class="has-padding" type="submit" value="Sign in">

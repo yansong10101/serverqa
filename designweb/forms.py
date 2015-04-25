@@ -15,3 +15,10 @@ class UserProfileForm(forms.Form):
     class Meta:
         model = UserProfile
         fields = ('designer_type', 'gender', 'address1', 'address2', 'city', 'state', 'zip', )
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={
+        'class': 'full-width has-padding has-border', 'placeholder': 'E-Mail', }))
+    password = forms.CharField(max_length=25, label='', widget=forms.TextInput(attrs={
+        'class': 'full-width has-padding has-border', 'placeholder': 'Password', 'type': 'password'}))

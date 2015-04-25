@@ -8,7 +8,7 @@ from rest_framework import generics, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from designweb.serializer import *
-# from designweb.forms import *
+from designweb.forms import *
 from designweb.utils import *
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 import json
@@ -21,8 +21,15 @@ def home(request):
 
 def index(request):
     # print(request.session)
-
-    return render(request, 'index.html', {'title': 'HOME', })
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            return render(request, 'home.html', {'title': form.cleaned_data['username']})
+        else:
+            print(form.cleaned_data['error'])
+    else:
+        form = LoginForm()
+    return render(request, 'index.html', {'title': 'HOME', 'form': form, })
 
 
 def signup(request):
