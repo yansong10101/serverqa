@@ -61,18 +61,34 @@
     <script src="{% static "js/util.js" %}"></script>
     <script type="text/javascript">
         $(function() {
-            array_controlled_carousel($('#carousel'), 2);
+            scroll_carousel($('#handpick'), 2);
         });
     </script>
     <style type="text/css">
-    #carousel .content_carousel li {
+    #handpick {
+        padding: 10px;
+    }
+
+    #handpick .handpick-header{
+        overflow: hidden;
+    }
+
+    #handpick li img {
+        display: block;
+    }
+
+    #handpick li {
         width: 550px;
+    }
+
+    #handpick .content_carousel {
+        margin: 0 auto;
     }
     </style>
     <!--handpicked products slide show -->
 
     <div class="row">
-        <div id="carousel">
+        <div id="handpick" class="scroll-carousel">
             <div class="handpick-header">
                 <h6 class="col-md-1 prev arrow">&lt;</h6>
                 <h6 class="col-md-10 title">Handpicked for you</h6>
@@ -82,49 +98,49 @@
                 <ul>
                     <li>
                         <a href="#">
-                            <img src="http://placehold.it/650x500">
+                            <img src="http://placehold.it/550x500">
                             <span>Title</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="http://placehold.it/650x500">
+                            <img src="http://placehold.it/550x500">
                             <span>2</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="http://placehold.it/650x500">
+                            <img src="http://placehold.it/550x500">
                             <span>3</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="http://placehold.it/650x500">
+                            <img src="http://placehold.it/550x500">
                             <span>4</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="http://placehold.it/650x500">
+                            <img src="http://placehold.it/550x500">
                             <span>5</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="http://placehold.it/650x500">
+                            <img src="http://placehold.it/550x500">
                             <span>6</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="http://placehold.it/650x500">
+                            <img src="http://placehold.it/550x500">
                             <span>7</span>
                         </a>
                     </li>
                     <li>
                         <a href="#">
-                            <img src="http://placehold.it/650x500">
+                            <img src="http://placehold.it/550x500">
                             <span>8</span>
                         </a>
                     </li>

@@ -95,7 +95,7 @@
                 <h4 class="title">You may also like</h4>
             </div>
             <div class="row-3 inner">
-                <div id="carousel">
+                <div id="recommendation" class="scroll-carousel">
     	            <span class="prev arrow">&lt;</span>
                     <div class="content_carousel">
                         <ul>
@@ -157,7 +157,7 @@
     <script src="{% static "js/util.js" %}"></script>
     <script type="text/javascript">
         $(function() {
-            array_controlled_carousel($('#carousel'), 4);
+            scroll_carousel($('#recommendation'), 4);
         });
     </script>
     <style type="text/css">
