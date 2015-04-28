@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from designweb.models import Product, Cart, WishList, CustomerReview
+from designweb.models import Product, Cart, WishList, CustomerReview, ProductComment
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -56,3 +56,13 @@ class ProductReviewSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CustomerReview
         fields = ('pk', 'product_id', 'customer_id', 'product_name', 'customer_name', 'review_message', )
+
+
+class ProductForumListSerializer(serializers.HyperlinkedModelSerializer):
+    product_id = serializers.ReadOnlyField(source='product.pk')
+    product_name = serializers.ReadOnlyField(source='product.product_name')
+    comments = serializers.ReadOnlyField(source='message')
+
+    class Meta:
+        model = ProductComment
+        fields = ('pk', 'product_id', 'product_name', 'reviewer', 'reviewer_id', 'comments', )

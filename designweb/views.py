@@ -199,6 +199,12 @@ def get_product_review(request, pk):
     # return Response(data={'review_list': reviews})
     return Response(data={'Success': 'Success'})
 
+
+def get_product_forum(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    comments = ProductComment.objects.filter(product=product)
+    return Response(data={'Success': 'Success', 'comments': comments})
+
 # ===============================================
 @ensure_csrf_cookie
 @login_required(login_url='/login/')
@@ -363,6 +369,13 @@ class ReviewSet(viewsets.ModelViewSet):
     queryset = CustomerReview.objects.all()
     serializer_class = ProductReviewSerializer
     filter_fields = ('product_id', )
+
+
+class ProductForumList(viewsets.ReadOnlyModelViewSet):
+    queryset = ProductComment.objects.all()
+    serializer_class = ProductForumListSerializer
+    filter_fields = ('product_id', )
+    paginate_by = 5
 
 
 class UserViewSet(viewsets.ModelViewSet):

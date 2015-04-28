@@ -91,7 +91,7 @@
            {% if user.is_anonymous %}
             <ul class="nav navbar-nav navbar-right user-modal-nav">
 {#                <li><a href="{% url 'design:login' %}" data-toggle="modal" data-target="#signinModal">Login</a></li>#}
-                <!--<li><a class="signup-btn" href="{% url 'design:signup' %}">Sign Up</a></li>-->
+{#                <!--<li><a class="signup-btn" href="{% url 'design:signup' %}">Sign Up</a></li>-->#}
 
                 <!--- signup modal window -->
                 <li><a class="signup">Sign up</a></li>
@@ -130,13 +130,20 @@
                         <li><a href="#">Sign In</a></li>
                     </div>
                     <div id="signup">
-                        <form class="user-form">
+                        <form class="user-form" action="/signup/" method="post">
                             <p class="fieldset">
-                                <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
+{#                                <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">#}
+                                {{ signup_form.username }}
                             </p>
 
                             <p class="fieldset">
-                                <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">
+{#                                <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">#}
+                                {{ signup_form.password }}
+                            </p>
+
+                            <p class="fieldset">
+{#                                <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">#}
+                                {{ signup_form.confirm_password }}
                             </p>
 
                             <p class="fieldset">
@@ -153,11 +160,11 @@
                         <form class="user-form" action="/login/" method="post">
                             {% csrf_token %}
                             <p class="fieldset">
-                                {{ form.username }}
+                                {{ login_form.username }}
                             </p>
 
                             <p class="fieldset">
-                                {{ form.password }}
+                                {{ login_form.password }}
                             </p>
 
                             <p class="form-message"><a href="#0">Forgot your password?</a></p>

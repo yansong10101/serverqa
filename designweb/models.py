@@ -93,6 +93,18 @@ class CustomerReview(models.Model):
         return self.product.product_name
 
 
+class ProductComment(models.Model):
+    product = models.ForeignKey(Product, related_name='product_forum')
+    reviewer = models.CharField(max_length=50, default='stranger')
+    reviewer_id = models.IntegerField(default=0)
+    message = models.TextField(blank=True, max_length=1000)
+    create_date = models.DateTimeField(auto_now_add=True, editable=False)
+    photo_img = models.CharField(max_length=25, default='/stranger')
+
+    def __str__(self):
+        return self.product.product_name
+
+
 class ProductExtension(models.Model):
     product = models.OneToOneField(Product, related_name='details', primary_key=True)
     price_range = models.DecimalField(decimal_places=2, blank=True, max_digits=8)
