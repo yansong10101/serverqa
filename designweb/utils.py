@@ -3,11 +3,18 @@ from django.core.mail import send_mail
 from hookupdesign.settings import EMAIL_HOST_USER, S3_URL
 from django.shortcuts import get_object_or_404
 from designweb.models import *
+from designweb.forms import LoginForm, SignupForm
 from designweb.session_secure import update_session_timeout
 
 
 def get_display_dict(title, pass_dict={}):
-    display_dict = {'title': title, 'categories': Category.objects.all(), 'storage_host': S3_URL, }
+    login_form = LoginForm()
+    signup_form = SignupForm()
+    display_dict = {'title': title,
+                    'categories': Category.objects.all(),
+                    'storage_host': S3_URL,
+                    'login_form': login_form,
+                    'signup_form': signup_form, }
     if pass_dict != {}:
         return dict(list(pass_dict.items()) + list(display_dict.items()))
     return display_dict

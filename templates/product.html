@@ -62,7 +62,7 @@
             </div>-->
                 <div class="row">
                     <div class="col-md-9 col-md-push-3">
-                        <div class="row">
+                        <div class="row" id="forum_row">
                             <div class="col-xs-2">
                                 <img src="http://placehold.it/60x60" />
                             </div>
@@ -261,8 +261,8 @@
             }).success(function(data, textStatus, jqXHR){
 
                 loadPage(data);
-
                 reviews();
+
             }).fail(function(jqXHR, textStatus){
                 $("#alert_msg").attr("class", "alert alert-warning").html("action failed  !").fadeIn(1000, 0).fadeOut(2000, 0);
             });
@@ -365,19 +365,17 @@
 
         // product reviews
         function reviews(){
-            var product_lite = $('<p></p>');
+            var product_lite = $('<div class="col-xs-2"><img src="http://placehold.it/60x60" /></div><div class="col-xs-10"><h6></h6><p></p></div>');
             $.ajax({
             type: "GET",
-            url: host + "/api/reviews/?format=json&product_id=" + prod_pk,
+            url: host + "/api/comments/?product_id=" + prod_pk + "&format=json",
             dataType: "json"
             }).success(function(data, textStatus, jqXHR){
                 $.each(data.results, function(i, item){
-{#                    var elem = product_lite.clone();#}
-{#                    elem.find('p').html(item.pk);#}
-{#                    $("#product_review").append(elem);#}
-{##}
-{#                    console.log(item.pk);#}
-                    $("#product_review").val(item.product_name);
+                    var elem = product_lite.clone();
+                    elem.find('h6').html(item.reviewer);
+                    elem.find('p').html(item.comments);
+                    $("#forum_row").append(elem);
                 });
             }).fail(function(jqXHR, textStatus){
                 request_failed();

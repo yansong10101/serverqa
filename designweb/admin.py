@@ -1,6 +1,6 @@
 from django.contrib import admin
 from designweb.models import UserProfile, Product, ProductExtension, Category, Order, OrderDetails, WishList, Cart, \
-    CustomerReview
+    CustomerReview, ProductComment
 from django.utils.translation import ugettext_lazy
 
 admin.site.site_header = ugettext_lazy('1 dots admin')
@@ -40,6 +40,10 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', )
 
 
+class ProductForumAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'product', 'create_date', 'message', )
+
+
 # Register your models here.
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Category, CategoryAdmin)
@@ -51,3 +55,4 @@ admin.site.register(WishList, WishListAdmin)
 admin.site.register(Cart, CartAdmin)
 
 admin.site.register(CustomerReview)
+admin.site.register(ProductComment, ProductForumAdmin)

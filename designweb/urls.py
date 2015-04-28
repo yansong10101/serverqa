@@ -48,6 +48,7 @@ router.register(r'groups', views.GroupViewSet)
 router.register(r'carts', views.CartViewSet)
 router.register(r'wishlists', views.WishListViewSet)
 router.register(r'reviews', views.ReviewSet)
+router.register(r'comments', views.ProductForumList)
 
 urlpatterns += patterns(
     '',
