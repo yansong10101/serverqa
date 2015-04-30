@@ -22,7 +22,7 @@
                 <div id='carousel-custom' class='carousel slide row' data-ride='carousel'>
                     <!-- Indicators -->
                     <div class="col-sm-2">
-                        <ol class='carousel-indicators mCustomScrollbar'>
+                        <ol class='carousel-indicators mCustomScrollbar' id = "alternate_small_container">
                             <li data-target='#carousel-custom' data-slide-to='0' class='active'><img src='http://placehold.it/100x100&text=slide1' alt='' /></li>
                             <li data-target='#carousel-custom' data-slide-to='1'><img src='http://placehold.it/100x100&text=slide2' alt='' /></li>
                             <li data-target='#carousel-custom' data-slide-to='2'><img src='http://placehold.it/100x100&text=slide3' alt='' /></li>
@@ -30,7 +30,7 @@
                     </div>
                     <div class='carousel-outer col-sm-10'>
                         <!-- Wrapper for slides -->
-                        <div class='carousel-inner'>
+                        <div class='carousel-inner' id = "alternate_big_container">
                             <div class='item active'>
                                 <img src='http://placehold.it/500x500&text=slide1' alt='' />
                             </div>
@@ -291,7 +291,54 @@
             }
             $('#product_code').html(results.product_code);
 
+            set_images(results);
             bound_social_btn(img_url, results.product_name, "");
+        }
+
+        function set_images(results){
+            var alternate_big_container = $("alternate_big_container");
+            var alternate_small_container = $("alternate_small_container");
+            var s_big_alternate = image_dir + results.image_root + "b_alternate_";
+            var s_small_alternate = image_dir + results.image_root + "s_alternate_";
+            var small_img_lite = $("<li data-target='#carousel-custom' data-slide-to='0' class='active'><img alt='' /></li>");
+            var  big_img_lite = $("<div class='item active'><img alt='' /></div>");
+            for(var i = 1; i < 3; i++){
+                var big_img_url = s_big_alternate + i + ".jpg";
+                var small_img_url = s_small_alternate + i + ".jpg";
+
+{#                $.get(big_img_url)#}
+{#                .done(function() {#}
+{#                    var elem = big_img_lite.clone();#}
+{#                    elem.find('img').attr('src', big_img_url);#}
+{#                    alternate_big_container.append(elem);#}
+{#                }).fail(function() {#}
+{#                    continue;#}
+{#                });#}
+
+{#                $.get(small_img_url)#}
+{#                .done(function() {#}
+{#                    var elem = small_img_lite.clone();#}
+{#                    elem.find('li').attr('data-slide-to', (i - 1));#}
+{#                    elem.find('img').attr('src', small_img_url);#}
+{#                    alternate_small_container.append(elem);#}
+{#                }).fail(function() {#}
+{#                    continue;#}
+{#                })#}
+
+                $.ajax({
+                    url:big_img_url,
+                    type:'POST',
+                    error: function()
+                    {
+                        console.log("failed for alternate images ..." + big_img_url);
+                    },
+                    success: function()
+                    {
+                        var elem = big_img_lite.clone();
+                        elem.find('img').attr('src', big_img_url);
+                    }
+                });
+            }
         }
 
         function bound_social_btn(image_url, title, description){
