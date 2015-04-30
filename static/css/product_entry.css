@@ -34,7 +34,7 @@ h1#product_name{
     padding-right: 10px;
 }
 
-.container .outer-left .inner, .container .outer-right .inner{
+.outer-left .inner, .outer-right .inner{
     background-color: #ffffff;
     padding: 10px 15px;
 }
@@ -167,7 +167,9 @@ article ul li {
     margin-left: 0;
 }
 
-
+#recommend-buy > div {
+    padding: 10px;
+}
 
 
 
