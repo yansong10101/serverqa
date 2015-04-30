@@ -1,3 +1,56 @@
+/******status bar******/
+.top-bar{
+    background-color: #ccc;
+}
+
+#myTab{
+    list-style: none;
+    margin: 0px;
+    padding-left: 0px;
+}
+
+#myTab li{
+    margin: 0px;
+    padding: 5px;
+    text-align: center;
+    border-right: 1px solid #aaa;
+}
+
+#myTab li:last-child{
+    border-right: none;
+}
+
+#myTab li a{
+    text-decoration: none;
+    color: #aaa;
+    padding: 0px;
+
+}
+
+#myTab li a:hover{
+    border: none;
+    cursor: default;
+}
+
+#myTab .active a{
+    color: #000;
+    background-color: transparent;
+    border: none;
+}
+/*******item table style *******/
+
+#row_4{
+   border-bottom: 1px solid #aaa;
+}
+.table .row > td{
+    padding: 10px;
+}
+
+#row_4 > td:nth-child(4) select{
+    width: 40px;
+}
+
+
 .cartImg{
     height: 125px;
     width: 110px;
@@ -16,10 +69,6 @@
 .product_price{
     font-size: medium;
     color: red;
-}
-
-#btnpay{
-    float: right;
 }
 
 .prod_description{

@@ -5,12 +5,361 @@
 
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
     <link href="{% static 'css/cart_style.css'%}" rel="stylesheet">
+    <link href="{% static 'css/product_entry.css'%}" rel="stylesheet">
+
 
     <div id="alert_msg" class="" style="display:none;"></div>
 
-    <h2 class="col-md-10 col-md-offset-1">My Cart</h2>
+    <!--<h2 class="col-md-10 col-md-offset-1">My Cart</h2>-->
+    <!--<div class="row top-bar">
+        <div class="current-tab col-md-4 col-sm-4 col-xs-4">
+            <h5>1. Shopping Cart</h5>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <h5>2.Shipping & Payment</h5>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-4">
+            <h5>3.Place Order</h5>
+        </div>
+    </div>-->
+    <div class="row top-bar">
+        <ul class="nav-tabs" id="myTab">
+            <li class="active col-md-3 col-sm-3 col-xs-3">
+                <a href="#summary" data-toggle="tab" title="order summary">1. Shopping Cart</a>
+            </li>
 
-    <table class="table table-hover">
+            <li class="col-md-3 col-sm-3 col-xs-3">
+                <a href="#address" data-toggle="tab" title="address">2. Address</a>
+            </li>
+
+            <li class="col-md-3 col-sm-3 col-xs-3">
+                <a href="#payment" data-toggle="tab" title="payment">3. Payment</a>
+            </li>
+            <li class="col-md-3 col-sm-3 col-xs-3">
+                <a href="#done" data-toggle="tab" title="process completed">4. Confirm</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="tab-content">
+
+        <div class="row tab-pane active" style="margin-top: 20px" id="summary">
+        <!----------left column ------------->
+            <div class="col-md-9 col-sm-9 col-xs-9 outer-left">
+                <div class="header">
+                    <h4 class="title">Items in your cart</h4>
+                </div>
+                <div class="inner">
+                    <table class="table table-hover">
+                        {% for detail in orders %}
+                            <tr class="row">
+                                <td class="col-md-3">Items</td>
+                                <td class="col-md-3"></td>
+                                <td class="col-md-2">Price</td>
+                                <td class="col-md-2">Quantity</td>
+                                <td class="col-md-2">Total</td>
+                            </tr>
+                            <tr id="row_{{ detail.product.pk }}" class="row featurette">
+                                <td class="col-md-3 product_image"><img class="cartImg thumbnail" src="{{ storage_host }}{% static 'products' %}/{{ detail.product.image_root }}"></td>
+                                <td class="col-md-3">
+                                    <div class="row featurette">
+                                        <p class="product_name"><a href="{% url 'design:product-view' detail.product.pk %}">{{ detail.product.product_name }}</a></p>
+                                        <p class="product_name">Size:S / Color : Red</p>
+                                        <button class="btn btn-default" onclick='remove_row("{{ detail.product.pk }}")'>remove</button>
+                                    </div>
+                                </td>
+                                <td class="col-md-2">
+                                    <p class="price product_price">${{ detail.product.price }}</p>
+                                </td>
+                                <td class="col-md-2">
+                                    <!--<input name="{{ detail.pk }}" id="product-count  prod_count_{{ detail.product.pk }}" value="{{ detail.number_in_cart }}">-->
+                                     <select class="form-control">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                </td>
+                                <td class="col-md-2">
+                                    <p class="price item_total_price">$20</p>
+                                </td>
+                            </tr>
+                            <tr class="row">
+                                <td class="col-md-3"></td>
+                                <td class="col-md-3"></td>
+                                <td class="col-md-2"></td>
+                                <td class="col-md-2" style="text-align: right">Subtotal:</td>
+                                <td class="col-md-2" id="subtotal"></td>
+                            </tr>
+                             <tr class="row">
+                                <td class="col-md-3"></td>
+                                <td class="col-md-3"></td>
+                                <td class="col-md-2">
+                                    <p>Coupon code:</p>
+                                </td>
+                                <td class="col-md-2">
+                                    <input type="text">
+                                </td>
+                                <td class="col-md-2">
+                                    <button>Apply</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                <div class="row">
+                    <div class="col-md-8"></div>
+                    <div class="col-md-3 col-xs-3">
+                        <!--<a id="btnpay" class="btn btn-block btn-info" href="{% url 'design:my-order' user.pk %}">Place to order</a>-->
+                    <a href="#address" data-toggle="tab" class="btn btn-block btn-info">Check out</a>
+                    </div>
+                    <div class="col-md-1"></div>
+                    </div>
+                </div>
+            </div>
+        <div class="col-md-3 col-sm-3 col-xs-3 outer-right" style="margin-top: 10px;">
+            <div class="inner">
+                <h4>Subtotal:</h4>
+                <a href="#address" data-toggle="tab" class="btn btn-block btn-info">Check out</a>
+            </div>
+            <div class="header">
+                <h4 class="title">People also bought</h4>
+            </div>
+            <div class="inner" id="recommend-buy">
+                <div class="row">
+                <div class="col-sm-6">
+                    <img src="http://placehold.it/100x100" />
+                </div>
+                <div class="col-sm-6">
+                    <h5>Product Name</h5>
+                    <h5>$65</h5>
+                    <button class="btn">Add to cart</button>
+                </div>
+                </div>
+                <div class="row">
+                <div class="col-sm-6">
+                    <img src="http://placehold.it/100x100" />
+                </div>
+                <div class="col-sm-6">
+                    <h5>Product Name</h5>
+                    <h5>$65</h5>
+                    <button class="btn">Add to cart</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+    <!---------address info tab---------------------->
+        <div class="tab-pane fade row" id="address">
+             <div class="col-md-9 col-sm-9 col-xs-9 outer-left">
+                <div class="header">
+                    <h4 class="title">Shipping Address</h4>
+                </div>
+                <div class="inner">
+                    <form class="form-signin" id="ship_form" action="" method="">
+                        {% csrf_token %}
+                        <label for="s_address1">Address 1:</label><input type="text" id="s_address1" name="address1" class="form-control" value="{{ profile.address1 }}">
+                        <label for="s_address2">Address 2:</label><input type="text" id="s_address2" name="address2" class="form-control" value="{{ profile.address2 }}">
+                        <label for="s_city">City:</label><input type="text" id="s_city" name="city" class="form-control" value="{{ profile.city }}">
+                        <label for="s_state">State:</label><input id="s_state" type="text" name="state" class="form-control" value="{{ profile.state }}">
+                        <label for="s_zip">Zip:</label><input type="text" id="s_zip" name="zip" class="form-control" value="{{ profile.zip }}">
+                        <label for="s_phone1">mobile phone:</label><input type="text" id="s_phone1" name="phone1" class="form-control" value="{{ profile.phone1 }}">
+                        <label for="s_phone2">home phone:</label><input type="text" id="s_phone2" name="phone2" class="form-control" value="{{ profile.phone2 }}">
+                        <input type="checkbox" id="is_billing_address"/><label class="vCheckboxLabel" for="is_billing_address">Check if same as billing address</label>
+                    </form>
+                </div>
+                 <div class="header">
+                     <h4 class="title">Billing Address</h4>
+                </div>
+                <div class="inner">
+                    <form class="form-signin" id="bill_form" action="" method="">
+                        {% csrf_token %}
+                        <label for="b_address1">Address 1:</label><input type="text" id="b_address1" name="address1" class="form-control">
+                        <label for="b_address2">Address 2:</label><input type="text" id="b_address2" name="address2" class="form-control">
+                        <label for="b_city">City:</label><input type="text" id="b_city" name="city" class="form-control">
+                        <label for="b_state">State:</label><input id="b_state" type="text" name="state" class="form-control">
+                        <label for="b_zip">Zip:</label><input type="text" id="b_zip" name="zip" class="form-control">
+                        <label for="b_phone1">mobile phone:</label><input type="text" id="b_phone1" name="phone1" class="form-control">
+                        <label for="b_phone2">home phone:</label><input type="text" id="b_phone2" name="phone2" class="form-control">
+                        <p></p>
+                    </form>
+                </div>
+                <div class="inner" style="overflow: hidden">
+                    <div class="col-sm-9"></div>
+                    <div class="col-sm-3">
+                        <a href="#payment" data-toggle="tab" class="btn btn-block btn-info">Next</a>
+                    </div>
+                </div>
+             </div>
+            <div class="col-md-3 col-sm-3 col-xs-3 outer-right" style="margin-top: 10px;">
+                <div class="inner">
+                    <table class="table">
+                        <tr>
+                            <td>Cart</td>
+                            <td>$65</td>
+                        </tr>
+                        <tr>
+                            <td>Discount</td>
+                            <td>$5</td>
+                        </tr>
+                        <tr>
+                            <td>Tax</td>
+                            <td>$5</td>
+                        </tr>
+                        <tr>
+                            <td>Shipping</td>
+                            <td>$5</td>
+                        </tr>
+                        <tr>
+                            <td><b>Subtotal</b></td>
+                            <td>$70</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    <!---------payment tab---------------------->
+        <div class="tab-pane fade row" id="payment">
+             <div class="col-md-9 col-sm-9 col-xs-9 outer-left">
+                <div class="header">
+                    <h4 class="title">Payment</h4>
+                </div>
+                <div class="inner" style="overflow: hidden;">
+                    <div class="col-sm-6">
+                        <fieldset class="inner">
+                            <legend>Card Info</legend>
+                            <div class="control-group">
+                                <label label-default="" class="control-label">Card Holder's Name</label>
+                                <div class="controls">
+                                    <input type="text" class="form-control" pattern="\w+ \w+.*" title="First and last name" required="">
+                                </div>
+                            </div>
+                            <div class="control-group" style="margin-top: 10px">
+                                <label label-default="" class="control-label">Card Number</label>
+                                <div class="controls inner" style="padding-top: 0px">
+                                    <div class="row">
+                                        <div class="col-xs-3">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="First four digits" required="">
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Second four digits" required="">
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Third four digits" required="">
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Fourth four digits" required="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group" style="margin-top: 10px">
+                                <label label-default="" class="control-label">Card Expiry Date</label>
+                                <div class="controls inner" style="padding-top: 0px">
+                                    <div class="row">
+                                        <div class="col-xs-9">
+                                            <select class="form-control" name="cc_exp_mo">
+                                                <option value="01">January</option>
+                                                <option value="02">February</option>
+                                                <option value="03">March</option>
+                                                <option value="04">April</option>
+                                                <option value="05">May</option>
+                                                <option value="06">June</option>
+                                                <option value="07">July</option>
+                                                <option value="08">August</option>
+                                                <option value="09">September</option>
+                                                <option value="10">October</option>
+                                                <option value="11">November</option>
+                                                <option value="12">December</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <select class="form-control" name="cc_exp_yr">
+                                                <option>2014</option>
+                                                <option>2015</option>
+                                                <option>2016</option>
+                                                <option>2017</option>
+                                                <option>2018</option>
+                                                <option>2019</option>
+                                                <option>2020</option>
+                                                <option>2021</option>
+                                                <option>2022</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="control-group" style="margin-top: 10px">
+                                <label label-default="" class="control-label">Card CVV</label>
+                                <div class="controls inner" style="padding-top: 0px">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="3" pattern="\d{3}" title="Three digits at back of your card" required="">
+                                        </div>
+                                        <div class="col-md-8"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-5">
+                        <fieldset><legend>Use Paypal</legend></fieldset>
+                        <form class="inner" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            <input type="hidden" name="cmd" value="_s-xclick">
+                            <input type="hidden" name="hosted_button_id" value="RS28UWF9LFWPL">
+                            <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                            <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                        </form>
+                    </div>
+                </div>
+                <div class="inner">
+                </div>
+                <div class="inner" style="overflow: hidden">
+                    <div class="col-sm-9"></div>
+                    <div class="col-sm-3">
+                        <a href="#done" data-toggle="tab" class="btn btn-block btn-info">Place order</a>
+                    </div>
+                </div>
+             </div>
+            <div class="col-md-3 col-sm-3 col-xs-3 outer-right" style="margin-top: 10px;">
+                <div class="inner">
+                    <table class="table">
+                        <tr>
+                            <td>Cart</td>
+                            <td>$65</td>
+                        </tr>
+                        <tr>
+                            <td>Discount</td>
+                            <td>$5</td>
+                        </tr>
+                        <tr>
+                            <td>Tax</td>
+                            <td>$5</td>
+                        </tr>
+                        <tr>
+                            <td>Shipping</td>
+                            <td>$5</td>
+                        </tr>
+                        <tr>
+                            <td><b>Subtotal</b></td>
+                            <td>$70</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    <!---done ---->
+        <div class="tab-pane fade" id="done"><div class="text-center"><i class="img-intro icon-checkmark-circle"></i></div>
+                    <h3 class="head text-center">thanks for shopping! <span style="color:#f48260;">♥</span> 1 dots</h3>
+                    <p class="narrow text-center">We are serving international funny ideas, high tech stuffs, independent design...</p>
+                </div>
+
+      <!--<table class="table table-hover">
         {% for detail in orders %}
             <tr id="row_{{ detail.product.pk }}" class="row featurette">
                 <td class="col-md-2 product_image"><img class="cartImg thumbnail" src="{{ storage_host }}{% static 'products' %}/{{ detail.product.image_root }}"></td>
@@ -36,9 +385,87 @@
                 <td class="col-md-1"><button class="btn btn-default" onclick='remove_row("{{ detail.product.pk }}")'>remove</button></td>
             </tr>
         {% endfor %}
-    </table>
+    </table>-->
     <br>
-    <a id="btnpay" class="btn btn-info" href="{% url 'design:my-order' user.pk %}">Place to order</a>
+    <script type="text/javascript">
+        var host = window.location.origin;
+
+        var b_address1 = $("#b_address1");
+        var b_address2 = $("#b_address2");
+        var b_city = $("#b_city");
+        var b_state = $("#b_state");
+        var b_zip = $("#b_zip");
+        var b_phone1 = $('#b_phone1');
+        var b_phone2 = $('#b_phone2');
+
+        var s_address1 = $("#s_address1");
+        var s_address2 = $("#s_address2");
+        var s_city = $("#s_city");
+        var s_state = $("#s_state");
+        var s_zip = $("#s_zip");
+        var s_phone1 = $('#s_phone1');
+        var s_phone2 = $('#s_phone2');
+
+        $('#is_billing_address').change(function(){
+            if (this.checked) {
+                var add1 = $("#s_address1").val();
+                var add2 = $("#s_address2").val();
+                var city = $("#s_city").val();
+                var state = $("#s_state").val();
+                var zip = $("#s_zip").val();
+
+                if (add1 == "" || city == "" || state == "" || zip == "") {
+                    alert("shipping address info required !");
+                    this.checked = false;
+                }
+                else {
+                    $("#b_address1").val(add1);
+                    $("#b_address2").val(add2);
+                    $("#b_city").val(city);
+                    $("#b_state").val(state);
+                    $("#b_zip").val(zip);
+                    $("input[type=text]").prop('disabled', true);
+                }
+            }
+            else{
+                $("#b_address1").val("");
+                $("#b_address2").val("");
+                $("#b_city").val("");
+                $("#b_state").val("");
+                $("#b_zip").val("");
+                $("input[type=text]").prop('disabled', false);
+            }
+        });
+
+        $('#address_submit').on('click', function(){
+            var api_url = host + "/api/address/" + {{ user.pk }} + "/" + {{ order_id }} + "/";
+            $.ajax({
+            type: "POST",
+            url: api_url,
+            data : { csrfmiddlewaretoken: '{{ csrf_token }}',
+                     shipping_address1: s_address1.val(),
+                     shipping_address2: s_address2.val(),
+                     shipping_city: s_city.val(),
+                     shipping_state: s_state.val(),
+                     shipping_zip: s_zip.val(),
+                     shipping_phone1: s_phone1.val(),
+                     shipping_phone2: s_phone2.val(),
+                     billing_address1: b_address1.val(),
+                     billing_address2: b_address2.val(),
+                     billing_city: b_city.val(),
+                     billing_state: b_state.val(),
+                     billing_zip: b_zip.val(),
+                     billing_phone1: b_phone1.val(),
+                     billing_phone2: b_phone2.val() },
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+                alert(data["result"]);
+            }).fail(function(jqXHR, textStatus){
+                alert("Failed !");
+            });
+
+        });
+    </script>
 
     <script type="text/javascript">
         var host = window.location.origin;
