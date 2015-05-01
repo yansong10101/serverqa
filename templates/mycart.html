@@ -51,15 +51,17 @@
                     <h4 class="title">Items in your cart</h4>
                 </div>
                 <div class="inner">
-                    <table class="table table-hover">
-                        {% for detail in orders %}
-                            <tr class="row">
+                <table class="table">
+                     <tr class="row">
                                 <td class="col-md-3">Items</td>
                                 <td class="col-md-3"></td>
                                 <td class="col-md-2">Price</td>
                                 <td class="col-md-2">Quantity</td>
                                 <td class="col-md-2">Total</td>
                             </tr>
+                </table>
+                    <table class="table table-hover item-table">
+                        {% for detail in orders %}
                             <tr id="row_{{ detail.product.pk }}" class="row featurette">
                                 <td class="col-md-3 product_image"><img class="cartImg thumbnail" src="{{ storage_host }}{% static 'products' %}/{{ detail.product.image_root }}"></td>
                                 <td class="col-md-3">
@@ -78,39 +80,47 @@
                                     <button class="minus">-</button>
                                 </td>
                                 <td class="col-md-2">
-                                    <p class="price item_total_price">$20</p>
-                                </td>
-                            </tr>
-                            <tr class="row">
-                                <td class="col-md-3"></td>
-                                <td class="col-md-3"></td>
-                                <td class="col-md-2"></td>
-                                <td class="col-md-2" style="text-align: right">Subtotal:</td>
-                                <td class="col-md-2" id="subtotal"></td>
-                            </tr>
-                             <tr class="row">
-                                <td class="col-md-3"></td>
-                                <td class="col-md-3"></td>
-                                <td class="col-md-2">
-                                    <p>Coupon code:</p>
-                                </td>
-                                <td class="col-md-2">
-                                    <input type="text">
-                                </td>
-                                <td class="col-md-2">
-                                    <button>Apply</button>
+                                    <p class="price item_total_price"></p>
                                 </td>
                             </tr>
                         {% endfor %}
                     </table>
-                <div class="row">
-                    <div class="col-md-8"></div>
-                    <div class="col-md-3 col-xs-3">
-                        <!--<a id="btnpay" class="btn btn-block btn-info" href="{% url 'design:my-order' user.pk %}">Place to order</a>-->
-                    <a href="#address" data-toggle="tab" class="btn btn-block btn-info">Check out</a>
-                    </div>
-                    <div class="col-md-1"></div>
-                    </div>
+                    <table class="summary-table">
+                        <tr class="row">
+                            <td class="col-md-6 col-sm-6"></td>
+                        <td class="col-md-2 col-sm-2">
+                            <p style="text-align:right; padding-right: 5px;">Coupon code:</p>
+                        </td>
+                        <td class="col-md-2 col-sm-2">
+                            <input style="width: 80%" type="text">
+                        </td>
+                        <td class="col-md-2 col-sm-2">
+                            <button>Apply</button>
+                        </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-md-6 col-sm-6"></td>
+                            <td class="col-md-2 col-sm-2">
+                            </td>
+                            <td class="col-md-2 col-sm-2">
+                                <p><b>Subtotal:</b></p>
+                            </td>
+                            <td class="col-md-2 col-sm-2">
+                                <p id="subtotal"></p>
+                            </td>
+                        </tr>
+                        <tr class="row">
+                            <td class="col-md-6 col-sm-6"></td>
+                            <td class="col-md-2 col-sm-2">
+                            </td>
+                            <td class="col-md-2 col-sm-2">
+                            </td>
+                            <td class="col-md-2 col-sm-2">
+                                <a href="#address" data-toggle="tab" class="btn btn-block btn-info">Check out</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <!--<a id="btnpay" class="btn btn-block btn-info" href="{% url 'design:my-order' user.pk %}">Place to order</a>-->
                 </div>
             </div>
         <div class="col-md-3 col-sm-3 col-xs-3 outer-right" style="margin-top: 10px;">
@@ -386,8 +396,16 @@
     <script src="{% static "js/util.js" %}"></script>
     <script type="text/javascript">
         (function() {
-            $('.product-quantity').each(function(){
-                changeQuantity($(this));
+            function calcSubtotal(){
+                var subtotal = 0;
+                $('.item-table').find('.row').each(function(i){
+                    subtotal += $(this).find('.item_total_price').text().substr(1) * 1;
+                    $('#subtotal').text('$' + subtotal);
+                });
+            }
+
+            $('.item-table').find('.row').each(function(i){
+                    changeQuantity($(this), calcSubtotal);
             })
         })();
     </script>

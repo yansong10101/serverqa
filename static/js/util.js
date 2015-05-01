@@ -107,27 +107,41 @@ function scroll_carousel($container, $num) {
 }
 
 
-function changeQuantity($c) {
-    var $plus = $c.find('.plus'),
-        $minus = $c.find('.minus'),
-        $count = $c.find('.product-count');
+function changeQuantity($r, callback) {
+    var unit_price = $r.find('.product_price').text().substr(1),
+        $plus = $r.find('.plus'),
+        $minus = $r.find('.minus'),
+        $count = $r.find('.product-count'),
+        $total = $r.find('.item_total_price');
+
+    function init() {
+        setCount($count.val() * 1 || 0);
+    }
+
+    function setCount(num) {
+        $count.val(num);
+        $total.text('$' + (num * unit_price));
+        callback();
+    }
 
     $plus.click(function() {
         var num = $count.val() * 1 || 0;
-        $count.val(num + 1);
+        setCount(num + 1);
     });
 
     $minus.click(function() {
         var num = $count.val() * 1 || 0;
         if (num <= 0) {
-            $count.val(0);
+            setCount(0);
         } else {
-            $count.val(num - 1);
+            setCount(num - 1);
         }
     });
 
     $count.keyup(function() {
         var num = $count.val() * 1 || 0;
-        $count.val(num);
+        setCount(num);
     });
+
+    init();
 }
