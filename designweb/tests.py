@@ -57,3 +57,36 @@ def test_memcachier_2():
     c_list = cache.get('index')
     c_list[0] = c_list[0] + 10
     print(c_list)
+
+
+def check_image_list(image_list):
+    big_list = []
+    small_list = []
+    for big_image in image_list:
+        big_tokens = (str(big_image).split('.')[0]).split('_')
+        if big_tokens[0] == 'b':
+            for small_image in image_list:
+                small_tokens = (str(small_image).split('.')[0]).split('_')
+                if small_tokens[0] == 's' and big_tokens[2] == small_tokens[2]:
+                    big_list.append(big_image)
+                    small_list.append(small_image)
+                    break
+    return {'big_img': big_list, 'small_img': small_list}
+
+
+def test_s3_bucket(product_code):
+    from hookupdesign import settings
+    from boto.s3.connection import S3Connection
+    import mimetypes
+    import re
+    conn = S3Connection(settings.AWS_ACCESS_KEY, settings.AWS_SECRET_ACCESS_KEY)
+    bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
+    product_dir = 'test/static/products/' + str(product_code) + '/'
+    rs = bucket.list(prefix=product_dir)
+    image_list = []
+    for item in rs:
+        bucket_key = item.name
+        if mimetypes.guess_type(bucket_key)[0]:  # check if is image file extension, assume only image or none
+            print(bucket_key)
+            image_list.append(re.sub(product_dir, '', bucket_key))
+    print(check_image_list(image_list))
