@@ -114,11 +114,14 @@ def product_view(request, pk):
     micro_group = is_user_already_in_group(user, product)
     if micro_group is None:
         show_create = True
+    image_dict = get_s3_bucket_image_by_product(product.product_code)
     pass_dicts = {'product': product,
                   'show_create': show_create,
                   'group': micro_group,
                   'is_in_cart': is_product_in_user_cart(user, pk)}
-    return render(request, 'product.html', (get_display_dict('PRODUCT', pass_dict=pass_dicts)))
+    return render(request,
+                  'product.html',
+                  (get_display_dict('PRODUCT', pass_dict=dict(list(image_dict.items()) + list(pass_dicts.items())))))
 
 
 """     --Ajax views--      """
