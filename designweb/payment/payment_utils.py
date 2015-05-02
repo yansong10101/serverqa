@@ -46,14 +46,16 @@ def payment_process(payment_method, host_root):
             }
     elif payment_method == 'credit_card':
         transaction_object = {
-            "amount": {
-                "total": "25.55",
-                "currency": "USD",
-                "details": {
-                    "subtotal": "25.00",
-                    "tax": "0.05",
-                    "shipping": "0.50"
-                }},
+            "amount":
+                {
+                    "total": "25.55",
+                    "currency": "USD",
+                    "details": {
+                        "subtotal": "25.00",
+                        "tax": "0.05",
+                        "shipping": "0.50"
+                    }
+                },
             "description": "This is the payment transaction description."
             }
         card_info = {

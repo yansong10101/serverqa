@@ -127,12 +127,16 @@ def product_view(request, pk):
 """     --Ajax views--      """
 @ensure_csrf_cookie
 @api_view(['GET', 'POST', ])
-def add_cart(request, pk):
+def add_cart(request, pk, prod_quantity=1):
     user = request.user
     product = get_object_or_404(Product, pk=pk)
     user.cart.products.add(product)
     if not is_product_in_cart_details(user, product):
-        user.cart.cart_details.create(cart=user.cart, product=product)
+        user.cart.cart_details.create(cart=user.cart, product=product, number_in_cart=prod_quantity)
+    else:
+        cart_detail = user.cart.cart_details.filter(product=product)[0]
+        cart_detail.number_in_cart = prod_quantity
+        cart_detail.save()
     return Response(data={'Success': 'Success'})
 
 
@@ -213,10 +217,12 @@ def get_product_forum(request, pk):
 @login_required(login_url='/login/')
 def my_cart(request, pk):
     user = get_object_or_404(User, pk=pk)
-    if user is not None:
+    if user.is_authenticated():
         products = user.cart.products.all()
+        order_dicts = order_view_process(user)
         pass_dicts = {'products': products, 'orders': user.cart.cart_details.all()}
-        return render(request, 'mycart.html', get_display_dict('MY CART', pass_dict=pass_dicts))
+        combine_dicts = dict(list(order_dicts.items()) + list(pass_dicts.items()))
+        return render(request, 'mycart.html', get_display_dict('MY CART', pass_dict=combine_dicts))
 
 
 @ensure_csrf_cookie
@@ -230,31 +236,31 @@ def my_wish(request, pk):
 # ===============================================
 
 
-@ensure_csrf_cookie
-@login_required(login_url='/login/')
-def my_order(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    if user.is_authenticated():
-        details = user.cart.cart_details.all()
-        products = []
-        for detail in details:
-            products.append(detail.product)
-        order = user.orders.get_or_create(user=user, is_paid=False)[0]
-        for item in details:
-            if not is_order_list_contain_product(order.details.all(), item.product.pk):
-                OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart)
-            else:
-                order_detail = OrderDetails.objects.get(order=order, product=item.product)
-                order_detail.number_items = item.number_in_cart
-                order_detail.save()
-        for item in order.details.all():
-            if not is_cart_list_contain_order_detail(products, item.product.pk):
-                order.details.filter(pk=item.pk).delete()
-        pass_dicts = {'orders': order.details, 'order_id': order.pk, }
-        profile = get_profile_address_or_empty(user)
-        if profile:
-            pass_dicts['profile'] = profile
-        return render(request, 'myorder.html', get_display_dict('MY ORDER', pass_dict=pass_dicts))
+# @ensure_csrf_cookie
+# @login_required(login_url='/login/')
+# def my_order(request, pk):
+#     user = get_object_or_404(User, pk=pk)
+#     if user.is_authenticated():
+#         details = user.cart.cart_details.all()
+#         products = []
+#         for detail in details:
+#             products.append(detail.product)
+#         order = user.orders.get_or_create(user=user, is_paid=False)[0]
+#         for item in details:
+#             if not is_order_list_contain_product(order.details.all(), item.product.pk):
+#                 OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart)
+#             else:
+#                 order_detail = OrderDetails.objects.get(order=order, product=item.product)
+#                 order_detail.number_items = item.number_in_cart
+#                 order_detail.save()
+#         for item in order.details.all():
+#             if not is_cart_list_contain_order_detail(products, item.product.pk):
+#                 order.details.filter(pk=item.pk).delete()
+#         pass_dicts = {'orders': order.details, 'order_id': order.pk, }
+#         profile = get_profile_address_or_empty(user)
+#         if profile:
+#             pass_dicts['profile'] = profile
+#         return render(request, 'myorder.html', get_display_dict('MY ORDER', pass_dict=pass_dicts))
 
 
 def category_view(request, pk):

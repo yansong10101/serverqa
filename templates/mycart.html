@@ -10,18 +10,6 @@
 
     <div id="alert_msg" class="" style="display:none;"></div>
 
-    <!--<h2 class="col-md-10 col-md-offset-1">My Cart</h2>-->
-    <!--<div class="row top-bar">
-        <div class="current-tab col-md-4 col-sm-4 col-xs-4">
-            <h5>1. Shopping Cart</h5>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <h5>2.Shipping & Payment</h5>
-        </div>
-        <div class="col-md-4 col-sm-4 col-xs-4">
-            <h5>3.Place Order</h5>
-        </div>
-    </div>-->
     <div class="row top-bar">
         <ul class="nav-tabs" id="myTab">
             <li class="active col-md-3 col-sm-3 col-xs-3">
@@ -116,44 +104,44 @@
                             <td class="col-md-2 col-sm-2">
                             </td>
                             <td class="col-md-2 col-sm-2">
-                                <a href="#address" data-toggle="tab" class="btn btn-block btn-info">Check out</a>
+                                <a href="#address" data-toggle="tab" class="btn btn-block btn-info" id="cart_next">Check out</a>
                             </td>
                         </tr>
                     </table>
-                    <!--<a id="btnpay" class="btn btn-block btn-info" href="{% url 'design:my-order' user.pk %}">Place to order</a>-->
+{#                    <!--<a id="btnpay" class="btn btn-block btn-info" href="{% url 'design:my-order' user.pk %}">Place to order</a>-->#}
                 </div>
             </div>
-        <div class="col-md-3 col-sm-3 col-xs-3 outer-right" style="margin-top: 10px;">
-            <div class="inner">
-                <h4>Subtotal:</h4>
-                <a href="#address" data-toggle="tab" class="btn btn-block btn-info">Check out</a>
+            <div class="col-md-3 col-sm-3 col-xs-3 outer-right" style="margin-top: 10px;">
+                <div class="inner">
+                    <h4>Subtotal:</h4>
+                    <a href="#address" data-toggle="tab" class="btn btn-block btn-info">Check out</a>
+                </div>
+                <div class="header">
+                    <h4 class="title">People also bought</h4>
+                </div>
+                <div class="inner" id="recommend-buy">
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <img src="http://placehold.it/100x100" />
+                    </div>
+                    <div class="col-sm-6">
+                        <h5>Product Name</h5>
+                        <h5>$65</h5>
+                        <button class="btn">Add to cart</button>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-sm-6">
+                        <img src="http://placehold.it/100x100" />
+                    </div>
+                    <div class="col-sm-6">
+                        <h5>Product Name</h5>
+                        <h5>$65</h5>
+                        <button class="btn">Add to cart</button>
+                    </div>
+                    </div>
+                </div>
             </div>
-            <div class="header">
-                <h4 class="title">People also bought</h4>
-            </div>
-            <div class="inner" id="recommend-buy">
-                <div class="row">
-                <div class="col-sm-6">
-                    <img src="http://placehold.it/100x100" />
-                </div>
-                <div class="col-sm-6">
-                    <h5>Product Name</h5>
-                    <h5>$65</h5>
-                    <button class="btn">Add to cart</button>
-                </div>
-                </div>
-                <div class="row">
-                <div class="col-sm-6">
-                    <img src="http://placehold.it/100x100" />
-                </div>
-                <div class="col-sm-6">
-                    <h5>Product Name</h5>
-                    <h5>$65</h5>
-                    <button class="btn">Add to cart</button>
-                </div>
-                </div>
-            </div>
-        </div>
         </div>
 
     <!---------address info tab---------------------->
@@ -194,7 +182,7 @@
                 <div class="inner" style="overflow: hidden">
                     <div class="col-sm-9"></div>
                     <div class="col-sm-3">
-                        <a href="#payment" data-toggle="tab" class="btn btn-block btn-info">Next</a>
+                        <a href="#payment" data-toggle="tab" class="btn btn-block btn-info" id="address_submit">Next</a>
                     </div>
                 </div>
              </div>
@@ -203,23 +191,23 @@
                     <table class="table">
                         <tr>
                             <td>Cart</td>
-                            <td>$65</td>
+                            <td>$0000000</td>
                         </tr>
                         <tr>
                             <td>Discount</td>
-                            <td>$5</td>
+                            <td>$0000000</td>
                         </tr>
                         <tr>
                             <td>Tax</td>
-                            <td>$5</td>
+                            <td>$0000000</td>
                         </tr>
                         <tr>
                             <td>Shipping</td>
-                            <td>$5</td>
+                            <td>$0000000</td>
                         </tr>
                         <tr>
                             <td><b>Subtotal</b></td>
-                            <td>$70</td>
+                            <td>$0000000</td>
                         </tr>
                     </table>
                 </div>
@@ -361,38 +349,11 @@
 
     <!---done ---->
         <div class="tab-pane fade" id="done"><div class="text-center"><i class="img-intro icon-checkmark-circle"></i></div>
-                    <h3 class="head text-center">thanks for shopping! <span style="color:#f48260;">♥</span> 1 dots</h3>
-                    <p class="narrow text-center">We are serving international funny ideas, high tech stuffs, independent design...</p>
-                </div>
+            <h3 class="head text-center">thanks for shopping! <span style="color:#f48260;">♥</span> 1 dots</h3>
+            <p class="narrow text-center">We are serving international funny ideas, high tech stuffs, independent design...</p>
+        </div>
+    </div>
 
-      <!--<table class="table table-hover">
-        {% for detail in orders %}
-            <tr id="row_{{ detail.product.pk }}" class="row featurette">
-                <td class="col-md-2 product_image"><img class="cartImg thumbnail" src="{{ storage_host }}{% static 'products' %}/{{ detail.product.image_root }}"></td>
-                <td class="col-md-2">
-                    <div class="row featurette">
-                        <p class="product_name"><a href="{% url 'design:product-view' detail.product.pk %}">{{ detail.product.product_name }}</a></p>
-                        <p class="product_number">{{ detail.product.product_code }}</p>
-                        <p class="product_price">${{ detail.product.price }}</p>
-                    </div>
-                </td>
-                <td class="col-md-4">
-                    <article class="text-justify prod_description">{{ detail.product.description }}</article>
-                </td>
-                <td class="col-md-1"></td>
-                <td class="col-md-1">
-                    <div class="btn-group row featurette">
-                        <span><button onclick="sub_prod({{ detail.product.pk }})" class="btn btn-danger col-sm-4"><i class="glyphicon glyphicon-minus"></i></button></span>
-                        <span><input name="{{ detail.pk }}" id="prod_count_{{ detail.product.pk }}" class="btn btn-info col-sm-4 disabled" value="{{ detail.number_in_cart }}"></span>
-                        <span><button onclick="add_prod({{ detail.product.pk }})" class="btn btn-danger col-sm-4"><i class="glyphicon glyphicon-plus"></i></button></span>
-                    </div>
-                </td>
-                <td class="col-md-1"></td>
-                <td class="col-md-1"><button class="btn btn-default" onclick='remove_row("{{ detail.product.pk }}")'>remove</button></td>
-            </tr>
-        {% endfor %}
-    </table>-->
-    <br>
     <script src="{% static "js/util.js" %}"></script>
     <script type="text/javascript">
         (function() {
@@ -542,7 +503,7 @@
             $(field_id).val(num);
         }
 
-        $("#btnpay").on('click', function(){
+        $("#cart_next").on('click', function(){
 
             $( "input" ).each(function( index ) {
 
