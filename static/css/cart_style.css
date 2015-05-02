@@ -75,3 +75,19 @@
     font-size: small;
     font-family: "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif;
 }
+
+
+/*****product quantity*********/
+.plus, .minus{
+    width: 20%;
+}
+
+.product-count{
+    width: 30%;
+    text-align: center;
+}
+
+table.item-table td, table.summary-table td{
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}

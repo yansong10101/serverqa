@@ -17,7 +17,8 @@ function scroll_carousel($container, $num) {
 
     //console.log("li: " + liLen + ", margeLi: " + margLeftLi + ", visibleLen: " + visibleLen + ", totalLen: " + totalLen);
 
-    var isNextClickable = true, isPrevClickable = true;
+    var isNextClickable = true,
+        isPrevClickable = true;
 
     function enableNext(isEnable) {
         if (isEnable) {
@@ -40,14 +41,14 @@ function scroll_carousel($container, $num) {
     }
 
     function next() {
-        if(!isNextClickable) {
+        if (!isNextClickable) {
             return;
         }
         isNextClickable = false;
 
         var margLeftUl = -parseInt(ul.css('margin-left'));
         if (margLeftUl + visibleLen >= totalLen) { // no more
-           return;
+            return;
         }
 
         ul.animate({
@@ -64,7 +65,7 @@ function scroll_carousel($container, $num) {
     }
 
     function prev() {
-        if(!isPrevClickable) {
+        if (!isPrevClickable) {
             return;
         }
         isPrevClickable = false;
@@ -103,4 +104,44 @@ function scroll_carousel($container, $num) {
 
     init();
     attachEvents();
+}
+
+
+function changeQuantity($r, callback) {
+    var unit_price = $r.find('.product_price').text().substr(1),
+        $plus = $r.find('.plus'),
+        $minus = $r.find('.minus'),
+        $count = $r.find('.product-count'),
+        $total = $r.find('.item_total_price');
+
+    function init() {
+        setCount($count.val() * 1 || 0);
+    }
+
+    function setCount(num) {
+        $count.val(num);
+        $total.text('$' + (num * unit_price));
+        callback();
+    }
+
+    $plus.click(function() {
+        var num = $count.val() * 1 || 0;
+        setCount(num + 1);
+    });
+
+    $minus.click(function() {
+        var num = $count.val() * 1 || 0;
+        if (num <= 0) {
+            setCount(0);
+        } else {
+            setCount(num - 1);
+        }
+    });
+
+    $count.keyup(function() {
+        var num = $count.val() * 1 || 0;
+        setCount(num);
+    });
+
+    init();
 }
