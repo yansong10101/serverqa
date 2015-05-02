@@ -5,23 +5,81 @@
     <link href="{% static "css/user_profile.css" %}" rel="stylesheet">
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
 
-	<div class="col-sm-2">
+	<div class="col-md-2">
         <nav class="nav-sidebar">
             <ul class="nav tabs">
-              <li class="active"><a href="#tab1" data-toggle="tab">User Profile</a></li>
-              <li class=""><a href="#tab2" data-toggle="tab">Credential</a></li>
+                <li class="active"><a href="#tab1" data-toggle="tab">Orders</a></li>
+                <li><a href="#tab2" data-toggle="tab">Account Settings</a></li>
+                <li><a href="#tab3" data-toggle="tab">Shipping Addresses</a></li>
+                <li><a href="{% url 'design:logout' %}">Logout</a></li>
+
             </ul>
         </nav>
     </div>
     <!-- tab content -->
-    <div class="tab-content">
+    <div class="tab-content col-md-10">
         <div class="tab-pane active text-style" id="tab1">
           <div class="table-responsive">
+              <p id="err_msg">{{ form.error_messages }}</p>
+          </div>
+        </div>
 
-            <p id="err_msg">{{ form.error_messages }}</p>
+        <div class="tab-pane text-style" id="tab2">
+            <h3><em>Account Settings</em></h3>
+            <form>
+                <div class="row">
+                    <h5>Account Information</h5>
+                    <div class="col-sm-4 form-group">
+                        <label for="fname">First Name</label>
+                        <input type="text" class="form-control" id="fname" required>
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label for="lname">Last Name</label>
+                        <input type="text" class="form-control" id="lname" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-block btn-info">Save</button>
+                    </div>
+                </div>
+            </form>
+            <form>
+                <div class="row">
+                    <h5>Change Password</h5>
+                    <div class="col-sm-4 form-group">
+                        <label for="oldpassword">Old Password</label>
+                        <input type="text" class="form-control" id="oldpassword">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 form-group">
+                        <label for="newpassword">New Password</label>
+                        <input type="text" class="form-control" id="newpassword">
+                    </div>
+                    <div class="col-sm-4 form-group">
+                        <label for="verifynewpassword">Verify New Password</label>
+                        <input type="text" class="form-control" id="verifynewpassword">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-8">
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-block btn-info">Change Password</button>
+                    </div>
+                </div>
+            </form>
+        </div>
 
-            <form class="form-signin" id="login_form" action="" method="post">
-                {% csrf_token %}
+
+
+        <div class="tab-pane text-style" id="tab3">
+            <h3><em>Shipping Address</em></h3>
+            <form class="form-signin col-sm-8" id="login_form" action="" method="post">
+                <!--{% csrf_token %}
                 <label for="id_gender">Gender:</label>
                 <select id="id_gender" name="gender" autofocus>
                     <option value="" selected="selected">---------</option>
@@ -32,7 +90,7 @@
                         <option value="M">M</option>
                         <option value="F" selected>F</option>
                     {% endif %}
-                </select>
+                </select>-->
 
                 <input type="checkbox" id="id_is_designer" name="is_designer"/><label class="vCheckboxLabel" for="id_is_designer">Is designer</label>
                 <br>
@@ -42,21 +100,12 @@
                 <label for="id_city">City:</label><input type="text" id="id_city" name="city" class="form-control" value="{{ city }}">
                 <label for="id_state">State:</label><input id="id_state" type="text" name="state" class="form-control" value="{{ state }}">
                 <label for="id_zip">Zip:</label><input type="text" id="id_zip" name="zip" class="form-control" value="{{ zip }}">
-                <br>
-                <button class="btn btn-lg btn-primary btn-block" id="submit" type="submit">Save</button>
-            </form>
-          </div>
-        </div>
+                <div class="row">
+                    <div class="col-sm-8"></div>
+                    <div class="col-sm-4" style="margin-top: 20px;"><button class="btn btn-info btn-block" id="submit" type="submit">Save</button></div>
 
-        <div class="tab-pane text-style" id="tab2">
-          <h2>Changed you password</h2>
-           <p>Dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-            ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-            dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua.</p>
-            <a href="/accounts/password_change">change password</a>
-            <hr>
+                </div>
+            </form>
         </div>
     </div>
 
