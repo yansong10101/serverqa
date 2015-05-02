@@ -75,6 +75,29 @@ def get_profile_address_or_empty(user):
     return None
 
 
+def order_view_process(user):
+    details = user.cart.cart_details.all()
+    products = []
+    for detail in details:
+        products.append(detail.product)
+    order = user.orders.get_or_create(user=user, is_paid=False)[0]
+    for item in details:
+        if not is_order_list_contain_product(order.details.all(), item.product.pk):
+            OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart)
+        else:
+            order_detail = OrderDetails.objects.get(order=order, product=item.product)
+            order_detail.number_items = item.number_in_cart
+            order_detail.save()
+    for item in order.details.all():
+        if not is_cart_list_contain_order_detail(products, item.product.pk):
+            order.details.filter(pk=item.pk).delete()
+    pass_dicts = {'orders': order.details, 'order_id': order.pk, }
+    profile = get_profile_address_or_empty(user)
+    if profile:
+        pass_dicts['profile'] = profile
+    return pass_dicts
+
+
 # update address info to database, from user input
 def update_order_address_info(user_id, order_id, data):
     user = get_object_or_404(User, pk=user_id)
