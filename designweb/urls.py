@@ -5,7 +5,7 @@ from rest_framework import routers
 urlpatterns = patterns(
     '',
     url(r'^$', views.home, name='home'),
-    url(r'^index/$', views.index, name='index'),
+    url(r'^index/$', views.test, name='index'),
     url(r'^logout/', views.logout_view, name='logout'),
     url(r'^login/', views.login_view, name='login'),
     url(r'^signup/', views.signup, name='signup'),

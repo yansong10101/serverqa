@@ -7,6 +7,7 @@ from designweb.forms import LoginForm, SignupForm
 from boto.s3.connection import S3Connection
 import mimetypes
 import re
+from designweb.shipping.shipping_utils import shipping_fee_multi_calc
 from designweb.session_secure import update_session_timeout
 
 
@@ -121,6 +122,35 @@ def update_order_address_info(user_id, order_id, data):
     except:
         return 'error to save shipping info into database'
     return None
+
+
+def calc_all_price_per_order(order_id):
+    order = get_object_or_404(Order, pk=order_id)
+    order_detail_list = order.details.all()
+    shipping_cost_list = []
+    items_subtotal = 0.00
+    for detail in order_detail_list:
+        prod_name = detail.product.product_name
+        prod_price = float(detail.product.price)
+        prod_weight = float(detail.product.details.weight)
+        num_items = int(detail.number_items)
+        items_subtotal += prod_price * num_items
+        shipping_cost_list.append({
+            'name': prod_name,
+            'weight': prod_weight,
+            'total': num_items,
+        })
+    shipping_fee = shipping_fee_multi_calc(shipping_cost_list)
+    tax = 0.00
+    discount = 0.00
+    subtotal = float('{0:.2f}'.format(items_subtotal + shipping_fee + tax - discount))
+    if subtotal < 0.00:
+        return None
+    return {'items_subtotal': items_subtotal,
+            'shipping_fee': shipping_fee,
+            'tax': tax,
+            'discount': discount,
+            'subtotal': subtotal}
 
 
 # functions for sending mail

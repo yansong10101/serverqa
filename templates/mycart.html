@@ -319,28 +319,28 @@
                     </div>
                 </div>
              </div>
-            <div class="col-md-3 col-sm-3 col-xs-3 outer-right" style="margin-top: 10px;">
+            <div class="col-md-3 col-sm-3 col-xs-3 outer-right" style="margin-top: 10px;" id="payment_side_bar">
                 <div class="inner">
                     <table class="table">
                         <tr>
                             <td>Cart</td>
-                            <td>$65</td>
+                            <td>$<span id="side_bar_item_total">0.00</span></td>
                         </tr>
                         <tr>
                             <td>Discount</td>
-                            <td>$5</td>
+                            <td>$<span id="side_bar_discount_total">0.00</span></td>
                         </tr>
                         <tr>
                             <td>Tax</td>
-                            <td>$5</td>
+                            <td>$<span id="side_bar_tax_total">0.00</span></td>
                         </tr>
                         <tr>
                             <td>Shipping</td>
-                            <td>$5</td>
+                            <td>$<span id="side_bar_shipping_total">0.00</span></td>
                         </tr>
                         <tr>
                             <td><b>Subtotal</b></td>
-                            <td>$70</td>
+                            <td>$<span id="side_bar_subtotal">0.00</span></td>
                         </tr>
                     </table>
                 </div>
@@ -443,6 +443,11 @@
             dataType: "json"
             }).success(function(data, textStatus, jqXHR){
                 alert(data["result"]);
+                $('#side_bar_item_total').html(data['items_subtotal']);
+                $('#side_bar_discount_total').html(data['discount']);
+                $('#side_bar_tax_total').html(data['tax']);
+                $('#side_bar_shipping_total').html(data['shipping_fee']);
+                $('#side_bar_subtotal').html(data['subtotal']);
             }).fail(function(jqXHR, textStatus){
                 alert("Failed !");
             });
@@ -503,6 +508,7 @@
             $(field_id).val(num);
         }
 
+        // api call -- for updating products in cart and order details
         $("#cart_next").on('click', function(){
 
             $( ".cart_table td input" ).each(function( index ) {

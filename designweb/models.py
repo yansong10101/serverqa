@@ -114,7 +114,7 @@ class ProductExtension(models.Model):
     feature = models.TextField(blank=True)
     # product attributes
     size = models.CharField(max_length=50, blank=True)
-    weight = models.CharField(max_length=20, blank=True)
+    weight = models.CharField(max_length=20, blank=True, default='1.00')
     color = models.CharField(max_length=25, blank=True)
 
     def __str__(self):
@@ -129,7 +129,7 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False)
     payment_transaction_id = models.CharField(max_length=50, blank=True)
     payment_resource = models.CharField(max_length=50, blank=True)
-    payment_status = models.CharField(max_length=10, blank=True)
+    payment_status = models.CharField(max_length=10, blank=True, default='NotPaid')
     payment_method = models.CharField(max_length=15, blank=True)
     total_amount = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)
 

@@ -334,13 +334,15 @@ def update_order_info(request, pk, order_id):
         'billing_phone2': request.POST.get('billing_phone2'),
     }
 
+    cost_dict = calc_all_price_per_order(order_id)
     msg = update_order_address_info(pk, order_id, shipping_data)
     response_data = {}
     try:
         response_data['result'] = 'writing successful !'
     except:
         response_data['message'] = 'failed processing ...\n' + msg
-    return HttpResponse(json.dumps(response_data), content_type='application/json')
+    return HttpResponse(json.dumps(dict(list(cost_dict.items()) + list(response_data.items()))),
+                        content_type='application/json')
 
 
 # ================ api =======================
