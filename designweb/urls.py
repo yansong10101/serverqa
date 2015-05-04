@@ -5,7 +5,7 @@ from rest_framework import routers
 urlpatterns = patterns(
     '',
     url(r'^$', views.home, name='home'),
-    url(r'^index/$', views.index, name='index'),
+    url(r'^index/$', views.test, name='index'),
     url(r'^logout/', views.logout_view, name='logout'),
     url(r'^login/', views.login_view, name='login'),
     url(r'^signup/', views.signup, name='signup'),
@@ -13,14 +13,14 @@ urlpatterns = patterns(
     url(r'^product/(?P<pk>[0-9]+)/$', views.product_view, name='product-view'),
     url(r'^cart/(?P<pk>[0-9]+)/', views.my_cart, name='my-cart'),
     url(r'^wish/(?P<pk>[0-9]+)/', views.my_wish, name='my-wish'),
-    url(r'^order/(?P<pk>[0-9]+)/', views.my_order, name='my-order'),
+    # url(r'^order/(?P<pk>[0-9]+)/', views.my_order, name='my-order'),
     url(r'^category/(?P<pk>[0-9]+)/', views.category_view, name='category-view'),
     # url(r'^microgroup/(?P<pk>[0-9]+)/(?P<product_id>[0-9]+)/$', views.micro_group_view, name='micro-group'),
     url(r'^microgroup/(?P<product_id>[0-9]+)/(?P<group_id>[0-9]+)/$', views.micro_group_view, name='micro-group-id'),
     url(r'^microgroup/(?P<product_id>[0-9]+)//$', views.micro_group_view, name='micro-group'),
 
     # api for ajax add and delete
-    url(r'^api/cart/(?P<pk>[0-9]+)/add/$', views.add_cart, name='add-to-cart'),
+    url(r'^api/cart/(?P<pk>[0-9]+)/add/(?P<prod_quantity>[0-9]+)/$', views.add_cart, name='add-to-cart'),
     url(r'^api/wish/(?P<pk>[0-9]+)/add/$', views.add_wish, name='add-to-wish'),
     url(r'^api/cart/(?P<pk>[0-9]+)/remove/$', views.remove_cart, name='remove-from-cart'),
     url(r'^api/wish/(?P<pk>[0-9]+)/remove/$', views.remove_wish, name='remove-from-wish'),

@@ -7,6 +7,7 @@ from designweb.forms import LoginForm, SignupForm
 from boto.s3.connection import S3Connection
 import mimetypes
 import re
+from designweb.shipping.shipping_utils import shipping_fee_multi_calc
 from designweb.session_secure import update_session_timeout
 
 
@@ -75,6 +76,29 @@ def get_profile_address_or_empty(user):
     return None
 
 
+def order_view_process(user):
+    details = user.cart.cart_details.all()
+    products = []
+    for detail in details:
+        products.append(detail.product)
+    order = user.orders.get_or_create(user=user, is_paid=False)[0]
+    for item in details:
+        if not is_order_list_contain_product(order.details.all(), item.product.pk):
+            OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart)
+        else:
+            order_detail = OrderDetails.objects.get(order=order, product=item.product)
+            order_detail.number_items = item.number_in_cart
+            order_detail.save()
+    for item in order.details.all():
+        if not is_cart_list_contain_order_detail(products, item.product.pk):
+            order.details.filter(pk=item.pk).delete()
+    pass_dicts = {'orders': order.details, 'order_id': order.pk, }
+    profile = get_profile_address_or_empty(user)
+    if profile:
+        pass_dicts['profile'] = profile
+    return pass_dicts
+
+
 # update address info to database, from user input
 def update_order_address_info(user_id, order_id, data):
     user = get_object_or_404(User, pk=user_id)
@@ -98,6 +122,35 @@ def update_order_address_info(user_id, order_id, data):
     except:
         return 'error to save shipping info into database'
     return None
+
+
+def calc_all_price_per_order(order_id):
+    order = get_object_or_404(Order, pk=order_id)
+    order_detail_list = order.details.all()
+    shipping_cost_list = []
+    items_subtotal = 0.00
+    for detail in order_detail_list:
+        prod_name = detail.product.product_name
+        prod_price = float(detail.product.price)
+        prod_weight = float(detail.product.details.weight)
+        num_items = int(detail.number_items)
+        items_subtotal += prod_price * num_items
+        shipping_cost_list.append({
+            'name': prod_name,
+            'weight': prod_weight,
+            'total': num_items,
+        })
+    shipping_fee = shipping_fee_multi_calc(shipping_cost_list)
+    tax = 0.00
+    discount = 0.00
+    subtotal = float('{0:.2f}'.format(items_subtotal + shipping_fee + tax - discount))
+    if subtotal < 0.00:
+        return None
+    return {'items_subtotal': items_subtotal,
+            'shipping_fee': shipping_fee,
+            'tax': tax,
+            'discount': discount,
+            'subtotal': subtotal}
 
 
 # functions for sending mail

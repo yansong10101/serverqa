@@ -18,7 +18,7 @@ def get_payment_json(payment_method, host_root, transaction_object, card_info):
     }
     if payment_method == 'paypal':
         request_json['redirect_urls'] = {
-            "return_url": "http://" + host_root + "/payment/success/",
+            "return_url": "http://" + host_root + "/payment/approval/",
             "cancel_url": "http://" + host_root + "/payment/failed/"
         }
     elif payment_method == 'credit_card':
@@ -46,14 +46,16 @@ def payment_process(payment_method, host_root):
             }
     elif payment_method == 'credit_card':
         transaction_object = {
-            "amount": {
-                "total": "25.55",
-                "currency": "USD",
-                "details": {
-                    "subtotal": "25.00",
-                    "tax": "0.05",
-                    "shipping": "0.50"
-                }},
+            "amount":
+                {
+                    "total": "25.55",
+                    "currency": "USD",
+                    "details": {
+                        "subtotal": "25.00",
+                        "tax": "0.05",
+                        "shipping": "0.50"
+                    }
+                },
             "description": "This is the payment transaction description."
             }
         card_info = {
@@ -89,6 +91,9 @@ def payment_process(payment_method, host_root):
             elif link.method == "GET":
                 redirect_url = str(link.href)
                 print("GET API for approval: %s" % redirect_url)
+    else:
+        print('payment cannot be approval, please check your payment info ...')
+        return None
 
 
 def payment_execute(payment_id, payer_id, token):
