@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="45f6cc4d-ba8e-48b8-8249-8d9310bcf5f8" name="Default" comment="02/18/2015 -- add new function module, fix utils functions, fix model class data fields">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/designweb/migrations/0013_category_parent_category.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/designweb/migrations/0014_cartdetail_status.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/designweb/db_utils.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/designweb/migrations/0015_auto_20150504_2256.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/designweb/migrations/0016_auto_20150504_2359.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/designweb/db_utils.py" afterPath="$PROJECT_DIR$/designweb/db_utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/designweb/models.py" afterPath="$PROJECT_DIR$/designweb/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/designweb/payment/payment_utils.py" afterPath="$PROJECT_DIR$/designweb/payment/payment_utils.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/mycart.html" afterPath="$PROJECT_DIR$/templates/mycart.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/designweb/urls.py" afterPath="$PROJECT_DIR$/designweb/urls.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/designweb/views.py" afterPath="$PROJECT_DIR$/designweb/views.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -55,11 +56,22 @@
       <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/designweb/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3529" max-vertical-offset="6690">
-              <caret line="409" column="27" selection-start-line="409" selection-start-column="27" selection-end-line="409" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1140" max-vertical-offset="5670">
+              <caret line="311" column="48" selection-start-line="311" selection-start-column="48" selection-end-line="311" selection-end-column="48" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
+                <element signature="e#9323#11591#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="forms.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/designweb/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
+              <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -67,50 +79,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/designweb/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="3810">
-              <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
-              <folding>
-                <marker date="1430691365000" expanded="true" signature="8820:9171" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="payment_utils.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/designweb/payment/payment_utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="1695">
-              <caret line="85" column="18" selection-start-line="85" selection-start-column="18" selection-end-line="85" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="cart_style.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/static/css/cart_style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1470">
-              <caret line="34" column="11" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="base.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/base.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.1923077" vertical-offset="1380" max-vertical-offset="4620">
-              <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="login.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/login.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5882354" vertical-offset="0" max-vertical-offset="945">
-              <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1879" max-vertical-offset="3900">
+              <caret line="143" column="80" selection-start-line="143" selection-start-column="80" selection-end-line="143" selection-end-column="80" />
               <folding />
             </state>
           </provider>
@@ -119,28 +89,28 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/designweb/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="900">
-              <caret line="24" column="56" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="915">
+              <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mycart.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mycart.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/mycart.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.2083334" vertical-offset="3601" max-vertical-offset="8160">
-              <caret line="242" column="46" selection-start-line="242" selection-start-column="46" selection-end-line="242" selection-end-column="46" />
+            <state vertical-scroll-proportion="-0.23337364" vertical-offset="6853" max-vertical-offset="8160">
+              <caret line="444" column="38" selection-start-line="444" selection-start-column="38" selection-end-line="444" selection-end-column="38" />
               <folding>
-                <element signature="e#12541#12565#0#HTML" expanded="true" />
-                <element signature="e#12725#12749#0#HTML" expanded="true" />
-                <element signature="e#12867#12893#0#HTML" expanded="true" />
-                <element signature="e#13176#13202#0#HTML" expanded="true" />
-                <element signature="e#13486#13512#0#HTML" expanded="true" />
-                <element signature="e#14188#14212#0#HTML" expanded="true" />
-                <element signature="e#14377#14401#0#HTML" expanded="true" />
-                <element signature="e#14519#14545#0#HTML" expanded="true" />
-                <element signature="e#18854#18879#0#HTML" expanded="true" />
+                <element signature="e#12741#12765#0#HTML" expanded="true" />
+                <element signature="e#12925#12949#0#HTML" expanded="true" />
+                <element signature="e#13067#13093#0#HTML" expanded="true" />
+                <element signature="e#13376#13402#0#HTML" expanded="true" />
+                <element signature="e#13686#13712#0#HTML" expanded="true" />
+                <element signature="e#14388#14412#0#HTML" expanded="true" />
+                <element signature="e#14577#14601#0#HTML" expanded="true" />
+                <element signature="e#14719#14745#0#HTML" expanded="true" />
+                <element signature="e#19054#19079#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -149,8 +119,8 @@
       <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/designweb/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1030" max-vertical-offset="3150">
-              <caret line="81" column="26" selection-start-line="81" selection-start-column="26" selection-end-line="81" selection-end-column="26" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3150">
+              <caret line="187" column="0" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
               <folding>
                 <element signature="e#19#57#0" expanded="true" />
               </folding>
@@ -161,8 +131,8 @@
       <file leaf-file-name="db_utils.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/designweb/db_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
-              <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
+              <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
               <folding>
                 <element signature="e#19#49#0" expanded="true" />
               </folding>
@@ -221,14 +191,14 @@
         <option value="$PROJECT_DIR$/templates/product.html" />
         <option value="$PROJECT_DIR$/designweb/tests.py" />
         <option value="$PROJECT_DIR$/designweb/utils.py" />
-        <option value="$PROJECT_DIR$/templates/mycart.html" />
         <option value="$PROJECT_DIR$/hookupdesign/settings.py" />
-        <option value="$PROJECT_DIR$/designweb/urls.py" />
         <option value="$PROJECT_DIR$/designweb/shipping/shipping_utils.py" />
         <option value="$PROJECT_DIR$/designweb/payment/payment_utils.py" />
+        <option value="$PROJECT_DIR$/designweb/urls.py" />
+        <option value="$PROJECT_DIR$/templates/mycart.html" />
+        <option value="$PROJECT_DIR$/designweb/views.py" />
         <option value="$PROJECT_DIR$/designweb/models.py" />
         <option value="$PROJECT_DIR$/designweb/db_utils.py" />
-        <option value="$PROJECT_DIR$/designweb/views.py" />
       </list>
     </option>
   </component>
@@ -361,24 +331,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="hookupdesign" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="production" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1009,7 +961,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1916972" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.20317821" sideWeight="0.49840257" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23094426" sideWeight="0.4981685" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23094426" sideWeight="0.4981685" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32992035" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1054,13 +1006,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/category.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37688443" vertical-offset="0" max-vertical-offset="597">
-          <caret line="15" column="14" selection-start-line="15" selection-start-column="14" selection-end-line="15" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/hookupdesign/wsgi.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="375">
@@ -1195,14 +1140,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="825">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/designweb/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1365,101 +1302,116 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/mycart.html">
+    <entry file="file://$PROJECT_DIR$/static/css/cart_style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.2083334" vertical-offset="3601" max-vertical-offset="8160">
-          <caret line="242" column="46" selection-start-line="242" selection-start-column="46" selection-end-line="242" selection-end-column="46" />
-          <folding>
-            <element signature="e#12541#12565#0#HTML" expanded="true" />
-            <element signature="e#12725#12749#0#HTML" expanded="true" />
-            <element signature="e#12867#12893#0#HTML" expanded="true" />
-            <element signature="e#13176#13202#0#HTML" expanded="true" />
-            <element signature="e#13486#13512#0#HTML" expanded="true" />
-            <element signature="e#14188#14212#0#HTML" expanded="true" />
-            <element signature="e#14377#14401#0#HTML" expanded="true" />
-            <element signature="e#14519#14545#0#HTML" expanded="true" />
-            <element signature="e#18854#18879#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/designweb/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="900">
-          <caret line="24" column="56" selection-start-line="24" selection-start-column="56" selection-end-line="24" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.787037" vertical-offset="0" max-vertical-offset="1470">
+          <caret line="34" column="11" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/designweb/models.py">
+    <entry file="file://$PROJECT_DIR$/templates/category.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="3810">
-          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
-          <folding>
-            <marker date="1430691365000" expanded="true" signature="8820:9171" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/designweb/db_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="195">
-          <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
-          <folding>
-            <element signature="e#19#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/designweb/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3529" max-vertical-offset="6690">
-          <caret line="409" column="27" selection-start-line="409" selection-start-column="27" selection-end-line="409" selection-end-column="27" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/login.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5882354" vertical-offset="0" max-vertical-offset="945">
-          <caret line="19" column="22" selection-start-line="19" selection-start-column="22" selection-end-line="19" selection-end-column="22" />
+        <state vertical-scroll-proportion="0.09615385" vertical-offset="0" max-vertical-offset="624">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/designweb/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1030" max-vertical-offset="3150">
-          <caret line="81" column="26" selection-start-line="81" selection-start-column="26" selection-end-line="81" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2502" max-vertical-offset="3150">
+          <caret line="187" column="0" selection-start-line="187" selection-start-column="0" selection-end-line="187" selection-end-column="0" />
           <folding>
             <element signature="e#19#57#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/designweb/db_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
+          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+          <folding>
+            <element signature="e#19#49#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/designweb/payment/payment_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="1695">
+        <state vertical-scroll-proportion="0.99647474" vertical-offset="397" max-vertical-offset="1695">
           <caret line="85" column="18" selection-start-line="85" selection-start-column="18" selection-end-line="85" selection-end-column="18" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/cart_style.css">
+    <entry file="file://$PROJECT_DIR$/templates/login.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1470">
-          <caret line="34" column="11" selection-start-line="34" selection-start-column="11" selection-end-line="34" selection-end-column="11" />
+        <state vertical-scroll-proportion="0.32889965" vertical-offset="118" max-vertical-offset="945">
+          <caret line="26" column="44" selection-start-line="26" selection-start-column="44" selection-end-line="26" selection-end-column="44" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.1923077" vertical-offset="1380" max-vertical-offset="4620">
-          <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.10157195" vertical-offset="3066" max-vertical-offset="4620">
+          <caret line="210" column="14" selection-start-line="210" selection-start-column="14" selection-end-line="210" selection-end-column="14" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/designweb/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1879" max-vertical-offset="3900">
+          <caret line="143" column="80" selection-start-line="143" selection-start-column="80" selection-end-line="143" selection-end-column="80" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/designweb/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="915">
+          <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/designweb/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="555">
+          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/designweb/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1140" max-vertical-offset="5670">
+          <caret line="311" column="48" selection-start-line="311" selection-start-column="48" selection-end-line="311" selection-end-column="48" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+            <element signature="e#9323#11591#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/mycart.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.23337364" vertical-offset="6853" max-vertical-offset="8160">
+          <caret line="444" column="38" selection-start-line="444" selection-start-column="38" selection-end-line="444" selection-end-column="38" />
+          <folding>
+            <element signature="e#12741#12765#0#HTML" expanded="true" />
+            <element signature="e#12925#12949#0#HTML" expanded="true" />
+            <element signature="e#13067#13093#0#HTML" expanded="true" />
+            <element signature="e#13376#13402#0#HTML" expanded="true" />
+            <element signature="e#13686#13712#0#HTML" expanded="true" />
+            <element signature="e#14388#14412#0#HTML" expanded="true" />
+            <element signature="e#14577#14601#0#HTML" expanded="true" />
+            <element signature="e#14719#14745#0#HTML" expanded="true" />
+            <element signature="e#19054#19079#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -182,11 +182,13 @@ def update_order_detail(request, pk, num):
 @ensure_csrf_cookie
 @api_view(['GET', 'POST', ])
 @login_required(login_url='/login/')
-def update_cart_detail(request, pk, num):
+def update_cart_detail(request, pk, num, order_id=None):
     cart_detail = get_object_or_404(CartDetail, pk=pk)
     cart_detail.number_in_cart = num
     cart_detail.save()
-    return Response(data={'Success': 'Success'})
+    cost_dict = calc_all_price_per_order(order_id)
+    cost_dict['Success'] = 'Success'
+    return Response(data=cost_dict)
 
 
 @ensure_csrf_cookie
@@ -234,33 +236,6 @@ def my_wish(request, pk):
         pass_dicts = {'products': products, }
         return render(request, 'mywishlist.html', get_display_dict('MY WISH LIST', pass_dict=pass_dicts))
 # ===============================================
-
-
-# @ensure_csrf_cookie
-# @login_required(login_url='/login/')
-# def my_order(request, pk):
-#     user = get_object_or_404(User, pk=pk)
-#     if user.is_authenticated():
-#         details = user.cart.cart_details.all()
-#         products = []
-#         for detail in details:
-#             products.append(detail.product)
-#         order = user.orders.get_or_create(user=user, is_paid=False)[0]
-#         for item in details:
-#             if not is_order_list_contain_product(order.details.all(), item.product.pk):
-#                 OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart)
-#             else:
-#                 order_detail = OrderDetails.objects.get(order=order, product=item.product)
-#                 order_detail.number_items = item.number_in_cart
-#                 order_detail.save()
-#         for item in order.details.all():
-#             if not is_cart_list_contain_order_detail(products, item.product.pk):
-#                 order.details.filter(pk=item.pk).delete()
-#         pass_dicts = {'orders': order.details, 'order_id': order.pk, }
-#         profile = get_profile_address_or_empty(user)
-#         if profile:
-#             pass_dicts['profile'] = profile
-#         return render(request, 'myorder.html', get_display_dict('MY ORDER', pass_dict=pass_dicts))
 
 
 def category_view(request, pk):
@@ -334,15 +309,13 @@ def update_order_info(request, pk, order_id):
         'billing_phone2': request.POST.get('billing_phone2'),
     }
 
-    cost_dict = calc_all_price_per_order(order_id)
     msg = update_order_address_info(pk, order_id, shipping_data)
     response_data = {}
     try:
         response_data['result'] = 'writing successful !'
     except:
         response_data['message'] = 'failed processing ...\n' + msg
-    return HttpResponse(json.dumps(dict(list(cost_dict.items()) + list(response_data.items()))),
-                        content_type='application/json')
+    return HttpResponse(json.dumps(response_data), content_type='application/json')
 
 
 # ================ api =======================

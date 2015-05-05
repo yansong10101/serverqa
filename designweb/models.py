@@ -138,7 +138,13 @@ class Order(models.Model):
     payment_status = models.CharField(max_length=10, blank=True, default='NotPaid')
     payment_method = models.CharField(max_length=15, blank=True)
     total_amount = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)
+    total_tax = models.DecimalField(decimal_places=2, default=0.00, max_digits=7)
+    total_shipping = models.DecimalField(decimal_places=2, default=0.00, max_digits=7)
+    total_discount = models.DecimalField(decimal_places=2, default=0.00, max_digits=7)
+    subtotal = models.DecimalField(decimal_places=2, default=0.00, max_digits=7)
 
+    receiver_first_name = models.CharField(max_length=25, default='')
+    receiver_last_name = models.CharField(max_length=25, default='')
     shipping_address1 = models.CharField(max_length=50, blank=True)
     shipping_address2 = models.CharField(max_length=50, blank=True)
     shipping_city = models.CharField(max_length=20, blank=True)
