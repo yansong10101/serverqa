@@ -81,25 +81,30 @@ def payment_process(payment_method, host_root):
     payment = Payment(get_payment_json(payment_method, host_root, transaction_object, card_info))
     is_approve = payment.create()
 
+    payment_dict = {'payment_id': payment.id, 'payment_state': payment.state, 'redirect_url': None}
+
     if is_approve:
         print("Payment[%s] created successfully" % payment.id)
         for link in payment.links:
             if link.method == "REDIRECT":
                 redirect_url = str(link.href)
                 print("Redirect for approval: %s" % redirect_url)
-                return redirect_url
-            elif link.method == "GET":
-                redirect_url = str(link.href)
-                print("GET API for approval: %s" % redirect_url)
+                payment_dict['redirect_url'] = redirect_url
+                return payment_dict
     else:
         print('payment cannot be approval, please check your payment info ...')
         return None
+    print("Direct credit -- Payment[%s] execute successfully" % (payment.id))
+    # for direct_credit return
+    return payment_dict
 
 
 def payment_execute(payment_id, payer_id, token):
     logging.basicConfig(level=logging.INFO)
     payment = Payment.find(payment_id)
     if payment.execute({"payer_id": payer_id}):  # return True or False
-        print("Payment[%s] execute successfully" % (payment.id))
+        print("Paypal -- Payment[%s] execute successfully" % (payment.id))
+        # for paypal payment return
+        return {'payment_id': payment.id, 'payment_state': payment.state}
     else:
         print(payment.error)

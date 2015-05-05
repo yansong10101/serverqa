@@ -35,7 +35,13 @@ class UserProfile(models.Model):
 
 
 class Category(models.Model):
+    PARENT_CAT_CHOICE = (
+        ('Color', 'Color'),
+        ('Category', 'Category'),
+        ('Fashion', 'Fashion'),
+    )
     category_name = models.CharField(max_length=25)
+    parent_category = models.CharField(max_length=25, choices=PARENT_CAT_CHOICE, blank=True)
     description = models.TextField(blank=True)
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
     modified_date = models.DateTimeField(auto_now=True, editable=False)
@@ -188,9 +194,14 @@ class Cart(models.Model):
 
 
 class CartDetail(models.Model):
+    STATUS_OPTION = (
+        ('Active', 'Active'),
+        ('Deleted', 'Deleted'),
+    )
     cart = models.ForeignKey(Cart, related_name='cart_details')
     product = models.ForeignKey(Product, related_name='product')
     number_in_cart = models.IntegerField(default=1)
+    status = models.CharField(max_length=15, choices=STATUS_OPTION, blank=True)
 
 
 class MicroGroup(models.Model):

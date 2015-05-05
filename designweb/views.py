@@ -407,26 +407,34 @@ class GroupViewSet(viewsets.ModelViewSet):
 
 
 # ==================== payment pages =============
+# for paypal redirect usage
 def payment_view(request):
     from designweb.payment.payment_utils import payment_execute
-    payment_execute(request.GET['paymentId'], request.GET['PayerID'], request.GET['token'])
-    return render(request, 'home.html', {'title': 'HOME', })
+    payment_dict = payment_execute(request.GET['paymentId'], request.GET['PayerID'], request.GET['token'])
+    print(payment_dict)
+    return redirect(reverse('design:payment-success'),
+                    get_display_dict(title='Payment Success', pass_dict=payment_dict))
 
 
 def payment_success(request):
-    return render(request, 'payment/payment_success.html', {'title': 'Payment Success'})
+    return render(request, 'payment/payment_success.html', get_display_dict(title='Payment Success'))
 
 
 def payment_failed(request):
-    return render(request, 'payment/payment_fail.html', {'title': 'Payment Fail'})
+    return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
 
 
 # need modify later
 def test(request):
     from designweb.payment.payment_utils import payment_process
-    redirect_url = payment_process('paypal', request.META['HTTP_HOST'])
-    print(redirect_url)
-    if redirect_url:
-            return HttpResponseRedirect(redirect_url)
-    return render(request, 'index.html', {'title': 'HOME', })
+    payment_dict = payment_process('paypal', request.META['HTTP_HOST'])
+    if not payment_dict:
+        return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
+    redirect_url = payment_dict['redirect_url']
+    if redirect_url:    # payment method is paypal
+        return HttpResponseRedirect(redirect_url)
+    else:
+        print(payment_dict)
+        return redirect(reverse('design:payment-success'),
+                        get_display_dict(title='Payment Success', pass_dict=payment_dict))
 # ===============================================
