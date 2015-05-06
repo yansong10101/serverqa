@@ -49,6 +49,10 @@ h1#product_name{
     float: right;
     margin: 10px 5px;
 }
+
+#like{
+    margin-right: 50px;
+}
 #mainImg {
     width: 350px;
     height: 400px;
@@ -171,5 +175,11 @@ article ul li {
     padding: 10px;
 }
 
+#user-comment{
+    width: 100%;
+    margin: 10px -10px;
+    border: 1px solid #888;
+
+}
 
 
