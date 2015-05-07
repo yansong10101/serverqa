@@ -222,7 +222,7 @@
                     <h4 class="title">Payment</h4>
                 </div>
                 <div class="inner" style="overflow: hidden;">
-                    <form class="col-sm-7">
+                    <form class="col-sm-7" id="direct_form">
                         <fieldset class="inner" style="margin-right: 20px; padding-right:20px;border-right: 1px solid #999">
                             <legend>Credit/Debit Card</legend>
                             <div class="control-group">
@@ -298,11 +298,11 @@
                                 </div>
                             </div>
                             <div>
-                                    <input class="side_bar_item_total">
-                                    <input class="side_bar_discount_total">
-                                    <input class="side_bar_tax_total">
-                                    <input class="side_bar_shipping_total">
-                                    <input class="side_bar_subtotal">
+                                    <input hidden class="side_bar_item_total" value="">
+                                    <input hidden class="side_bar_discount_total" value="">
+                                    <input hidden class="side_bar_tax_total" value="">
+                                    <input hidden class="side_bar_shipping_total" value="">
+                                    <input hidden class="side_bar_subtotal" value="">
                             </div>
                         </fieldset>
                     </form>
@@ -322,7 +322,7 @@
                 <div class="inner" style="overflow: hidden">
                     <div class="col-sm-9"></div>
                     <div class="col-sm-3">
-                        <a href="#done" data-toggle="tab" class="btn btn-block btn-info">Place order</a>
+                        <a href="#done" data-toggle="tab" class="btn btn-block btn-info" id="direct_button">Place order</a>
                     </div>
                 </div>
              </div>
@@ -546,6 +546,20 @@
                 });
 
             });
+    </script>
+
+    <script type="text/javascript">
+        var host = window.location.origin;
+
+        $('#direct_button').submit(function(event){
+            event.preventDefault();
+            var $form = $( this ),
+                url = $form.attr( 'action' );
+            var posting = $.post( url, {
+                name: $('#name').val(),
+                name2: $('#name2').val(),
+            });
+        });
     </script>
 
 {% endblock %}

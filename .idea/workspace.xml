@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="45f6cc4d-ba8e-48b8-8249-8d9310bcf5f8" name="Default" comment="02/18/2015 -- add new function module, fix utils functions, fix model class data fields">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/mycart.html" afterPath="$PROJECT_DIR$/templates/mycart.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/designweb/urls.py" afterPath="$PROJECT_DIR$/designweb/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/designweb/utils.py" afterPath="$PROJECT_DIR$/designweb/utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="dcc6eb57-40db-497d-a98b-00e0f11838a2" name="testing picture" comment="" />
@@ -130,20 +126,20 @@
       <file leaf-file-name="mycart.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/mycart.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.37699682" vertical-offset="6664" max-vertical-offset="8340">
-              <caret line="460" column="42" selection-start-line="460" selection-start-column="42" selection-end-line="460" selection-end-column="42" />
+            <state vertical-scroll-proportion="0.76038337" vertical-offset="7909" max-vertical-offset="8550">
+              <caret line="559" column="41" selection-start-line="559" selection-start-column="41" selection-end-line="559" selection-end-column="41" />
               <folding>
-                <element signature="e#12120#12195#0#HTML" expanded="true" />
-                <element signature="e#12742#12766#0#HTML" expanded="true" />
-                <element signature="e#12926#12950#0#HTML" expanded="true" />
-                <element signature="e#13068#13094#0#HTML" expanded="true" />
-                <element signature="e#13377#13403#0#HTML" expanded="true" />
-                <element signature="e#13687#13713#0#HTML" expanded="true" />
-                <element signature="e#14389#14413#0#HTML" expanded="true" />
-                <element signature="e#14578#14602#0#HTML" expanded="true" />
-                <element signature="e#14720#14746#0#HTML" expanded="true" />
-                <element signature="e#16995#17019#0#HTML" expanded="true" />
-                <element signature="e#17176#17200#0#HTML" expanded="true" />
+                <element signature="e#12137#12212#0#HTML" expanded="true" />
+                <element signature="e#12759#12783#0#HTML" expanded="true" />
+                <element signature="e#12943#12967#0#HTML" expanded="true" />
+                <element signature="e#13085#13111#0#HTML" expanded="true" />
+                <element signature="e#13394#13420#0#HTML" expanded="true" />
+                <element signature="e#13704#13730#0#HTML" expanded="true" />
+                <element signature="e#14406#14430#0#HTML" expanded="true" />
+                <element signature="e#14595#14619#0#HTML" expanded="true" />
+                <element signature="e#14737#14763#0#HTML" expanded="true" />
+                <element signature="e#17012#17036#0#HTML" expanded="true" />
+                <element signature="e#17193#17217#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -227,9 +223,9 @@
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/designweb/views.py" />
         <option value="$PROJECT_DIR$/designweb/utils.py" />
-        <option value="$PROJECT_DIR$/templates/mycart.html" />
         <option value="$PROJECT_DIR$/templates/index.html" />
         <option value="$PROJECT_DIR$/designweb/urls.py" />
+        <option value="$PROJECT_DIR$/templates/mycart.html" />
       </list>
     </option>
   </component>
@@ -1466,20 +1462,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/mycart.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37699682" vertical-offset="6664" max-vertical-offset="8340">
-          <caret line="460" column="42" selection-start-line="460" selection-start-column="42" selection-end-line="460" selection-end-column="42" />
+        <state vertical-scroll-proportion="0.76038337" vertical-offset="7909" max-vertical-offset="8550">
+          <caret line="559" column="41" selection-start-line="559" selection-start-column="41" selection-end-line="559" selection-end-column="41" />
           <folding>
-            <element signature="e#12120#12195#0#HTML" expanded="true" />
-            <element signature="e#12742#12766#0#HTML" expanded="true" />
-            <element signature="e#12926#12950#0#HTML" expanded="true" />
-            <element signature="e#13068#13094#0#HTML" expanded="true" />
-            <element signature="e#13377#13403#0#HTML" expanded="true" />
-            <element signature="e#13687#13713#0#HTML" expanded="true" />
-            <element signature="e#14389#14413#0#HTML" expanded="true" />
-            <element signature="e#14578#14602#0#HTML" expanded="true" />
-            <element signature="e#14720#14746#0#HTML" expanded="true" />
-            <element signature="e#16995#17019#0#HTML" expanded="true" />
-            <element signature="e#17176#17200#0#HTML" expanded="true" />
+            <element signature="e#12137#12212#0#HTML" expanded="true" />
+            <element signature="e#12759#12783#0#HTML" expanded="true" />
+            <element signature="e#12943#12967#0#HTML" expanded="true" />
+            <element signature="e#13085#13111#0#HTML" expanded="true" />
+            <element signature="e#13394#13420#0#HTML" expanded="true" />
+            <element signature="e#13704#13730#0#HTML" expanded="true" />
+            <element signature="e#14406#14430#0#HTML" expanded="true" />
+            <element signature="e#14595#14619#0#HTML" expanded="true" />
+            <element signature="e#14737#14763#0#HTML" expanded="true" />
+            <element signature="e#17012#17036#0#HTML" expanded="true" />
+            <element signature="e#17193#17217#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
