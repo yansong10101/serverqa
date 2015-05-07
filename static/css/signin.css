@@ -140,9 +140,7 @@ body {
 	border-radius: 3px;
     font-size: 150%;
 }
-.user-form input[type=submit]:active{
-	margin: 18px 10px;
-}
+
 .user-form input[type=submit]:hover{
 	background-color: #0FC491;
 }
