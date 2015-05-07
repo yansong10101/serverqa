@@ -62,7 +62,7 @@ def login_view(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        if user is not None:
+        if user.is_authenticated():
             login(request, user)
             return redirect(reverse('design:home'), get_display_dict(title='HOME'))
         else:
@@ -394,7 +394,10 @@ def payment_failed(request):
     return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
 
 
-def test(request):
+def checkout(request):
+    print(request.POST['holder_name'])
+    print(request.POST['expired_month'])
+
     from designweb.payment.payment_utils import payment_process
     payment_dict = payment_process('paypal', request.META['HTTP_HOST'])
     if not payment_dict:

@@ -18,6 +18,7 @@ urlpatterns = patterns(
     # url(r'^microgroup/(?P<pk>[0-9]+)/(?P<product_id>[0-9]+)/$', views.micro_group_view, name='micro-group'),
     url(r'^microgroup/(?P<product_id>[0-9]+)/(?P<group_id>[0-9]+)/$', views.micro_group_view, name='micro-group-id'),
     url(r'^microgroup/(?P<product_id>[0-9]+)//$', views.micro_group_view, name='micro-group'),
+    url(r'^checkout/$', views.checkout, name='checkout'),
 
     # api for ajax add and delete
     url(r'^api/cart/(?P<pk>[0-9]+)/add/(?P<prod_quantity>[0-9]+)/$', views.add_cart, name='add-to-cart'),

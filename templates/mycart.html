@@ -254,13 +254,15 @@
                     <h4 class="title">Payment</h4>
                 </div>
                 <div class="inner" style="overflow: hidden;">
-                    <form class="col-sm-7" id="direct_form">
+
+                    <form class="col-sm-7" id="direct_form" action="/checkout/" method="post">
+                        {% csrf_token %}
                         <fieldset class="inner" style="margin-right: 20px; padding-right:20px;border-right: 1px solid #999">
                             <legend>Credit/Debit Card</legend>
                             <div class="control-group">
                                 <label label-default="" class="control-label">Card Holder's Name</label>
                                 <div class="controls">
-                                    <input type="text" class="form-control" pattern="\w+ \w+.*" title="First and last name" required="">
+                                    <input type="text" class="form-control" pattern="\w+ \w+.*" title="First and last name" required="" name="card_holder">
                                 </div>
                             </div>
                             <div class="control-group" style="margin-top: 10px">
@@ -268,16 +270,16 @@
                                 <div class="controls inner" style="padding-top: 0px">
                                     <div class="row">
                                         <div class="col-xs-3" style="padding-right: 5px">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="First four digits" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="First four digits" required="" name="card_num_1">
                                         </div>
                                         <div class="col-xs-3" style="padding-right: 5px">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Second four digits" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Second four digits" required="" name="card_num_2">
                                         </div>
                                         <div class="col-xs-3" style="padding-right: 5px">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Third four digits" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Third four digits" required="" name="card_num_3">
                                         </div>
                                         <div class="col-xs-3">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Fourth four digits" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Fourth four digits" required="" name="card_num_4">
                                         </div>
                                     </div>
                                 </div>
@@ -323,7 +325,7 @@
                                 <div class="controls inner" style="padding-top: 0px">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="3" pattern="\d{3}" title="Three digits at back of your card" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="3" pattern="\d{3}" title="Three digits at back of your card" required="" name="cvv_number">
                                         </div>
                                         <div class="col-md-8"></div>
                                     </div>
@@ -337,6 +339,8 @@
                                     <input hidden class="side_bar_subtotal" value="">
                             </div>
                         </fieldset>
+
+                        <input type="submit">submit direct credit pay
                     </form>
 
                     <div class="col-sm-5">
@@ -563,7 +567,7 @@
                     dataType: "json"
                     }).success(function(data, textStatus, jqXHR){
 
-                        alert(data["Success"]);
+{#                        alert(data["Success"]);#}
                         $('.side_bar_item_total').html(data['items_subtotal']);
                         $('.side_bar_discount_total').html(data['discount']);
                         $('.side_bar_tax_total').html(data['tax']);
@@ -579,16 +583,22 @@
     </script>
 
     <script type="text/javascript">
-        var host = window.location.origin;
-
-        $('#direct_button').submit(function(event){
-            event.preventDefault();
+        $('#direct_form').submit(function(event){
+{#            event.preventDefault();#}
             var $form = $( this ),
-                url = $form.attr( 'action' );
-            var posting = $.post( url, {
-                name: $('#name').val(),
-                name2: $('#name2').val(),
+                url = $form.attr( 'action');
+
+            var posting = $.post(url, {
+                holder_name: $form.find('input[name="card_holder"]').val(),
+                card_num_1: $form.find('input[name="card_num_1"]').val(),
+                card_num_2: $form.find('input[name="card_num_2"]').val(),
+                card_num_3: $form.find('input[name="card_num_3"]').val(),
+                card_num_4: $form.find('input[name="card_num_4"]').val(),
+                expired_month: $form.find('select[name="cc_exp_mo"]').val(),
+                expired_year: $form.find('select[name="cc_exp_yr"]').val(),
+                cvv_number: $form.find('input[name="cvv_number"]').val()
             });
+
         });
     </script>
 
