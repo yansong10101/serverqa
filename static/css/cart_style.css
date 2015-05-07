@@ -3,39 +3,25 @@
     background-color: #ccc;
 }
 
-#myTab{
+.myTab{
     list-style: none;
-    margin: 0px;
-    padding-left: 0px;
 }
 
-#myTab li{
+ul.myTab li{
     margin: 0px;
-    padding: 5px;
+    padding: 5px !important;
     text-align: center;
     border-right: 1px solid #aaa;
+    text-decoration: none;
+    color: #aaa;
 }
 
-#myTab li:last-child{
+.myTab li:last-child{
     border-right: none;
 }
 
-#myTab li a{
-    text-decoration: none;
-    color: #aaa;
-    padding: 0px;
-
-}
-
-#myTab li a:hover{
-    border: none;
-    cursor: default;
-}
-
-#myTab .active a{
+.myTab .active {
     color: #000;
-    background-color: transparent;
-    border: none;
 }
 /*******item table style *******/
 

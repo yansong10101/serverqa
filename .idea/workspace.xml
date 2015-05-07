@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="45f6cc4d-ba8e-48b8-8249-8d9310bcf5f8" name="Default" comment="02/18/2015 -- add new function module, fix utils functions, fix model class data fields">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/css/cart_style.css" afterPath="$PROJECT_DIR$/static/css/cart_style.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/mycart.html" afterPath="$PROJECT_DIR$/templates/mycart.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="dcc6eb57-40db-497d-a98b-00e0f11838a2" name="testing picture" comment="" />
     <ignored path="hookupdesign.iws" />
@@ -126,20 +127,29 @@
       <file leaf-file-name="mycart.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/mycart.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.76038337" vertical-offset="7909" max-vertical-offset="8550">
-              <caret line="559" column="41" selection-start-line="559" selection-start-column="41" selection-end-line="559" selection-end-column="41" />
+            <state vertical-scroll-proportion="-4.7507987" vertical-offset="8374" max-vertical-offset="9000">
+              <caret line="360" column="119" selection-start-line="360" selection-start-column="119" selection-end-line="360" selection-end-column="119" />
               <folding>
-                <element signature="e#12137#12212#0#HTML" expanded="true" />
-                <element signature="e#12759#12783#0#HTML" expanded="true" />
-                <element signature="e#12943#12967#0#HTML" expanded="true" />
-                <element signature="e#13085#13111#0#HTML" expanded="true" />
-                <element signature="e#13394#13420#0#HTML" expanded="true" />
-                <element signature="e#13704#13730#0#HTML" expanded="true" />
-                <element signature="e#14406#14430#0#HTML" expanded="true" />
-                <element signature="e#14595#14619#0#HTML" expanded="true" />
-                <element signature="e#14737#14763#0#HTML" expanded="true" />
-                <element signature="e#17012#17036#0#HTML" expanded="true" />
-                <element signature="e#17193#17217#0#HTML" expanded="true" />
+                <element signature="e#424#448#0#HTML" expanded="true" />
+                <element signature="e#3779#3824#0#HTML" expanded="true" />
+                <element signature="e#3962#3980#0#HTML" expanded="true" />
+                <element signature="e#5535#5560#0#HTML" expanded="true" />
+                <element signature="e#10437#10461#0#HTML" expanded="true" />
+                <element signature="e#11052#11077#0#HTML" expanded="true" />
+                <element signature="e#13000#13025#0#HTML" expanded="true" />
+                <element signature="e#13136#13211#0#HTML" expanded="true" />
+                <element signature="e#13758#13782#0#HTML" expanded="true" />
+                <element signature="e#13942#13966#0#HTML" expanded="true" />
+                <element signature="e#14084#14110#0#HTML" expanded="true" />
+                <element signature="e#14393#14419#0#HTML" expanded="true" />
+                <element signature="e#14703#14729#0#HTML" expanded="true" />
+                <element signature="e#15405#15429#0#HTML" expanded="true" />
+                <element signature="e#15594#15618#0#HTML" expanded="true" />
+                <element signature="e#15736#15762#0#HTML" expanded="true" />
+                <element signature="e#18011#18035#0#HTML" expanded="true" />
+                <element signature="e#18192#18216#0#HTML" expanded="true" />
+                <element signature="e#20229#20253#0#HTML" expanded="true" />
+                <element signature="e#20825#20850#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1462,20 +1472,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/mycart.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.76038337" vertical-offset="7909" max-vertical-offset="8550">
-          <caret line="559" column="41" selection-start-line="559" selection-start-column="41" selection-end-line="559" selection-end-column="41" />
+        <state vertical-scroll-proportion="-4.7507987" vertical-offset="8374" max-vertical-offset="9000">
+          <caret line="360" column="119" selection-start-line="360" selection-start-column="119" selection-end-line="360" selection-end-column="119" />
           <folding>
-            <element signature="e#12137#12212#0#HTML" expanded="true" />
-            <element signature="e#12759#12783#0#HTML" expanded="true" />
-            <element signature="e#12943#12967#0#HTML" expanded="true" />
-            <element signature="e#13085#13111#0#HTML" expanded="true" />
-            <element signature="e#13394#13420#0#HTML" expanded="true" />
-            <element signature="e#13704#13730#0#HTML" expanded="true" />
-            <element signature="e#14406#14430#0#HTML" expanded="true" />
-            <element signature="e#14595#14619#0#HTML" expanded="true" />
-            <element signature="e#14737#14763#0#HTML" expanded="true" />
-            <element signature="e#17012#17036#0#HTML" expanded="true" />
-            <element signature="e#17193#17217#0#HTML" expanded="true" />
+            <element signature="e#424#448#0#HTML" expanded="true" />
+            <element signature="e#3779#3824#0#HTML" expanded="true" />
+            <element signature="e#3962#3980#0#HTML" expanded="true" />
+            <element signature="e#5535#5560#0#HTML" expanded="true" />
+            <element signature="e#10437#10461#0#HTML" expanded="true" />
+            <element signature="e#11052#11077#0#HTML" expanded="true" />
+            <element signature="e#13000#13025#0#HTML" expanded="true" />
+            <element signature="e#13136#13211#0#HTML" expanded="true" />
+            <element signature="e#13758#13782#0#HTML" expanded="true" />
+            <element signature="e#13942#13966#0#HTML" expanded="true" />
+            <element signature="e#14084#14110#0#HTML" expanded="true" />
+            <element signature="e#14393#14419#0#HTML" expanded="true" />
+            <element signature="e#14703#14729#0#HTML" expanded="true" />
+            <element signature="e#15405#15429#0#HTML" expanded="true" />
+            <element signature="e#15594#15618#0#HTML" expanded="true" />
+            <element signature="e#15736#15762#0#HTML" expanded="true" />
+            <element signature="e#18011#18035#0#HTML" expanded="true" />
+            <element signature="e#18192#18216#0#HTML" expanded="true" />
+            <element signature="e#20229#20253#0#HTML" expanded="true" />
+            <element signature="e#20825#20850#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
