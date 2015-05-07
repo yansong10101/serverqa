@@ -10,27 +10,25 @@
 
     <div id="alert_msg" class="" style="display:none;"></div>
 
-    <div class="row top-bar">
-        <ul class="nav-tabs" id="myTab">
-            <li class="active col-md-4 col-sm-4 col-xs-4">
-                <a href="#summary" data-toggle="tab" title="order summary">1. Shopping Cart</a>
-            </li>
-
-            <li class="col-md-4 col-sm-4 col-xs-4">
-                <a href="#address" data-toggle="tab" title="address">2. Address</a>
-            </li>
-
-            <li class="col-md-4 col-sm-4 col-xs-4">
-                <a href="#payment" data-toggle="tab" title="payment">3. Payment</a>
-            </li>
-
-        </ul>
-    </div>
-
-
-    <div class="tab-content">
+    <div id="tabs" class="tab-content">
 
         <div class="row tab-pane active" style="margin-top: 20px" id="summary">
+            <div class="row top-bar">
+                <ul class="myTab">
+                    <li class="active col-md-4 col-sm-4 col-xs-4">
+                        1. Shopping Cart
+                    </li>
+
+                    <li class="col-md-4 col-sm-4 col-xs-4">
+                        2. Address
+                    </li>
+
+                    <li class="col-md-4 col-sm-4 col-xs-4">
+                        3. Payment
+                    </li>
+
+                </ul>
+            </div>
         <!----------left column ------------->
             <div class="col-md-9 col-sm-9 col-xs-9 outer-left">
                 <div class="header">
@@ -102,7 +100,7 @@
                             <td class="col-md-2 col-sm-2">
                             </td>
                             <td class="col-md-2 col-sm-2">
-                                <a href="#address" data-toggle="tab" class="btn btn-block btn-info cart_next">Check out</a>
+                                <a href="#address" data-toggle="tab" class="btn btn-block btn-info btn-next cart_next">Check out</a>
                             </td>
                         </tr>
                     </table>
@@ -144,6 +142,22 @@
 
     <!---------address info tab---------------------->
         <div class="tab-pane fade row" id="address">
+             <div class="row top-bar">
+                <ul class="myTab">
+                    <li class="col-md-4 col-sm-4 col-xs-4">
+                        1. Shopping Cart
+                    </li>
+
+                    <li class="active col-md-4 col-sm-4 col-xs-4">
+                        2. Address
+                    </li>
+
+                    <li class="col-md-4 col-sm-4 col-xs-4">
+                        3. Payment
+                    </li>
+
+                </ul>
+            </div>
              <div class="col-md-9 col-sm-9 col-xs-9 outer-left">
                 <div class="header">
                     <h4 class="title">Shipping Address</h4>
@@ -178,9 +192,13 @@
                     </form>
                 </div>
                 <div class="inner" style="overflow: hidden">
-                    <div class="col-sm-9"></div>
+                    <div class="col-sm-5"></div>
                     <div class="col-sm-3">
-                        <a href="#payment" data-toggle="tab" class="btn btn-block btn-info" id="address_submit">Next</a>
+                        <a href="#summary" data-toggle="tab" class="btn btn-block btn-next btn-info">Previous</a>
+                    </div>
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3">
+                        <a href="#payment" data-toggle="tab" class="btn btn-block btn-next btn-info" id="address_submit">Next</a>
                     </div>
                 </div>
              </div>
@@ -215,6 +233,22 @@
 
     <!---------payment tab---------------------->
         <div class="tab-pane fade row" id="payment">
+            <div class="row top-bar">
+                <ul class="myTab">
+                    <li class="col-md-4 col-sm-4 col-xs-4">
+                        1. Shopping Cart
+                    </li>
+
+                    <li class="col-md-4 col-sm-4 col-xs-4">
+                        2. Address
+                    </li>
+
+                    <li class="active col-md-4 col-sm-4 col-xs-4">
+                        3. Payment
+                    </li>
+
+                </ul>
+            </div>
              <div class="col-md-9 col-sm-9 col-xs-9 outer-left">
                 <div class="header">
                     <h4 class="title">Payment</h4>
@@ -311,7 +345,11 @@
                 <div class="inner">
                 </div>
                 <div class="inner" style="overflow: hidden">
-                    <div class="col-sm-9"></div>
+                    <div class="col-sm-5"></div>
+                    <div class="col-sm-3">
+                        <a href="#address" data-toggle="tab" class="btn btn-block btn-info">Previous</a>
+                    </div>
+                    <div class="col-sm-1"></div>
                     <div class="col-sm-3">
                         <a href="payment_success.html" data-toggle="tab" class="btn btn-block btn-info">Place order</a>
                     </div>
