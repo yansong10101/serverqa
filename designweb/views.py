@@ -34,22 +34,19 @@ def index(request):
 
 def signup(request):
     if request.method == 'POST':
+        # username = request.POST['username']
+        # password = request.POST['password']
+        # confirm_password = request.POST['confirm_password']
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             username = request.POST['username']
             password = request.POST['password1']
-            first_name = request.POST['first_name']
-            last_name = request.POST['last_name']
             user = authenticate(username=username, password=password)
-            # create one to one rel instances for new user
             user.user_profile = UserProfile.objects.create(user=user)
-            user.user_profile.first_name = first_name
-            user.user_profile.last_name = last_name
-            user.user_profile.save()
             user.cart = Cart.objects.create(user=user)
             user.wish_list = WishList.objects.create(user=user)
-            sending_mail_for_new_signup(username)
+            # sending_mail_for_new_signup(username)
             login(request, user)
             return render(request, 'home.html', get_display_dict(title='HOME', pass_dict={'welcome': True, }))
         else:
@@ -397,7 +394,6 @@ def payment_failed(request):
     return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
 
 
-# need modify later
 def test(request):
     from designweb.payment.payment_utils import payment_process
     payment_dict = payment_process('paypal', request.META['HTTP_HOST'])

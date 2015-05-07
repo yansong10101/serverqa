@@ -76,13 +76,14 @@ def get_profile_address_or_empty(user):
     return None
 
 
-def order_view_process(user):
-    details = user.cart.cart_details.all()
+def update_order_detail_by_cart(user, order):
+    cart = user.cart
+    cart_details = user.cart.cart_details.all()
     products = []
-    for detail in details:
+    for detail in cart_details:
+        cart.number_items += detail.number_in_cart
         products.append(detail.product)
-    order = user.orders.get_or_create(user=user, is_paid=False)[0]
-    for item in details:
+    for item in cart_details:
         if not is_order_list_contain_product(order.details.all(), item.product.pk):
             OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart)
         else:
@@ -92,6 +93,14 @@ def order_view_process(user):
     for item in order.details.all():
         if not is_cart_list_contain_order_detail(products, item.product.pk):
             order.details.filter(pk=item.pk).delete()
+    order.total_items = cart.number_items
+    order.save()
+    cart.save()
+
+
+def order_view_process(user):
+    order = user.orders.get_or_create(user=user, is_paid=False)[0]
+    update_order_detail_by_cart(user, order)
     pass_dicts = {'orders': order.details, 'order_id': order.pk, }
     profile = get_profile_address_or_empty(user)
     if profile:
@@ -118,6 +127,7 @@ def update_order_address_info(user_id, order_id, data):
     order.billing_phone1 = data['billing_phone1']
     order.billing_phone2 = data['billing_phone2']
     try:
+        update_order_detail_by_cart(user, order)
         order.save()
     except:
         return 'error to save shipping info into database'
@@ -125,6 +135,8 @@ def update_order_address_info(user_id, order_id, data):
 
 
 def calc_all_price_per_order(order_id):
+    if not order_id:
+        return {}
     order = get_object_or_404(Order, pk=order_id)
     order_detail_list = order.details.all()
     shipping_cost_list = []

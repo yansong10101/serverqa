@@ -5,7 +5,7 @@ from rest_framework import routers
 urlpatterns = patterns(
     '',
     url(r'^$', views.home, name='home'),
-    url(r'^index/$', views.test, name='index'),
+    url(r'^index/$', views.index, name='index'),
     url(r'^logout/', views.logout_view, name='logout'),
     url(r'^login/', views.login_view, name='login'),
     url(r'^signup/', views.signup, name='signup'),
@@ -27,6 +27,7 @@ urlpatterns = patterns(
     url(r'^api/order-detail/(?P<pk>[0-9]+)/(?P<num>[0-9]+)/update/$', views.update_order_detail, name='update-order'),
     url(r'^api/cart-detail/(?P<pk>[0-9]+)/(?P<num>[0-9]+)/update/(?P<order_id>[0-9]+)/$', views.update_cart_detail,
         name='update-cart'),
+    url(r'^api/cart-detail/(?P<pk>[0-9]+)/(?P<num>[0-9]+)/update//$', views.update_cart_detail, name='update-cart'),
     url(r'^api/like/(?P<pk>[0-9]+)/$', views.like_product, name='like-product'),
     url(r'^api/address/(?P<pk>[0-9]+)/(?P<order_id>[0-9]+)/$', views.update_order_info, name='shipping-address'),
     url(r'^api/products-review/(?P<pk>[0-9]+)/$', views.get_product_review, name='product-review'),
