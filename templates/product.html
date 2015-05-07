@@ -383,7 +383,7 @@
 
         // product reviews
         function reviews(){
-            var product_lite = $('<div class="row"><div class="col-xs-1"></div><div class="col-xs-9"><h6></h6><p></p></div></div>');
+            var product_lite = $('<div class="row"><div class="col-xs-1"></div><div class="col-xs-9"><h6></h6><p class="comment more"></p></div></div>');
             $.ajax({
             type: "GET",
             url: host + "/api/comments/?product_id=" + prod_pk + "&format=json",
@@ -392,8 +392,32 @@
                 $.each(data.results, function(i, item){
                     var elem = product_lite.clone();
                     elem.find('h6').html(item.reviewer);
-                    elem.find('p').html(item.comments);
+                    var showChar = 100;
+                    var ellipsesText = "...";
+                    var moreText = "more";
+                    var lessText = "less";
+                    var content = item.comments;
+                    if(content.length > showChar) {
+                        var c = content.substr(0, showChar);
+                        var h = content.substr(showChar - 1, content.length - showChar);
+                        html = c + '<span class="moreellipses">' + ellipsesText + ' </span><span class="morecontent"><span>' + h + '</span>  <a href="" class="morelink">' + moreText + '</a></span>';
+                        elem.find('p').html(html);
+                    } else{
+                        elem.find('p').html(content);
+                    }
                     $("#forum_row").append(elem);
+                    elem.find('.morelink').click(function(){
+                         if($(this).hasClass("less")) {
+                             $(this).removeClass("less");
+                             $(this).html(moreText);
+                         } else {
+                             $(this).addClass("less");
+                             $(this).html(lessText);
+                         }
+                         $(this).parent().prev().toggle();
+                         $(this).prev().toggle();
+                         return false;
+                    });
                 });
             }).fail(function(jqXHR, textStatus){
                 request_failed();
@@ -401,5 +425,7 @@
         }
         // end section
     </script>
+
+
 
 {% endblock %}
