@@ -83,6 +83,20 @@
 
         load_btn.on('click', function(){
             var url = catch_data.next;
+
+            var host = window.location.origin;
+            $.ajax({
+                type: "POST",
+                url: host,
+                dataType: "json"
+                }).success(function(data, textStatus, jqXHR){
+
+                    alert(data["Success"]);
+
+                }).fail(function(jqXHR, textStatus){
+                    alert('Request Failed');
+                });
+
             ajaxCall(url);
         });
     </script>
