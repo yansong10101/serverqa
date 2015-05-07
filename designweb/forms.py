@@ -27,7 +27,7 @@ class LoginForm(forms.Form):
 class SignupForm(forms.Form):
     username = forms.CharField(max_length=100, label='', widget=forms.TextInput(attrs={
         'class': 'full-width has-padding has-border', 'placeholder': 'E-Mail', }))
-    password = forms.CharField(max_length=25, label='', widget=forms.TextInput(attrs={
+    password1 = forms.CharField(max_length=25, label='', widget=forms.TextInput(attrs={
         'class': 'full-width has-padding has-border', 'placeholder': 'Password', 'type': 'password'}))
-    confirm_password = forms.CharField(max_length=25, label='', widget=forms.TextInput(attrs={
+    password2 = forms.CharField(max_length=25, label='', widget=forms.TextInput(attrs={
         'class': 'full-width has-padding has-border', 'placeholder': 'Confirm Password', 'type': 'password'}))

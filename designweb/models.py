@@ -135,7 +135,7 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False)
     payment_transaction_id = models.CharField(max_length=50, blank=True)
     payment_resource = models.CharField(max_length=50, blank=True)
-    payment_status = models.CharField(max_length=10, blank=True, default='NotPaid')
+    payment_status = models.CharField(max_length=10, blank=True, default='NotPaid')     # cancel, Non, Done
     payment_method = models.CharField(max_length=15, blank=True)
     total_amount = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)
     total_tax = models.DecimalField(decimal_places=2, default=0.00, max_digits=7)

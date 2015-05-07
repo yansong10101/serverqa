@@ -131,19 +131,17 @@
                     </div>
                     <div id="signup">
                         <form class="user-form" action="/signup/" method="post">
+                            {% csrf_token %}
                             <p class="fieldset">
-{#                                <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">#}
                                 {{ signup_form.username }}
                             </p>
 
                             <p class="fieldset">
-{#                                <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">#}
-                                {{ signup_form.password }}
+                                {{ signup_form.password1 }}
                             </p>
 
                             <p class="fieldset">
-{#                                <input class="full-width has-padding has-border" id="signup-password" type="text"  placeholder="Password">#}
-                                {{ signup_form.confirm_password }}
+                                {{ signup_form.password2 }}
                             </p>
 
                             <p class="fieldset">
