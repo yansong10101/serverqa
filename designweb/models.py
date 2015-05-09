@@ -51,10 +51,16 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    # the highest is 0
+    PRIOR_LEVEL = (
+        (0, 'high'),
+        (1, 'middle'),
+        (2, 'low',),
+    )
     product_name = models.CharField(max_length=100)
     product_code = models.CharField(max_length=20, unique=True, editable=False)
     price = models.DecimalField(decimal_places=2, blank=True, max_digits=7, null=True)  # if null show 'please call' msg
-    designer = models.ForeignKey(User, related_name='products')
+    designer = models.ForeignKey(User, related_name='products', null=True)
     category = models.ManyToManyField(Category, blank=True, related_name='products')
     create_date = models.DateTimeField(auto_now_add=True, editable=False)
     modified_date = models.DateTimeField(auto_now=True, editable=False)
@@ -66,10 +72,11 @@ class Product(models.Model):
     shipping_msg = models.CharField(max_length=100, blank=True)
     important_msg = models.CharField(max_length=100, blank=True)
     group_duration = models.IntegerField(default=4)
-    group_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=0.90)  # ex, 10% off : 0.90
-    general_discount = models.DecimalField(decimal_places=3, blank=True, max_digits=4, default=1.00)
+    group_discount = models.DecimalField(decimal_places=3, max_digits=4, default=1.00)  # ex, 10% off : 0.90
+    general_discount = models.DecimalField(decimal_places=3, max_digits=4, default=1.00)
     number_like = models.IntegerField(default=0)
     average_review_score = models.DecimalField(default=5, decimal_places=1, max_digits=2)
+    prior_level = models.IntegerField(choices=PRIOR_LEVEL, default=2)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """
@@ -113,15 +120,15 @@ class ProductComment(models.Model):
 
 class ProductExtension(models.Model):
     product = models.OneToOneField(Product, related_name='details', primary_key=True)
-    price_range = models.DecimalField(decimal_places=2, blank=True, max_digits=8)
-    special_price = models.DecimalField(decimal_places=2, blank=True, max_digits=8)
+    price_range = models.DecimalField(decimal_places=2, default=0.00, max_digits=8)
+    special_price = models.DecimalField(decimal_places=2, default=0.00, max_digits=8)
     message = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
     feature = models.TextField(blank=True)
     # product attributes
     size = models.CharField(max_length=50, blank=True)
     weight = models.CharField(max_length=20, blank=True, default='1.00')
-    color = models.CharField(max_length=25, blank=True)
+    color = models.CharField(max_length=25, blank=True)             # format example: blue|white|red|green
 
     def __str__(self):
         return self.product.product_name
