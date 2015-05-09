@@ -153,8 +153,12 @@ def calc_all_price_per_order(order_id):
             'total': num_items,
         })
     shipping_fee = shipping_fee_multi_calc(shipping_cost_list)
-    tax = 0.00
+    tax = 1.00                                                  # add calc tax and discount later******************
     discount = 0.00
+    # make currency amount
+    items_subtotal = float('{0:.2f}'.format(items_subtotal))
+    tax = float('{0:.2f}'.format(tax))
+    discount = float('{0:.2f}'.format(discount))
     subtotal = float('{0:.2f}'.format(items_subtotal + shipping_fee + tax - discount))
     if subtotal < 0.00:
         return None
