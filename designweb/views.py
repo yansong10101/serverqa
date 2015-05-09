@@ -34,9 +34,6 @@ def index(request):
 
 def signup(request):
     if request.method == 'POST':
-        # username = request.POST['username']
-        # password = request.POST['password']
-        # confirm_password = request.POST['confirm_password']
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -48,7 +45,8 @@ def signup(request):
             user.wish_list = WishList.objects.create(user=user)
             # sending_mail_for_new_signup(username)
             login(request, user)
-            return render(request, 'home.html', get_display_dict(title='HOME', pass_dict={'welcome': True, }))
+            return render(request, 'home.html', get_display_dict(title='HOME',
+                                                                 pass_dict={'welcome': True, 'user_id': user.pk}))
         else:
             pass_dicts = {'form': form, 'error_msg': form.error_messages}
             return render(request, 'signup.html', get_display_dict('SIGNUP', pass_dict=pass_dicts))
@@ -64,7 +62,7 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user.is_authenticated():
             login(request, user)
-            return redirect(reverse('design:home'), get_display_dict(title='HOME'))
+            return redirect(reverse('design:home'), get_display_dict(title='HOME', pass_dict={'user_id': user.pk, }))
         else:
             return render(request, 'login.html', get_display_dict(title='LOGIN'))
     else:
@@ -99,7 +97,8 @@ def user_profile(request, pk):
                   'address2': user.user_profile.address2,
                   'city': user.user_profile.city,
                   'state': user.user_profile.state,
-                  'zip': user.user_profile.zip, }
+                  'zip': user.user_profile.zip,
+                  'user_id': user.pk, }
     return render(request, 'user_profile.html', get_display_dict('USER PROFILE', pass_dict=pass_dicts))
 
 
@@ -115,7 +114,9 @@ def product_view(request, pk):
     pass_dicts = {'product': product,
                   'show_create': show_create,
                   'group': micro_group,
-                  'is_in_cart': is_product_in_user_cart(user, pk)}
+                  'is_in_cart': is_product_in_user_cart(user, pk), }
+    if user.is_authenticated():
+        pass_dicts['user_id'] = user.pk
     return render(request,
                   'product.html',
                   (get_display_dict('PRODUCT', pass_dict=dict(list(image_dict.items()) + list(pass_dicts.items())))))
@@ -190,6 +191,24 @@ def update_cart_detail(request, pk, num, order_id=None):
 
 @ensure_csrf_cookie
 @api_view(['GET', 'POST', ])
+def get_cart_drop_down_by_pk(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    cart = get_object_or_404(Cart, user=user)
+    cart_dict = {}
+    for detail in cart.cart_details.all():
+        product_code = detail.product.product_code
+        product_image = get_s3_bucket_main_image_by_product(product_code)
+        temp_dict = {
+            'product_image': product_image,
+            'product_name': detail.product.product_name,
+            'product_count': detail.number_in_cart,
+        }
+        cart_dict[product_code] = temp_dict
+    return Response(data=cart_dict)
+
+
+@ensure_csrf_cookie
+@api_view(['GET', 'POST', ])
 def like_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     product.number_like += 1
@@ -210,6 +229,21 @@ def get_product_forum(request, pk):
     product = get_object_or_404(Product, pk=pk)
     comments = ProductComment.objects.filter(product=product)
     return Response(data={'Success': 'Success', 'comments': comments})
+
+
+@ensure_csrf_cookie
+@api_view(['GET', 'POST', ])
+def add_product_forum_comment(request, product_id):
+    user = request.user
+    product = get_object_or_404(Product, pk=product_id)
+    msg = request.POST.get('comment')
+    comment = ProductComment.objects.create(product=product, message=msg)
+    if user.is_authenticated():
+        comment.reviewer_id = user.pk
+        comment.reviewer = str.split(user.username, '@')[0]
+        comment.save()
+    return Response(data={'Success': 'Success'})
+
 
 # ===============================================
 @ensure_csrf_cookie
