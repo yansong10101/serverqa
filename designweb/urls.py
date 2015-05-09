@@ -32,6 +32,8 @@ urlpatterns = patterns(
     url(r'^api/like/(?P<pk>[0-9]+)/$', views.like_product, name='like-product'),
     url(r'^api/address/(?P<pk>[0-9]+)/(?P<order_id>[0-9]+)/$', views.update_order_info, name='shipping-address'),
     url(r'^api/products-review/(?P<pk>[0-9]+)/$', views.get_product_review, name='product-review'),
+    url(r'^api/cart-drop-down/(?P<pk>[0-9]+)/$', views.get_cart_drop_down_by_pk, name='cart-drop-down-list'),
+    url(r'^api/forum/add-comment/(?P<product_id>[0-9]+)/$', views.add_product_forum_comment, name='add-comment-to-forum'),
 
     # api using rest-framework
     url(r'^api/products/$', views.ProductsList.as_view(), name='product-list'),
