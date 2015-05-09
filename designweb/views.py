@@ -395,11 +395,50 @@ def payment_failed(request):
 
 
 def checkout(request):
-    print(request.POST['holder_name'])
-    print(request.POST['expired_month'])
 
-    from designweb.payment.payment_utils import payment_process
-    payment_dict = payment_process('paypal', request.META['HTTP_HOST'])
+    if request.method != 'POST':
+        return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
+    payment_method = request.POST['payment_method']
+    from designweb.payment.payment_utils import payment_process, DIRECT_CREDIT
+    amount_dict = calc_all_price_per_order(int(request.POST['order_id']))
+    direct_credit_dict = {}
+    transaction_dict = {
+        "amount":
+            {
+                "total": str(amount_dict['subtotal']),
+                "currency": "USD",
+                "details": {
+                    "subtotal": str(amount_dict['items_subtotal']),
+                    "tax": str(amount_dict['tax']),
+                    "shipping": str(amount_dict['shipping_fee'])
+                },
+            },
+        "description": "creating a payment"
+    }
+    if payment_method == DIRECT_CREDIT:
+        direct_credit_dict = {
+            "credit_card": {
+                "type": "visa",
+                "number": str(request.POST['card_num_1']) +
+                str(request.POST['card_num_2']) +
+                str(request.POST['card_num_3']) +
+                str(request.POST['card_num_4']),
+                "expire_month": str(request.POST['cc_exp_mo']),
+                "expire_year": str(request.POST['cc_exp_yr']),
+                "cvv2": str(request.POST['cvv_number']),
+                "first_name": str(request.POST['card_holder']),     # need split later
+                "last_name": "Shopper",
+                "billing_address": {
+                    "line1": "52 N Main ST",
+                    "city": "Johnstown",
+                    "state": "OH",
+                    "postal_code": "43210",
+                    "country_code": "US"
+                }
+            }
+        }
+
+    payment_dict = payment_process(payment_method, request.META['HTTP_HOST'], transaction_dict, direct_credit_dict)
     if not payment_dict:
         return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
     redirect_url = payment_dict['redirect_url']
