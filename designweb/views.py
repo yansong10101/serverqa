@@ -60,11 +60,11 @@ def login_view(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        if user.is_authenticated():
+        if not user:
+            return redirect(reverse('design:home'), get_display_dict(title='Home'))
+        elif user.is_authenticated():
             login(request, user)
             return redirect(reverse('design:home'), get_display_dict(title='HOME', pass_dict={'user_id': user.pk, }))
-        else:
-            return render(request, 'login.html', get_display_dict(title='LOGIN'))
     else:
         return render(request, 'login.html', get_display_dict(title='LOGIN'))
 
