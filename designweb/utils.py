@@ -10,8 +10,6 @@ import re
 from designweb.shipping.shipping_utils import shipping_fee_multi_calc
 from designweb.session_secure import update_session_timeout
 
-LIVE_BUCKET = 'static/products/'
-TEST_BUCKET = 'test/static/products/'
 MAIN_IMAGE = 'main_image'
 SMALL_IMAGE = 's_alternate_*'
 BIG_IMAGE = 'b_alternate_*'
@@ -225,7 +223,7 @@ def get_s3_bucket_image_by_product(product_code):
     from hookupdesign import settings
     conn = S3Connection(settings.AWS_ACCESS_KEY, settings.AWS_SECRET_ACCESS_KEY)
     bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
-    product_dir = LIVE_BUCKET + str(product_code) + '/'
+    product_dir = settings.BUCKET_PATH + str(product_code) + '/'
     rs = bucket.list(prefix=product_dir)
     image_list = []
     for item in rs:
