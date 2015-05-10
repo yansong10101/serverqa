@@ -200,7 +200,7 @@
             $.each(list, function(i, item){
                 var elem = product_lite.clone();
                 elem.children('div').children('a').eq(0).attr('href', host + "/product/" + item.pk);
-                elem.find('img').attr('src', image_dir + item.image_root);
+                elem.find('img').attr('src', image_dir + item.product_code + "/" + "b_alternate_1.jpg");
                 var prod_display_name = item.product_name;
                 if(prod_display_name.length > 40){
                     prod_display_name = prod_display_name.substr(0, 40) + " ...";

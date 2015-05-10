@@ -23,7 +23,7 @@
                     <!-- Indicators -->
                     <div class="col-sm-2">
                         <ol class='carousel-indicators mCustomScrollbar'>
-                            {% for image in big_img %}
+                            {% for image in small_img %}
                                 {% if forloop.first %}
                                     <li data-target='#carousel-custom' data-slide-to='{{ forloop.counter0 }}' class='active'>
                                 {% else %}
@@ -37,7 +37,7 @@
                     <div class='carousel-outer col-sm-10'>
                         <!-- Wrapper for slides -->
                         <div class='carousel-inner'>
-                            {% for image in small_img %}
+                            {% for image in big_img %}
                                 {% if forloop.first %}
                                     <div class='item active'>
                                 {% else %}
