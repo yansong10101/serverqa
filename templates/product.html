@@ -185,9 +185,8 @@
         <!--row1 product buy form -->
             <div class="inner">
                 <h1 id="product_name"></h1>
-                <p id="product_code"></p>
-                <span id="regular_price"></span>&nbsp;<span id="sale_price"></span>&nbsp;<span id="is_in_stock"></span>
-                <h3 id="number_in_stock">{{ product.number_in_stock }}</h3>
+{#                <p id="product_code"></p>#}
+                <span id="regular_price"></span>&nbsp;<span id="sale_price"></span>&nbsp;<span id="is_in_stock">(in stock: {{ product.number_in_stock }})</span>
                 <div class="hr" > </div>
                 <h4>Description</h4>
                 <small id="product_description">{{ product.description | safe }}</small>

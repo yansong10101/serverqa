@@ -272,7 +272,10 @@ def my_wish(request, pk):
 def category_view(request, pk):
     category = get_object_or_404(Category, pk=pk)
     products = Product.objects.filter(category=category)
-    pass_dicts = {'products': products, }
+    pass_dicts = {'products': products,
+                  'category_id': pk,
+                  'category_name': category.category_name,
+                  'category_parent': category.parent_category, }
     return render(request, 'category.html', get_display_dict('CATEGORY', pass_dict=pass_dicts))
 
 
@@ -358,6 +361,15 @@ class ProductsList(generics.ListAPIView):
 class ProductDetail(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductDetailSerializer
+
+
+class ProductCategory(generics.ListAPIView):
+    serializer_class = ProductListSerializer
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        category = get_object_or_404(Category, pk=category_id)
+        return Product.objects.filter(category=category)
 
 
 class CartViewSet(viewsets.ModelViewSet):
