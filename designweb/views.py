@@ -248,8 +248,8 @@ def add_product_forum_comment(request, product_id):
 # ===============================================
 @ensure_csrf_cookie
 @login_required(login_url='/login/')
-def my_cart(request, pk):
-    user = get_object_or_404(User, pk=pk)
+def my_cart(request):
+    user = request.user
     if user.is_authenticated():
         products = user.cart.products.all()
         order_dicts = order_view_process(user)
@@ -370,6 +370,20 @@ class ProductCategory(generics.ListAPIView):
         category_id = self.kwargs['category_id']
         category = get_object_or_404(Category, pk=category_id)
         return Product.objects.filter(category=category)
+
+
+class ProductMiddleLevel(generics.ListAPIView):
+    serializer_class = ProductListSerializer
+
+    def get_queryset(self):
+        return Product.objects.filter(prior_level=1)
+
+
+class ProductHighLevel(generics.ListAPIView):
+    serializer_class = ProductListSerializer
+
+    def get_queryset(self):
+        return Product.objects.filter(prior_level=0)
 
 
 class CartViewSet(viewsets.ModelViewSet):
