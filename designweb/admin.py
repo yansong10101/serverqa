@@ -13,7 +13,7 @@ class ExtensionProductInline(admin.StackedInline):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('product_name', 'product_code', 'create_date', 'modified_date', 'price', 'is_active', )
-    list_filter = ('create_date', 'price', 'is_active', )
+    list_filter = ('create_date', 'is_active', 'prior_level', )
     filter_horizontal = ('category', )
     ordering = ('-create_date', )
 

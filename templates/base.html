@@ -154,7 +154,7 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <li class="dropdown" id="myCart">
-                    <a class="dropdown-toggle" href="{% url 'design:my-cart' user.pk%}" data-toggle="dropdown">My Cart</a>
+                    <a class="dropdown-toggle" href="{% url 'design:my-cart' %}" data-toggle="dropdown">My Cart</a>
                     <div class="dropdown-content dropdown-menu">
                         <div id="cart_drop_down"></div>
 {#                        <div class="row">#}
@@ -166,7 +166,7 @@
 {#                                <p>Quantity:1</p>#}
 {#                            </div>#}
 {#                        </div>#}
-                        <a class="btn btn-default btn-block" href="{% url 'design:my-cart' user.pk%}">Check out</a>
+                        <a class="btn btn-default btn-block" href="{% url 'design:my-cart' %}">Check out</a>
                     </div>
                 </li>
 {#                <!--<li><a href="{% url 'design:my-wish' user.pk%}">MyWish</a></li>-->#}
