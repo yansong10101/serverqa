@@ -254,13 +254,15 @@
                     <h4 class="title">Payment</h4>
                 </div>
                 <div class="inner" style="overflow: hidden;">
-                    <form class="col-sm-7">
+
+                    <form class="col-sm-7" id="direct_form" action="/checkout/" method="post">
+                        {% csrf_token %}
                         <fieldset class="inner" style="margin-right: 20px; padding-right:20px;border-right: 1px solid #999">
                             <legend>Credit/Debit Card</legend>
                             <div class="control-group">
                                 <label label-default="" class="control-label">Card Holder's Name</label>
                                 <div class="controls">
-                                    <input type="text" class="form-control" pattern="\w+ \w+.*" title="First and last name" required="">
+                                    <input type="text" class="form-control" pattern="\w+ \w+.*" title="First and last name" required="" name="card_holder">
                                 </div>
                             </div>
                             <div class="control-group" style="margin-top: 10px">
@@ -268,16 +270,16 @@
                                 <div class="controls inner" style="padding-top: 0px">
                                     <div class="row">
                                         <div class="col-xs-3" style="padding-right: 5px">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="First four digits" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="First four digits" required="" name="card_num_1">
                                         </div>
                                         <div class="col-xs-3" style="padding-right: 5px">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Second four digits" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Second four digits" required="" name="card_num_2">
                                         </div>
                                         <div class="col-xs-3" style="padding-right: 5px">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Third four digits" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Third four digits" required="" name="card_num_3">
                                         </div>
                                         <div class="col-xs-3">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Fourth four digits" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="4" pattern="\d{4}" title="Fourth four digits" required="" name="card_num_4">
                                         </div>
                                     </div>
                                 </div>
@@ -323,29 +325,34 @@
                                 <div class="controls inner" style="padding-top: 0px">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <input type="text" class="form-control" autocomplete="off" maxlength="3" pattern="\d{3}" title="Three digits at back of your card" required="">
+                                            <input type="text" class="form-control" autocomplete="off" maxlength="3" pattern="\d{3}" title="Three digits at back of your card" required="" name="cvv_number">
                                         </div>
                                         <div class="col-md-8"></div>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                    <input class="side_bar_item_total">
-                                    <input class="side_bar_discount_total">
-                                    <input class="side_bar_tax_total">
-                                    <input class="side_bar_shipping_total">
-                                    <input class="side_bar_subtotal">
+                                    <input hidden name="payment_method" value="direct_credit">
+                                    <input hidden name="order_id" value="{{ order_id }}">
+
                             </div>
                         </fieldset>
+
+                        <input type="submit" name="submit">submit direct credit pay
                     </form>
 
                     <div class="col-sm-5">
                         <fieldset><legend>Paypal</legend></fieldset>
                         <form class="inner" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                            {% csrf_token %}
                             <input type="hidden" name="cmd" value="_s-xclick">
                             <input type="hidden" name="hosted_button_id" value="RS28UWF9LFWPL">
                             <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                             <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+
+                            <input hidden name="payment_method" value="paypal">
+                            <input hidden name="order_id" value="{{ order_id }}">
+
                         </form>
                     </div>
                 </div>
@@ -410,21 +417,21 @@
     <script type="text/javascript">
         var host = window.location.origin;
 
-        var b_address1 = $("#b_address1");
-        var b_address2 = $("#b_address2");
-        var b_city = $("#b_city");
-        var b_state = $("#b_state");
-        var b_zip = $("#b_zip");
-        var b_phone1 = $('#b_phone1');
-        var b_phone2 = $('#b_phone2');
+        var b_address1 = $("#b_address1"),
+            b_address2 = $("#b_address2"),
+            b_city = $("#b_city"),
+            b_state = $("#b_state"),
+            b_zip = $("#b_zip"),
+            b_phone1 = $('#b_phone1'),
+            b_phone2 = $('#b_phone2');
 
-        var s_address1 = $("#s_address1");
-        var s_address2 = $("#s_address2");
-        var s_city = $("#s_city");
-        var s_state = $("#s_state");
-        var s_zip = $("#s_zip");
-        var s_phone1 = $('#s_phone1');
-        var s_phone2 = $('#s_phone2');
+        var s_address1 = $("#s_address1"),
+            s_address2 = $("#s_address2"),
+            s_city = $("#s_city"),
+            s_state = $("#s_state"),
+            s_zip = $("#s_zip"),
+            s_phone1 = $('#s_phone1'),
+            s_phone2 = $('#s_phone2');
 
         $('#is_billing_address').change(function(){
             if (this.checked) {
@@ -479,7 +486,7 @@
                      billing_phone2: b_phone2.val() },
             dataType: "json"
             }).success(function(data, textStatus, jqXHR){
-                alert(data["result"]);
+                //alert(data["result"]);
             }).fail(function(jqXHR, textStatus){
                 alert("Failed !");
             });
@@ -489,6 +496,12 @@
 
     <script type="text/javascript">
         var host = window.location.origin;
+
+        var side_bar_items_total = $('.side_bar_item_total'),
+            side_bar_discount = $('.side_bar_discount_total'),
+            side_bar_tax = $('.side_bar_tax_total'),
+            side_bar_shipping_fee = $('.side_bar_shipping_total'),
+            side_bar_subtotal = $('.side_bar_subtotal');
 
         function remove_row(id){
             var row_id = "#row_" + id;
@@ -550,8 +563,8 @@
                 if(index > 0){
                     o_id = "";
                 }
-                var detail_id = parseInt($(this).attr('name'));
-                var num_items = parseInt($(this).val());
+                var detail_id = parseInt($(this).attr('name')),
+                    num_items = parseInt($(this).val());
 
                 if(parseInt($(this).val()) < 1){
                     num_items = 1;
@@ -563,19 +576,28 @@
                     dataType: "json"
                     }).success(function(data, textStatus, jqXHR){
 
-                        alert(data["Success"]);
-                        $('.side_bar_item_total').html(data['items_subtotal']);
-                        $('.side_bar_discount_total').html(data['discount']);
-                        $('.side_bar_tax_total').html(data['tax']);
-                        $('.side_bar_shipping_total').html(data['shipping_fee']);
-                        $('.side_bar_subtotal').html(data['subtotal']);
+                        fill_amount(data);
 
                     }).fail(function(jqXHR, textStatus){
                         alert('Request Failed');
                     });
                 });
-
             });
+
+        function fill_amount(data){
+            var items_subtotal = data['items_subtotal'],
+                discount = data['discount'],
+                tax = data['tax'],
+                shipping_fee = data['shipping_fee'],
+                subtotal = data['subtotal'];
+
+            side_bar_items_total.html(items_subtotal).val(items_subtotal);
+            side_bar_discount.html(discount).val(discount);
+            side_bar_tax.html(tax).val(tax);
+            side_bar_shipping_fee.html(shipping_fee).val(shipping_fee);
+            side_bar_subtotal.html(subtotal).val(subtotal);
+        }
+
     </script>
 
 {% endblock %}

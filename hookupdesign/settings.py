@@ -106,7 +106,8 @@ AWS_STORAGE_BUCKET_NAME = 'popdesign'
 AWS_QUERYSTRING_AUTH = False
 S3_STORAGE = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 S3_URL = 'http://127.0.0.1:8000'   # initial with local for testing
-IS_TEST = True
+BUCKET_PATH = 'static/products/'
+IS_TEST = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
@@ -119,6 +120,7 @@ if USE_S3:
     S3_URL = S3_STORAGE
     if IS_TEST:
         S3_URL = S3_STORAGE + '/test'
+        BUCKET_PATH = 'test/static/products/'
     MEDIA_URL = S3_URL + '/products/'
     MEDIA_ROOT = S3_URL
 

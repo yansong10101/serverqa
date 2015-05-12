@@ -1,5 +1,6 @@
 __author__ = 'zys'
 from django import template
+from designweb.utils import get_s3_bucket_main_image_by_product
 
 
 register = template.Library()
@@ -24,3 +25,8 @@ def tag_calc_total(num, price):
 @register.simple_tag(name="calc_total_tax")
 def tag_calc_total_tax(num, price, location=None):
     return num*price
+
+
+@register.simple_tag(name="get_s3_main_image")
+def tag_get_s3_main_image(product_code):
+    return get_s3_bucket_main_image_by_product(product_code)

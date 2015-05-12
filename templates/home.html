@@ -15,25 +15,25 @@
             <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                 <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
+{#                <li data-target="#myCarousel" data-slide-to="2"></li>#}
             </ol>
             <div class="carousel-inner">
                 <div class="item active">
-                    <img src="{{ storage_host }}/static/slides/designer_main.jpg" alt="First slide">
-{#          <div class="container">#}
-{#            <div class="carousel-caption">#}
-{#              <h1>Example headline.</h1>#}
-{#              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>#}
-{#              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>#}
-{#            </div>#}
-{#          </div>#}
+                    <img src="{{ storage_host }}/static/slides/rec_1.jpg" alt="First slide">
+          <div class="container">
+            <div class="carousel-caption">
+              <h1>Example headline.</h1>
+              <p>description ??</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">have a look</a></p>
+            </div>
+          </div>
                 </div>
                 <div class="item">
-                    <img src="{{ storage_host }}/static/slides/slide_2.jpg" alt="Second slide">
+                    <img src="{{ storage_host }}/static/slides/rec_2.jpg" alt="Second slide">
                 </div>
-                <div class="item">
-                    <img src="{{ storage_host }}/static/slides/slide_3.jpg" alt="Third slide">
-                </div>
+{#                <div class="item">#}
+{#                    <img src="{{ storage_host }}/static/slides/slide_3.jpg" alt="Third slide">#}
+{#                </div>#}
             </div>
             <div class="control-box">
                 <a class="left carousel-control" href="#myCarousel" data-slide="prev">
@@ -95,55 +95,55 @@
                 <h6 class="col-md-1 next arrow">&gt;</h6>
             </div>
             <div class="content_carousel">
-                <ul>
-                    <li>
-                        <a href="#">
-                            <img src="http://placehold.it/550x500">
-                            <span>Title</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="http://placehold.it/550x500">
-                            <span>2</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="http://placehold.it/550x500">
-                            <span>3</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="http://placehold.it/550x500">
-                            <span>4</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="http://placehold.it/550x500">
-                            <span>5</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="http://placehold.it/550x500">
-                            <span>6</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="http://placehold.it/550x500">
-                            <span>7</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <img src="http://placehold.it/550x500">
-                            <span>8</span>
-                        </a>
-                    </li>
+                <ul id="handpick_container">
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img src="http://placehold.it/550x500">#}
+{#                            <span>Title</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img src="http://placehold.it/550x500">#}
+{#                            <span>2</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img src="http://placehold.it/550x500">#}
+{#                            <span>3</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img src="http://placehold.it/550x500">#}
+{#                            <span>4</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img src="http://placehold.it/550x500">#}
+{#                            <span>5</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img src="http://placehold.it/550x500">#}
+{#                            <span>6</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img src="http://placehold.it/550x500">#}
+{#                            <span>7</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="#">#}
+{#                            <img src="http://placehold.it/550x500">#}
+{#                            <span>8</span>#}
+{#                        </a>#}
+{#                    </li>#}
                 </ul>
             </div>
         </div>
@@ -154,7 +154,7 @@
 
     <script type="text/javascript">
         var host = window.location.origin;
-        var product_lite = $('<div class="product-thumbnail col-lg-4 col-md-4 col-sm-6"><div class="inner"><a><img class="img-thumbnail" alt="Generic placeholder image" style="width: 320px; height: 350px;" /></a><h5>Title</h5><h5>Price</price></div></div>');
+        var product_lite = $('<div class="product-thumbnail col-lg-4 col-md-4 col-sm-6"><div class="inner"><a><img class="img-thumbnail" alt="Generic placeholder image" style="width: 320px; height: 350px;" /></a><h5>Title</h5><h5>Price</h5></div></div>');
         var image_dir = "{{ storage_host }}" + "{% static 'products/' %}";
         var container = $(".product-grid");
         var load_btn = $("#btn");
@@ -164,7 +164,11 @@
 
         var catch_data = null;
 
-        $( document ).ready(ajaxCall(null));
+{#        $( document ).ready(ajaxCall(null));#}
+        $( document ).ready(function(){
+            ajaxCall(null);
+            load_rec_products();
+        });
 
         function ajaxCall(api_url){
             if(api_url == null || api_url == undefined){
@@ -175,9 +179,7 @@
             url: api_url,
             dataType: "json"
             }).success(function(data, textStatus, jqXHR){
-
                 loadPage(data);
-
             }).fail(function(jqXHR, textStatus){
                 alert('Request Failed');
             });
@@ -190,7 +192,7 @@
                 loadProduct(data.results);
             }else{
                 load_btn.hide();
-                loadProduct(data.results);      // To Do -- display number of items only multiple of 3
+                loadProduct(data.results);      // To Do -- display number of items only multiply of 3
                 catch_data = null;              // set tmp var to null when no use anymore
                 load_btn.visibility = false;    // TO DO -- disable load button ?
             }
@@ -200,8 +202,13 @@
             $.each(list, function(i, item){
                 var elem = product_lite.clone();
                 elem.children('div').children('a').eq(0).attr('href', host + "/product/" + item.pk);
-                elem.find('img').attr('src', image_dir + item.image_root);
-{#                elem.find('p').html("item title");#}
+                elem.find('img').attr('src', image_dir + item.product_code + "/" + "b_alternate_1.jpg");
+                var prod_display_name = item.product_name;
+                if(prod_display_name.length > 40){
+                    prod_display_name = prod_display_name.substr(0, 40) + " ...";
+                }
+                elem.find('h5').slice(0, 1).text(prod_display_name);
+                elem.find('h5').slice(1, 2).text(item.price);
                 container.append(elem);
             });
         }
@@ -226,6 +233,37 @@
             var url = catch_data.next;
             ajaxCall(url);
         });
+{#    </script>#}
+{##}
+{#    <script type="text/javascript">#}
+        var rec_product_lite = $('<li><a><img style="width: 550px; height: 500px;"><span></span></a></li>'),
+            handpick_container = $('#handpick_container');
+
+        function load_rec_products(){
+            $.ajax({
+            type: "GET",
+            url: host + "/api/products/recommendations/middle-level/?format=json",
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+                display_rec_products(data.results);
+            }).fail(function(jqXHR, textStatus){
+                alert('Sorry, Request Failed, we are maintaining, please waite for some moments...');
+            });
+        }
+
+        function display_rec_products(data){
+            $.each(data, function(i, item){
+                var elem = rec_product_lite.clone();
+                elem.children('a').eq(0).attr('href', host + "/product/" + item.pk);
+                elem.find('img').attr('src', image_dir + item.product_code + "/" + "b_alternate_1.jpg");
+                var prod_display_name = item.product_name;
+                if(prod_display_name.length > 40){
+                    prod_display_name = prod_display_name.substr(0, 40) + " ...";
+                }
+{#                elem.find('span').text(prod_display_name);#}
+                handpick_container.append(elem);
+            });
+        }
     </script>
 
 {% endblock %}

@@ -63,69 +63,38 @@
               <ul class="dropdown-menu" role="menu">
                 <li><a href="#">New Stuff</a></li>
                 <li><a href="#">Funny &amp; Fancy</a></li>
-                <li class="dropdown-submenu">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Find your style</a>
-                      <ul class="dropdown-menu">
-                          <li><a href="#">Action</a></li>
-                          <li><a href="#" data-toggle="dropdown">Dropdown</a></li>
-                      </ul>
-                  </li>                <li class="divider"></li>
+                <li class="divider"></li>
                 <li class="dropdown-header">Filter</li>
-                {% for cat_item in categories %}
-                  <li><a href="{% url 'design:category-view' cat_item.pk %}">{{ cat_item.category_name }}</a></li>
+                {% for key_cat, value_cat in categories.items %}
+                    <li class="dropdown-submenu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ key_cat }}</a>
+                        <ul class="dropdown-menu">
+                        {% for values in value_cat %}
+                            <li><a href="{% url 'design:category-view' values.cat_id %}">{{ values.cat_name }}</a></li>
+                        {% endfor %}
+                        </ul>
+                    </li>
                 {% endfor %}
               </ul>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Help<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                  <li><a href="#">New Stuff</a></li>
-                  <li><a href="#">Funny &amp; Fancy</a></li>
-
+                  <li><a href="#">Terms &amp; Policy</a></li>
+                  <li><a href="#">M-Group</a></li>
                   <li class="divider"></li>
-                <li class="dropdown-header">Filter</li>
-                {% for cat_item in categories %}
-                  <li><a href="{% url 'design:category-view' cat_item.pk %}">{{ cat_item.category_name }}</a></li>
-                {% endfor %}
+                  <li class="dropdown-header">MISC</li>
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Contact Us</a></li>
               </ul>
             </li>
-            <!--<li><a href="{% url 'design:home' %}">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>-->
           </ul>
            {% if user.is_anonymous %}
             <ul class="nav navbar-nav navbar-right user-modal-nav">
-         {#       <!-- <a href="{% url 'design:login' %}">Login</a></li> -->              #}
-{#               <!-- <li><a class="signup-btn" href="{% url 'design:signup' %}">Sign Up</a></li>-->#}
-
                 <!--- signup modal window -->
                 <li><a class="signup">Sign up</a></li>
                 <li><a class="signin">Sign in</a> </li>
 
-
-
-                <!-- signup dropdown --->
-                <!--<li class="dropdown" id="menuLogin">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign up</a>
-                    <div class="dropdown-content dropdown-menu">
-                        <form class="form form-style" id="form-signup">
-                            <input name="username" id="username" type="text" placeholder="Username">
-                            <input name="password" id="password" type="password" placeholder="Password"><br>
-                            <button type="button" id="signup-btn" class="btn">Sign up</button>
-                        </form>
-                    </div>
-                </li>
-                <li class="dropdown" id="menuLogin">
-                    <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign in</a>
-                    <div class="dropdown-content dropdown-menu">
-                        <form class="form form-style" id="form-signin">
-                            <input name="username" id="username" type="text" placeholder="Username">
-                            <input name="password" id="password" type="password" placeholder="Password"><br>
-                            <a id="forgot-link" href="#">Forgot password?</a>
-                            <button type="button" id="signin-btn" class="btn">Sign in</button>
-                        </form>
-                    </div>
-                </li>-->
             </ul>
            <!----sign in or sign up modal window ------>
             <div class="user-modal">
@@ -185,21 +154,22 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <li class="dropdown" id="myCart">
-                    <a class="dropdown-toggle" href="{% url 'design:my-cart' user.pk%}" data-toggle="dropdown">My Cart</a>
+                    <a class="dropdown-toggle" href="{% url 'design:my-cart' %}" data-toggle="dropdown">My Cart</a>
                     <div class="dropdown-content dropdown-menu">
-                        <div class="row">
-                            <div class="col-xs-5">
-                                <img src="http://placehold.it/50x50" />
-                            </div>
-                            <div class="col-xs-6">
-                                <p>Name</p>
-                                <p>Quantity:1</p>
-                            </div>
-                        </div>
-                        <a class="btn btn-default btn-block" href="{% url 'design:my-cart' user.pk%}">Check out</a>
+                        <div id="cart_drop_down"></div>
+{#                        <div class="row">#}
+{#                            <div class="col-xs-5">#}
+{#                                <img src="http://placehold.it/50x50" />#}
+{#                            </div>#}
+{#                            <div class="col-xs-6">#}
+{#                                <p>Name</p>#}
+{#                                <p>Quantity:1</p>#}
+{#                            </div>#}
+{#                        </div>#}
+                        <a class="btn btn-default btn-block" href="{% url 'design:my-cart' %}">Check out</a>
                     </div>
                 </li>
-                <!--<li><a href="{% url 'design:my-wish' user.pk%}">MyWish</a></li>-->
+{#                <!--<li><a href="{% url 'design:my-wish' user.pk%}">MyWish</a></li>-->#}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Hello {%  cut_email user.username %}<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
@@ -216,9 +186,8 @@
 
     <div class="container">
 
-
-
     {% block slides %}{% endblock %}
+
     </div>
     <!-- Marketing messaging and featurettes
     ================================================== -->
@@ -251,12 +220,16 @@
 
     <script>
         $(document).ready(function($){
+            var host = window.location.origin;
             var $form_modal = $('.user-modal'),
                 $form_signup = $form_modal.find('#signup'),
                 $form_signin = $form_modal.find('#signin'),
                 $form_modal_tab = $form_modal.find('.switcher'),
                 $tab_signup = $form_modal_tab.children('li').eq(0).children('a'),
                 $tab_signin = $form_modal_tab.children('li').eq(1).children('a');
+
+            var cart_drop_down_lite = $('<div class="row"><div class="col-xs-5"><img style="width:50px; height:50px;"/></div><div class="col-xs-6"><p></p></div></div></br>');
+            var container = $("#cart_drop_down");
 
             //open modal
             $('.user-modal-nav').on('click', function(e){
@@ -284,7 +257,6 @@
                         ($(e.target).is($tab_signup)) ? signup_selected():signin_selected();
             });
 
-
             function signup_selected(){
                 $form_signup.addClass('is-selected');
                 $form_signin.removeClass('is-selected');
@@ -299,6 +271,24 @@
                 $tab_signup.removeClass('selected');
             }
 
+            (function(){
+                $.ajax({
+                type: "POST",
+                url: host + "/api/cart-drop-down/" + {{ user.pk }} + "/",
+                dataType: "json"
+                }).success(function(data, textStatus, jqXHR){
+                    $.each(data, function(i, item){
+                        var elem = cart_drop_down_lite.clone();
+                        var name_display = item['product_name'].substr(0, 15);
+                        elem.find('p').text(name_display);
+{#                        elem.find('p').text(data['product_count']);#}
+                        elem.find('img').attr('src', item['product_image']);
+                        container.append(elem);
+                    });
+                }).fail(function(jqXHR, textStatus){
+
+                });
+            })();
         });
     </script>
   </body>

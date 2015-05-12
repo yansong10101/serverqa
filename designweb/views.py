@@ -34,9 +34,6 @@ def index(request):
 
 def signup(request):
     if request.method == 'POST':
-        # username = request.POST['username']
-        # password = request.POST['password']
-        # confirm_password = request.POST['confirm_password']
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
@@ -48,7 +45,8 @@ def signup(request):
             user.wish_list = WishList.objects.create(user=user)
             # sending_mail_for_new_signup(username)
             login(request, user)
-            return render(request, 'home.html', get_display_dict(title='HOME', pass_dict={'welcome': True, }))
+            return render(request, 'home.html', get_display_dict(title='HOME',
+                                                                 pass_dict={'welcome': True, 'user_id': user.pk}))
         else:
             pass_dicts = {'form': form, 'error_msg': form.error_messages}
             return render(request, 'signup.html', get_display_dict('SIGNUP', pass_dict=pass_dicts))
@@ -62,11 +60,11 @@ def login_view(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        if user is not None:
+        if not user:
+            return redirect(reverse('design:home'), get_display_dict(title='Home'))
+        elif user.is_authenticated():
             login(request, user)
-            return redirect(reverse('design:home'), get_display_dict(title='HOME'))
-        else:
-            return render(request, 'login.html', get_display_dict(title='LOGIN'))
+            return redirect(reverse('design:home'), get_display_dict(title='HOME', pass_dict={'user_id': user.pk, }))
     else:
         return render(request, 'login.html', get_display_dict(title='LOGIN'))
 
@@ -99,7 +97,8 @@ def user_profile(request, pk):
                   'address2': user.user_profile.address2,
                   'city': user.user_profile.city,
                   'state': user.user_profile.state,
-                  'zip': user.user_profile.zip, }
+                  'zip': user.user_profile.zip,
+                  'user_id': user.pk, }
     return render(request, 'user_profile.html', get_display_dict('USER PROFILE', pass_dict=pass_dicts))
 
 
@@ -115,7 +114,9 @@ def product_view(request, pk):
     pass_dicts = {'product': product,
                   'show_create': show_create,
                   'group': micro_group,
-                  'is_in_cart': is_product_in_user_cart(user, pk)}
+                  'is_in_cart': is_product_in_user_cart(user, pk), }
+    if user.is_authenticated():
+        pass_dicts['user_id'] = user.pk
     return render(request,
                   'product.html',
                   (get_display_dict('PRODUCT', pass_dict=dict(list(image_dict.items()) + list(pass_dicts.items())))))
@@ -190,6 +191,24 @@ def update_cart_detail(request, pk, num, order_id=None):
 
 @ensure_csrf_cookie
 @api_view(['GET', 'POST', ])
+def get_cart_drop_down_by_pk(request, pk):
+    user = get_object_or_404(User, pk=pk)
+    cart = get_object_or_404(Cart, user=user)
+    cart_dict = {}
+    for detail in cart.cart_details.all():
+        product_code = detail.product.product_code
+        product_image = get_s3_bucket_main_image_by_product(product_code)
+        temp_dict = {
+            'product_image': product_image,
+            'product_name': detail.product.product_name,
+            'product_count': detail.number_in_cart,
+        }
+        cart_dict[product_code] = temp_dict
+    return Response(data=cart_dict)
+
+
+@ensure_csrf_cookie
+@api_view(['GET', 'POST', ])
 def like_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     product.number_like += 1
@@ -211,11 +230,26 @@ def get_product_forum(request, pk):
     comments = ProductComment.objects.filter(product=product)
     return Response(data={'Success': 'Success', 'comments': comments})
 
+
+@ensure_csrf_cookie
+@api_view(['GET', 'POST', ])
+def add_product_forum_comment(request, product_id):
+    user = request.user
+    product = get_object_or_404(Product, pk=product_id)
+    msg = request.POST.get('comment')
+    comment = ProductComment.objects.create(product=product, message=msg)
+    if user.is_authenticated():
+        comment.reviewer_id = user.pk
+        comment.reviewer = str.split(user.username, '@')[0]
+        comment.save()
+    return Response(data={'Success': 'Success'})
+
+
 # ===============================================
 @ensure_csrf_cookie
 @login_required(login_url='/login/')
-def my_cart(request, pk):
-    user = get_object_or_404(User, pk=pk)
+def my_cart(request):
+    user = request.user
     if user.is_authenticated():
         products = user.cart.products.all()
         order_dicts = order_view_process(user)
@@ -238,7 +272,10 @@ def my_wish(request, pk):
 def category_view(request, pk):
     category = get_object_or_404(Category, pk=pk)
     products = Product.objects.filter(category=category)
-    pass_dicts = {'products': products, }
+    pass_dicts = {'products': products,
+                  'category_id': pk,
+                  'category_name': category.category_name,
+                  'category_parent': category.parent_category, }
     return render(request, 'category.html', get_display_dict('CATEGORY', pass_dict=pass_dicts))
 
 
@@ -326,6 +363,29 @@ class ProductDetail(generics.RetrieveAPIView):
     serializer_class = ProductDetailSerializer
 
 
+class ProductCategory(generics.ListAPIView):
+    serializer_class = ProductListSerializer
+
+    def get_queryset(self):
+        category_id = self.kwargs['category_id']
+        category = get_object_or_404(Category, pk=category_id)
+        return Product.objects.filter(category=category)
+
+
+class ProductMiddleLevel(generics.ListAPIView):
+    serializer_class = ProductListSerializer
+
+    def get_queryset(self):
+        return Product.objects.filter(prior_level=1)
+
+
+class ProductHighLevel(generics.ListAPIView):
+    serializer_class = ProductListSerializer
+
+    def get_queryset(self):
+        return Product.objects.filter(prior_level=0)
+
+
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
@@ -394,9 +454,51 @@ def payment_failed(request):
     return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
 
 
-def test(request):
-    from designweb.payment.payment_utils import payment_process
-    payment_dict = payment_process('paypal', request.META['HTTP_HOST'])
+def checkout(request):
+
+    if request.method != 'POST':
+        return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
+    payment_method = request.POST['payment_method']
+    from designweb.payment.payment_utils import payment_process, DIRECT_CREDIT
+    amount_dict = calc_all_price_per_order(int(request.POST['order_id']))
+    direct_credit_dict = {}
+    transaction_dict = {
+        "amount":
+            {
+                "total": str(amount_dict['subtotal']),
+                "currency": "USD",
+                "details": {
+                    "subtotal": str(amount_dict['items_subtotal']),
+                    "tax": str(amount_dict['tax']),
+                    "shipping": str(amount_dict['shipping_fee'])
+                },
+            },
+        "description": "creating a payment"
+    }
+    if payment_method == DIRECT_CREDIT:
+        direct_credit_dict = {
+            "credit_card": {
+                "type": "visa",
+                "number": str(request.POST['card_num_1']) +
+                str(request.POST['card_num_2']) +
+                str(request.POST['card_num_3']) +
+                str(request.POST['card_num_4']),
+                "expire_month": str(request.POST['cc_exp_mo']),
+                "expire_year": str(request.POST['cc_exp_yr']),
+                "cvv2": str(request.POST['cvv_number']),
+                "first_name": str(request.POST['card_holder']),     # need split later
+                "last_name": "Shopper",
+                "billing_address": {
+                    "line1": "52 N Main ST",
+                    "city": "Johnstown",
+                    "state": "OH",
+                    "postal_code": "43210",
+                    "country_code": "US"
+                }
+            }
+        }
+
+    payment_dict = payment_process(payment_method, request.META['HTTP_HOST'], transaction_dict, direct_credit_dict)
     if not payment_dict:
         return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
     redirect_url = payment_dict['redirect_url']

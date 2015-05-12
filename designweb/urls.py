@@ -11,13 +11,14 @@ urlpatterns = patterns(
     url(r'^signup/', views.signup, name='signup'),
     url(r'^user-profile/(?P<pk>[0-9]+)/$', views.user_profile, name='user-profile'),
     url(r'^product/(?P<pk>[0-9]+)/$', views.product_view, name='product-view'),
-    url(r'^cart/(?P<pk>[0-9]+)/', views.my_cart, name='my-cart'),
+    url(r'^cart/', views.my_cart, name='my-cart'),
     url(r'^wish/(?P<pk>[0-9]+)/', views.my_wish, name='my-wish'),
     # url(r'^order/(?P<pk>[0-9]+)/', views.my_order, name='my-order'),
     url(r'^category/(?P<pk>[0-9]+)/', views.category_view, name='category-view'),
     # url(r'^microgroup/(?P<pk>[0-9]+)/(?P<product_id>[0-9]+)/$', views.micro_group_view, name='micro-group'),
     url(r'^microgroup/(?P<product_id>[0-9]+)/(?P<group_id>[0-9]+)/$', views.micro_group_view, name='micro-group-id'),
     url(r'^microgroup/(?P<product_id>[0-9]+)//$', views.micro_group_view, name='micro-group'),
+    url(r'^checkout/$', views.checkout, name='checkout'),
 
     # api for ajax add and delete
     url(r'^api/cart/(?P<pk>[0-9]+)/add/(?P<prod_quantity>[0-9]+)/$', views.add_cart, name='add-to-cart'),
@@ -31,11 +32,16 @@ urlpatterns = patterns(
     url(r'^api/like/(?P<pk>[0-9]+)/$', views.like_product, name='like-product'),
     url(r'^api/address/(?P<pk>[0-9]+)/(?P<order_id>[0-9]+)/$', views.update_order_info, name='shipping-address'),
     url(r'^api/products-review/(?P<pk>[0-9]+)/$', views.get_product_review, name='product-review'),
+    url(r'^api/cart-drop-down/(?P<pk>[0-9]+)/$', views.get_cart_drop_down_by_pk, name='cart-drop-down-list'),
+    url(r'^api/forum/add-comment/(?P<product_id>[0-9]+)/$', views.add_product_forum_comment, name='add-comment-to-forum'),
 
     # api using rest-framework
     url(r'^api/products/$', views.ProductsList.as_view(), name='product-list'),
     url(r'^api/products/(?P<pk>[0-9]+)/$', views.ProductDetail.as_view(), name='product-detail'),
     url(r'^api/auth/user/(?P<pk>[0-9]+)/$', views.CustomerList.as_view(), name='auth-user'),
+    url(r'^api/products/filter/(?P<category_id>[0-9]+)/$', views.ProductCategory.as_view(), name='product-category'),
+    url(r'^api/products/recommendations/middle-level/$', views.ProductMiddleLevel.as_view(), name='middle-level'),
+    url(r'^api/products/recommendations/high-level/$', views.ProductHighLevel.as_view(), name='high-level'),
 
     # payment redirect view
     url(r'^payment/approval/', views.payment_view, name='payment-approval'),

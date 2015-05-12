@@ -10,12 +10,28 @@ import re
 from designweb.shipping.shipping_utils import shipping_fee_multi_calc
 from designweb.session_secure import update_session_timeout
 
+MAIN_IMAGE = 'main_image'
+SMALL_IMAGE = 's_alternate_*'
+BIG_IMAGE = 'b_alternate_*'
+
 
 def get_display_dict(title, pass_dict={}):
     login_form = LoginForm()
     signup_form = SignupForm()
+    categories = Category.objects.all()
+    category_dict = {}
+    for category in categories:
+        temp_cat_dict = {
+            'cat_parent': category.parent_category,
+            'cat_id': category.pk,
+            'cat_name': category.category_name
+        }
+        if category.parent_category not in category_dict:
+            category_dict[category.parent_category] = [temp_cat_dict, ]
+        else:
+            category_dict[category.parent_category].append(temp_cat_dict)
     display_dict = {'title': title,
-                    'categories': Category.objects.all(),
+                    'categories': category_dict,
                     'storage_host': S3_URL,
                     'login_form': login_form,
                     'signup_form': signup_form, }
@@ -153,8 +169,12 @@ def calc_all_price_per_order(order_id):
             'total': num_items,
         })
     shipping_fee = shipping_fee_multi_calc(shipping_cost_list)
-    tax = 0.00
+    tax = 1.00                                                  # add calc tax and discount later******************
     discount = 0.00
+    # make currency amount
+    items_subtotal = float('{0:.2f}'.format(items_subtotal))
+    tax = float('{0:.2f}'.format(tax))
+    discount = float('{0:.2f}'.format(discount))
     subtotal = float('{0:.2f}'.format(items_subtotal + shipping_fee + tax - discount))
     if subtotal < 0.00:
         return None
@@ -192,7 +212,7 @@ def validate_and_separate_image_into_dict(image_list, product_dir):
                     big_list.append(product_dir + big_image)
                     small_list.append(product_dir + small_image)
                     if big_tokens[2] == '1':
-                        image_dict['main_image'] = product_dir + big_image
+                        image_dict[MAIN_IMAGE] = product_dir + big_image
                     break
     image_dict['big_img'] = big_list
     image_dict['small_img'] = small_list
@@ -203,7 +223,7 @@ def get_s3_bucket_image_by_product(product_code):
     from hookupdesign import settings
     conn = S3Connection(settings.AWS_ACCESS_KEY, settings.AWS_SECRET_ACCESS_KEY)
     bucket = conn.get_bucket(settings.AWS_STORAGE_BUCKET_NAME)
-    product_dir = 'test/static/products/' + str(product_code) + '/'
+    product_dir = settings.BUCKET_PATH + str(product_code) + '/'
     rs = bucket.list(prefix=product_dir)
     image_list = []
     for item in rs:
@@ -214,4 +234,8 @@ def get_s3_bucket_image_by_product(product_code):
 
 
 def get_s3_bucket_main_image_by_product(product_code):
-    return get_s3_bucket_image_by_product(product_code)['main_image']
+    image_dict = get_s3_bucket_image_by_product(product_code)
+    if MAIN_IMAGE not in image_dict:
+        return ''
+    else:
+        return image_dict[MAIN_IMAGE]
