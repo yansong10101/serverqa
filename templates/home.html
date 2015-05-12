@@ -59,11 +59,6 @@
 
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
     <script src="{% static "js/util.js" %}"></script>
-    <script type="text/javascript">
-        $(function() {
-            scroll_carousel($('#handpick'), 2);
-        });
-    </script>
     <style type="text/css">
     #handpick {
         padding: 10px;
@@ -78,7 +73,7 @@
     }
 
     #handpick li {
-        width: 550px;
+        width: 350px;
     }
 
     #handpick .content_carousel {
@@ -96,54 +91,6 @@
             </div>
             <div class="content_carousel">
                 <ul id="handpick_container">
-{#                    <li>#}
-{#                        <a href="#">#}
-{#                            <img src="http://placehold.it/550x500">#}
-{#                            <span>Title</span>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="#">#}
-{#                            <img src="http://placehold.it/550x500">#}
-{#                            <span>2</span>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="#">#}
-{#                            <img src="http://placehold.it/550x500">#}
-{#                            <span>3</span>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="#">#}
-{#                            <img src="http://placehold.it/550x500">#}
-{#                            <span>4</span>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="#">#}
-{#                            <img src="http://placehold.it/550x500">#}
-{#                            <span>5</span>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="#">#}
-{#                            <img src="http://placehold.it/550x500">#}
-{#                            <span>6</span>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="#">#}
-{#                            <img src="http://placehold.it/550x500">#}
-{#                            <span>7</span>#}
-{#                        </a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="#">#}
-{#                            <img src="http://placehold.it/550x500">#}
-{#                            <span>8</span>#}
-{#                        </a>#}
-{#                    </li>#}
                 </ul>
             </div>
         </div>
@@ -236,7 +183,7 @@
 {#    </script>#}
 {##}
 {#    <script type="text/javascript">#}
-        var rec_product_lite = $('<li><a><img style="width: 550px; height: 500px;"><span></span></a></li>'),
+        var rec_product_lite = $('<li><a><img style="width:350px; height:300px"><span></span></a></li>'),
             handpick_container = $('#handpick_container');
 
         function load_rec_products(){
@@ -263,6 +210,7 @@
 {#                elem.find('span').text(prod_display_name);#}
                 handpick_container.append(elem);
             });
+            scroll_carousel($('#handpick'), 3);
         }
     </script>
 
