@@ -142,7 +142,9 @@ h1#product_name{
 #recommendation .arrow:hover {
 	color: #0FC491;
 }
-
+#recommendation ul li:first-child{
+    margin-left: 0px !important;
+}
 .nav-tabs>li>a {
     font-size: medium;
     padding-bottom: 0px;
