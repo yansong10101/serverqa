@@ -399,8 +399,8 @@
                     var content = item.comments;
                     if(content.length > showChar) {
                         var c = content.substr(0, showChar);
-                        var h = content.substr(showChar - 1, content.length - showChar);
-                        html = c + '<span class="moreellipses">' + ellipsesText + ' </span><span class="morecontent"><span>' + h + '</span>  <a href="" class="morelink">' + moreText + '</a></span>';
+                        var h = content.substr(showChar, content.length - showChar);
+                        html = c + '<span>' + ellipsesText + ' </span><span class="morecontent"><span>' + h + '</span><a href="" class="morelink">' + moreText + '</a></span>';
                         elem.find('p').html(html);
                     } else{
                         elem.find('p').html(content);
@@ -414,9 +414,9 @@
                              $(this).addClass("less");
                              $(this).html(lessText);
                          }
-                         $(this).parent().prev().toggle();
-                         $(this).prev().toggle();
-                         return false;
+                        $(this).parent().prev().toggle();
+                        $(this).prev().toggle();
+                        return false;
                     });
                 });
             }).fail(function(jqXHR, textStatus){
