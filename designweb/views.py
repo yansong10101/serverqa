@@ -111,10 +111,18 @@ def product_view(request, pk):
     if micro_group is None:
         show_create = True
     image_dict = get_s3_bucket_image_by_product(product.product_code)
+    product_details = product.details
     pass_dicts = {'product': product,
                   'show_create': show_create,
                   'group': micro_group,
-                  'is_in_cart': is_product_in_user_cart(user, pk), }
+                  'is_in_cart': is_product_in_user_cart(user, pk),
+                  'product_colors': False,
+                  'product_size': False,
+                  'product_stock_range': range(1, product.number_in_stock + 1), }
+    if product_details.color != '':
+        pass_dicts['product_colors'] = product_details.color.split(sep='|')
+    if product_details.size != '':
+        pass_dicts['product_size'] = product_details.size.split(sep='|')
     if user.is_authenticated():
         pass_dicts['user_id'] = user.pk
     return render(request,
@@ -129,11 +137,19 @@ def add_cart(request, pk, prod_quantity=1):
     user = request.user
     product = get_object_or_404(Product, pk=pk)
     user.cart.products.add(product)
+    product_size = request.POST.get('product_size') or ''
+    product_color = request.POST.get('product_color') or ''
     if not is_product_in_cart_details(user, product):
-        user.cart.cart_details.create(cart=user.cart, product=product, number_in_cart=prod_quantity)
+        user.cart.cart_details.create(cart=user.cart,
+                                      product=product,
+                                      number_in_cart=prod_quantity,
+                                      color=product_color,
+                                      size=product_size)
     else:
         cart_detail = user.cart.cart_details.filter(product=product)[0]
         cart_detail.number_in_cart = prod_quantity
+        cart_detail.color = product_color
+        cart_detail.size = product_size
         cart_detail.save()
     return Response(data={'Success': 'Success'})
 

@@ -126,9 +126,9 @@ class ProductExtension(models.Model):
     description = models.TextField(blank=True)
     feature = models.TextField(blank=True)
     # product attributes
-    size = models.CharField(max_length=50, blank=True)
+    size = models.CharField(max_length=225, blank=True)
     weight = models.CharField(max_length=20, blank=True, default='1.00')
-    color = models.CharField(max_length=25, blank=True)             # format example: blue|white|red|green
+    color = models.CharField(max_length=150, blank=True)             # format example: blue|white|red|green
 
     def __str__(self):
         return self.product.product_name
@@ -183,6 +183,9 @@ class OrderDetails(models.Model):
     tracking_code = models.CharField(max_length=50, blank=True)
     shipping_date = models.DateTimeField(blank=True, null=True)
     receive_date = models.DateTimeField(blank=True, null=True)
+    size = models.CharField(max_length=50, default='')
+    weight = models.CharField(max_length=20, blank=True, default='1.00')
+    color = models.CharField(max_length=25, default='')
 
     def __str__(self):
         return str(self.order.pk)
@@ -215,6 +218,9 @@ class CartDetail(models.Model):
     product = models.ForeignKey(Product, related_name='product')
     number_in_cart = models.IntegerField(default=1)
     status = models.CharField(max_length=15, choices=STATUS_OPTION, blank=True)
+    size = models.CharField(max_length=50, default='')
+    weight = models.CharField(max_length=20, blank=True, default='1.00')
+    color = models.CharField(max_length=25, default='')
 
 
 class MicroGroup(models.Model):
