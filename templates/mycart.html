@@ -47,7 +47,7 @@
                     <table class="table table-hover item-table">
                         {% for detail in orders %}
                             <tr id="row_{{ detail.product.pk }}" class="row featurette cart_table">
-                                <td class="col-md-3 product_image"><img class="cartImg thumbnail" src="{{ storage_host }}{% static 'products' %}/{{ detail.product.image_root }}"></td>
+                                <td class="col-md-3 product_image"><img class="cartImg thumbnail" src="{{ storage_host }}{% static 'products' %}/{{ detail.product.product_code }}/b_alternate_1.jpg"></td>
                                 <td class="col-md-3">
                                     <div class="row featurette">
                                         <p class="product_name"><a href="{% url 'design:product-view' detail.product.pk %}">{{ detail.product.product_name }}</a></p>
