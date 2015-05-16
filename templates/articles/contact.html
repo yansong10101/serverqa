@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<link rel = "stylesheet" type = "text/css" href = "{% static "css/article.css" %}">
+
+    <div class = "content col-md-12">
+
+      <div class = "box col-md-12">
+
+        <div class = "blank col-md-3">
+        
+        </div>
+
+        <div class = "content-picture thumbnail col-md-6">
+          <img id = "contact-img" src = "{{ storage_host }}/static/article/contact_us.jpg" />
+        </div>
+
+        <div class = "blank col-md-3">
+        
+        </div>
+
+      </div>
+
+      <div class = "box col-md-12">
+
+        <div class = "blank col-md-3">
+        
+        </div>
+
+        <div class = "content-text col-md-6">
+          <h2> CONTACT US </h2>
+          <br>
+          <p> If you have any question about 1dots, Please sent your email to us. </p>
+          <br>
+          <p> Your support is the great power for our development! </p>
+          <br>
+          <h2> hello@idots.com </h2>
+        </div>
+
+        <div class = "blank col-md-3">
+        
+        </div>
+
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block content %}
+
+<link rel = "stylesheet" type = "text/css" href = "{% static "css/article.css" %}">
+    <div class = "content col-md-12">
+
+      <div class = "box col-md-12">
+
+        <div class = "blank col-md-3">
+
+        </div>
+
+        <div class = "content-picture thumbnail col-md-6">
+          <img src = "{{ storage_host }}/static/article/about_us.jpg" />
+        </div>
+
+        <div class = "blank col-md-3">
+        
+        </div>
+
+        </div>
+
+      <div class = "box col-md-12">
+
+        <div class = "blank col-md-3">
+        
+        </div>
+
+        <div class = "content-text col-md-6">
+          <p id = "home-p"> 1dots is the place for you to discover and buy amazing creative design, designer innovation and new idea of life </p>
+          <br>
+          <p id = "home-p"> 1dots welcome all designers join us and display your amazing and unique design free </p>
+        </div>
+
+        <div class = "blank col-md-3">
+        
+        </div>
+
+      </div>
+
+    </div>
+
+{% endblock %}

@@ -47,6 +47,11 @@ urlpatterns = patterns(
     url(r'^payment/approval/', views.payment_view, name='payment-approval'),
     url(r'^payment/success/', views.payment_success, name='payment-success'),
     url(r'^payment/failed/', views.payment_failed, name='payment-failed'),
+
+    # static pages
+    url(r'^article/about-us/', views.about_us, name='about-us'),
+    url(r'^article/terms-and-conditions/', views.terms_and_conditions, name='terms-and-conditions'),
+    url(r'^article/contact-us/', views.contact_us, name='contact-us'),
 )
 
 

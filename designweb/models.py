@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import date, datetime, timedelta, time
+from designweb.shipping.shipping_utils import shipping_fee_multi_calc
 
 
 # User profile
@@ -169,6 +170,37 @@ class Order(models.Model):
 
     def __str__(self):
         return self.pk
+
+    def get_total_payment(self):
+        order_detail_list = self.details.all()
+        shipping_cost_list = []
+        items_subtotal = 0.00
+        for detail in order_detail_list:
+            prod_name = detail.product.product_name
+            prod_price = float(detail.product.price)
+            prod_weight = float(detail.product.details.weight)
+            num_items = int(detail.number_items)
+            items_subtotal += prod_price * num_items
+            shipping_cost_list.append({
+                'name': prod_name,
+                'weight': prod_weight,
+                'total': num_items,
+            })
+        shipping_fee = shipping_fee_multi_calc(shipping_cost_list)
+        tax = 1.00                                                  # add calc tax and discount later******************
+        discount = 0.00
+        # make currency amount
+        items_subtotal = float('{0:.2f}'.format(items_subtotal))
+        tax = float('{0:.2f}'.format(tax))
+        discount = float('{0:.2f}'.format(discount))
+        subtotal = float('{0:.2f}'.format(items_subtotal + shipping_fee + tax - discount))
+        if subtotal < 0.00:
+            return None
+        return {'items_subtotal': items_subtotal,
+                'shipping_fee': shipping_fee,
+                'tax': tax,
+                'discount': discount,
+                'subtotal': subtotal}
 
 
 class OrderDetails(models.Model):
