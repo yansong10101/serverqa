@@ -7,10 +7,7 @@ from designweb.forms import LoginForm, SignupForm
 from boto.s3.connection import S3Connection
 import mimetypes
 import re
-from designweb.shipping.shipping_utils import shipping_fee_multi_calc
-# from designweb.session_secure import update_session_timeout
 from random import shuffle, choice
-# from django.core.paginator import Paginator
 
 MAIN_IMAGE = 'main_image'
 SMALL_IMAGE = 's_alternate_*'
@@ -153,41 +150,6 @@ def update_order_address_info(user_id, order_id, data):
     except:
         return 'error to save shipping info into database'
     return None
-
-
-def calc_all_price_per_order(order_id):     # improve ++
-    if not order_id:
-        return {}
-    order = get_object_or_404(Order, pk=order_id)
-    order_detail_list = order.details.all()
-    shipping_cost_list = []
-    items_subtotal = 0.00
-    for detail in order_detail_list:
-        prod_name = detail.product.product_name
-        prod_price = float(detail.product.price)
-        prod_weight = float(detail.product.details.weight)
-        num_items = int(detail.number_items)
-        items_subtotal += prod_price * num_items
-        shipping_cost_list.append({
-            'name': prod_name,
-            'weight': prod_weight,
-            'total': num_items,
-        })
-    shipping_fee = shipping_fee_multi_calc(shipping_cost_list)
-    tax = 1.00                                                  # add calc tax and discount later******************
-    discount = 0.00
-    # make currency amount
-    items_subtotal = float('{0:.2f}'.format(items_subtotal))
-    tax = float('{0:.2f}'.format(tax))
-    discount = float('{0:.2f}'.format(discount))
-    subtotal = float('{0:.2f}'.format(items_subtotal + shipping_fee + tax - discount))
-    if subtotal < 0.00:
-        return None
-    return {'items_subtotal': items_subtotal,
-            'shipping_fee': shipping_fee,
-            'tax': tax,
-            'discount': discount,
-            'subtotal': subtotal}
 
 
 def grid_view_shuffle(query_set):

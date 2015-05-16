@@ -1,0 +1,108 @@
+p{
+	text-align: left;
+}
+
+h4{
+	text-align: left;
+}
+
+.nav{
+	background-color: black;
+}
+
+
+.logo{
+	display: inline-block;
+	text-align: center;
+	margin: 2px;
+}
+
+.btn-group{
+	margin:2px;
+	text-align: center;
+}
+
+.btn{
+	background-color: black;
+	border:none;
+}
+
+.search-box{
+	display: inline-block;
+	text-align: center;
+	margin: 2px;
+}
+
+.sign-in{
+	display: inline-block;
+	text-align: center;
+	margin:2px;
+}
+
+.cart{
+	display: inline-block;
+	text-align: center;
+	margin:2px;
+}
+
+.cart img{
+	width:35px;
+	height:35px;
+}
+
+.form-control{
+	border-radius: 10px;
+}
+
+#logo-p1{
+	color:white;
+	font-size: 22px;
+	margin:0px;
+}
+
+.content{
+	text-align: center;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#contact-img{
+	width:120%;
+}
+
+.content-text{
+	display: inline-block;
+}
+
+.blank{
+	display: inline-block;
+}
+
+#home-p{
+	color:grey;
+	font-size: 22px;
+	margin:10px;
+	text-align: center;
+}
+
+.footer{
+	background-color: #F5F5DC;
+	margin-top: 50px;
+}
+
+#logo-p2{
+	color:black;
+	text-align: center;
+	font-size: 22px;
+}
+
+.footer-btn{
+	background-color: #F5F5DC;
+	color:#159B9F;
+	font-weight: bold;
+}
+
+.footer img{
+	width:35px;
+	height:35px;
+}

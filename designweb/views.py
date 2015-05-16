@@ -13,6 +13,7 @@ from designweb.utils import *
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
 import json
 from designweb.caches.group_utils import *
+from designweb.payment.payment_utils import payment_process, DIRECT_CREDIT
 
 
 def home(request):
@@ -200,9 +201,12 @@ def update_cart_detail(request, pk, num, order_id=None):
     cart_detail = get_object_or_404(CartDetail, pk=pk)
     cart_detail.number_in_cart = num
     cart_detail.save()
-    cost_dict = calc_all_price_per_order(order_id)
-    cost_dict['Success'] = 'Success'
-    return Response(data=cost_dict)
+    if order_id:
+        order = get_object_or_404(Order, pk=order_id)
+        cost_dict = order.get_total_payment()
+        cost_dict['Success'] = 'Success'
+        return Response(data=cost_dict)
+    return Response(data={})
 
 
 @ensure_csrf_cookie
@@ -480,12 +484,12 @@ def payment_failed(request):
 
 
 def checkout(request):
-
-    if request.method != 'POST':
-        return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
+    order_id = int(request.POST['order_id'])
+    order = get_object_or_404(Order, pk=order_id)
+    if request.method != 'POST' or not order_id:
+        return redirect(reverse('design:payment-failed'), get_display_dict(title='Payment Failed'))
     payment_method = request.POST['payment_method']
-    from designweb.payment.payment_utils import payment_process, DIRECT_CREDIT
-    amount_dict = calc_all_price_per_order(int(request.POST['order_id']))
+    amount_dict = order.get_total_payment()
     direct_credit_dict = {}
     transaction_dict = {
         "amount":
@@ -525,7 +529,7 @@ def checkout(request):
 
     payment_dict = payment_process(payment_method, request.META['HTTP_HOST'], transaction_dict, direct_credit_dict)
     if not payment_dict:
-        return render(request, 'payment/payment_fail.html', get_display_dict(title='Payment Failed'))
+        return redirect(reverse('design:payment-failed'), get_display_dict(title='Payment Failed'))
     redirect_url = payment_dict['redirect_url']
     if redirect_url:    # payment method is paypal
         return HttpResponseRedirect(redirect_url)
@@ -534,3 +538,17 @@ def checkout(request):
         return redirect(reverse('design:payment-success'),
                         get_display_dict(title='Payment Success', pass_dict=payment_dict))
 # ===============================================
+
+
+# ============= Static pages ====================
+def about_us(request):
+    return render(request, 'articles/about.html', get_display_dict(title='ABOUT US'))
+
+
+def terms_and_conditions(request):
+    return render(request, 'articles/terms.html', get_display_dict(title='TERMS AND CONDITIONS'))
+
+
+def contact_us(request):
+    return render(request, 'articles/contact.html', get_display_dict(title='CONTACT US'))
+
