@@ -6,7 +6,7 @@
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
     <img id="mainImg" src="">
 
-    <p><span>{{ category_parent }}</span> - <span>{{ category_name }}</span></p>
+    <p><span><a href="{% url 'design:home' %}">Home</a></span> - <span>{{ category_name }}</span></p>
 
     <script src="{% static "js/jquery-1.11.1.min.js" %}"></script>
     <script src="{% static "js/util.js" %}"></script>

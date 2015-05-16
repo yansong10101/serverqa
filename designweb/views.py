@@ -403,6 +403,7 @@ class ProductCategory(generics.ListAPIView):
 
 class ProductMiddleLevel(generics.ListAPIView):
     serializer_class = ProductListSerializer
+    paginate_by = 9
 
     def get_queryset(self):
         return Product.objects.filter(prior_level=1)
@@ -410,6 +411,7 @@ class ProductMiddleLevel(generics.ListAPIView):
 
 class ProductHighLevel(generics.ListAPIView):
     serializer_class = ProductListSerializer
+    paginate_by = 9
 
     def get_queryset(self):
         return Product.objects.filter(prior_level=0)
