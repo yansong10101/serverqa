@@ -8,7 +8,9 @@ from boto.s3.connection import S3Connection
 import mimetypes
 import re
 from designweb.shipping.shipping_utils import shipping_fee_multi_calc
-from designweb.session_secure import update_session_timeout
+# from designweb.session_secure import update_session_timeout
+from random import shuffle, choice
+# from django.core.paginator import Paginator
 
 MAIN_IMAGE = 'main_image'
 SMALL_IMAGE = 's_alternate_*'
@@ -63,7 +65,7 @@ def is_user_already_in_group(user, product):
     return None
 
 
-def is_product_in_user_cart(user, p_id):
+def is_product_in_user_cart(user, p_id):        # improve ++++
     if user.is_authenticated():
         cart = get_object_or_404(Cart, user=user)
         if cart.products.filter(pk=p_id).exists():
@@ -71,7 +73,7 @@ def is_product_in_user_cart(user, p_id):
     return False
 
 
-def is_product_in_cart_details(user, product):
+def is_product_in_cart_details(user, product):  # improve ++++
     if user.is_authenticated():
         cart = get_object_or_404(Cart, user=user)
         if cart.cart_details.filter(product=product).exists():
@@ -92,7 +94,7 @@ def get_profile_address_or_empty(user):
     return None
 
 
-def update_order_detail_by_cart(user, order):
+def update_order_detail_by_cart(user, order):   # improve ++
     cart = user.cart
     cart_details = user.cart.cart_details.all()
     products = []
@@ -101,10 +103,13 @@ def update_order_detail_by_cart(user, order):
         products.append(detail.product)
     for item in cart_details:
         if not is_order_list_contain_product(order.details.all(), item.product.pk):
-            OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart)
+            OrderDetails.objects.create(order=order, product=item.product, number_items=item.number_in_cart,
+                                        size=item.size, color=item.color)
         else:
             order_detail = OrderDetails.objects.get(order=order, product=item.product)
             order_detail.number_items = item.number_in_cart
+            order_detail.color = item.color
+            order_detail.size = item.size
             order_detail.save()
     for item in order.details.all():
         if not is_cart_list_contain_order_detail(products, item.product.pk):
@@ -150,7 +155,7 @@ def update_order_address_info(user_id, order_id, data):
     return None
 
 
-def calc_all_price_per_order(order_id):
+def calc_all_price_per_order(order_id):     # improve ++
     if not order_id:
         return {}
     order = get_object_or_404(Order, pk=order_id)
@@ -183,6 +188,23 @@ def calc_all_price_per_order(order_id):
             'tax': tax,
             'discount': discount,
             'subtotal': subtotal}
+
+
+def grid_view_shuffle(query_set):
+    if True:
+        return query_set
+    origin_list = []
+    product_list = []
+    for item in query_set:
+        origin_list.append(item)
+    for i in range(len(origin_list)):
+        item = choice(origin_list)
+        product_list.append(item)
+        origin_list.remove(item)
+    # for item in query_set:
+    #     product_list.append(item)
+    # shuffle(product_list)
+    return product_list
 
 
 # functions for sending mail

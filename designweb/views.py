@@ -370,8 +370,13 @@ def update_order_info(request, pk, order_id):
 
 # ================ api =======================
 class ProductsList(generics.ListAPIView):
-    queryset = Product.objects.all()
     serializer_class = ProductListSerializer
+    paginate_by = 15
+
+    def get_queryset(self):
+        products = Product.objects.all()
+        grid_list = grid_view_shuffle(products)
+        return grid_list
 
 
 class ProductDetail(generics.RetrieveAPIView):
@@ -381,11 +386,15 @@ class ProductDetail(generics.RetrieveAPIView):
 
 class ProductCategory(generics.ListAPIView):
     serializer_class = ProductListSerializer
+    # paginate_by_param = 'page_size'
+    paginate_by = 15
+    # max_paginate_by = 90
 
     def get_queryset(self):
         category_id = self.kwargs['category_id']
         category = get_object_or_404(Category, pk=category_id)
-        return Product.objects.filter(category=category)
+        products = Product.objects.filter(category=category)
+        return grid_view_shuffle(products)
 
 
 class ProductMiddleLevel(generics.ListAPIView):
