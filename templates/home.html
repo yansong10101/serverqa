@@ -171,6 +171,7 @@
 
         load_btn.on('click', function(){
             var url = catch_data.next;
+            ga('send', 'event', 'button', 'click', 'home_load_more');
             ajaxCall(url);
         });
     </script>
