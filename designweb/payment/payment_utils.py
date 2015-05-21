@@ -3,7 +3,7 @@ from paypalrestsdk import Payment, configure
 from hookupdesign.settings import PAYMENT_SANDBOX
 import logging
 
-DIRECT_CREDIT = 'direct_credit'
+DIRECT_CREDIT = 'credit_card'
 PAYPAL = 'paypal'
 
 
@@ -19,75 +19,22 @@ def get_payment_json(payment_method, host_root, transaction_object, card_info):
         },
         "transactions": [transaction_object, ]
     }
-    if payment_method == 'paypal':
+    if payment_method == PAYPAL:
         request_json['redirect_urls'] = {
             "return_url": "http://" + host_root + "/payment/approval/",
             "cancel_url": "http://" + host_root + "/payment/failed/"
         }
-    elif payment_method == 'credit_card':
+    elif payment_method == DIRECT_CREDIT:
         request_json['payer']['funding_instruments'] = [card_info, ]
 
     return request_json
 
 
 def payment_process(payment_method, host_root, transaction_object, card_info={}):
-    # transaction_object = {}
-    # card_info = {}
-    # if payment_method == PAYPAL:
-    #     transaction_object = {
-    #         "amount":
-    #             {
-    #                 "total": "2520.00",
-    #                 "currency": "USD",
-    #                 "details": {
-    #                     "subtotal": "2500.00",
-    #                     "tax": "10.00",
-    #                     "shipping": "10.00"
-    #                 },
-    #             },
-    #         "description": "creating a payment"
-    #         }
-    # elif payment_method == DIRECT_CREDIT:
-    #     transaction_object = {
-    #         "amount":
-    #             {
-    #                 "total": "25.55",
-    #                 "currency": "USD",
-    #                 "details": {
-    #                     "subtotal": "25.00",
-    #                     "tax": "0.05",
-    #                     "shipping": "0.50"
-    #                 }
-    #             },
-    #         "description": "This is the payment transaction description."
-    #         }
-    #     card_info = {
-    #         "credit_card": {
-    #             "type": "visa",
-    #             "number": "4417119669820331",  # "4032035160291142",
-    #             "expire_month": "03",
-    #             "expire_year": "2020",
-    #             "cvv2": "874",
-    #             "first_name": "Joe",
-    #             "last_name": "Shopper",
-    #             "billing_address": {
-    #                 "line1": "52 N Main ST",
-    #                 "city": "Johnstown",
-    #                 "state": "OH",
-    #                 "postal_code": "43210",
-    #                 "country_code": "US"
-    #             }
-    #         }
-    #     }
-
-    print(transaction_object)
-    print(card_info)
 
     auth_payment()
     payment = Payment(get_payment_json(payment_method, host_root, transaction_object, card_info))
     is_approve = payment.create()
-
-    print(is_approve)
 
     payment_dict = {'payment_id': payment.id, 'payment_state': payment.state, 'redirect_url': None}
 

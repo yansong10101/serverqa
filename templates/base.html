@@ -29,16 +29,6 @@
     <!-- Custom styles for this template -->
     <link href="{% static "css/base-customize.css" %}" rel="stylesheet">
 
-{#    <script>#}
-{#        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){#}
-{#            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),#}
-{#            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)#}
-{#        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');#}
-{##}
-{#        ga('create', 'UA-60848245-1', 'auto');#}
-{#        ga('send', 'pageview');#}
-{#    </script>#}
-
   </head>
 <!-- NAVBAR
 ================================================== -->
@@ -168,16 +158,9 @@
                 <li class="dropdown" id="myCart">
                     <a class="dropdown-toggle" href="{% url 'design:my-cart' %}" data-toggle="dropdown">My Cart</a>
                     <div class="dropdown-content dropdown-menu">
+
                         <div id="cart_drop_down"></div>
-{#                        <div class="row">#}
-{#                            <div class="col-xs-5">#}
-{#                                <img src="http://placehold.it/50x50" />#}
-{#                            </div>#}
-{#                            <div class="col-xs-6">#}
-{#                                <p>Name</p>#}
-{#                                <p>Quantity:1</p>#}
-{#                            </div>#}
-{#                        </div>#}
+
                         <a class="btn btn-default btn-block" id="nav_checkout" href="{% url 'design:my-cart' %}">Check out</a>
                     </div>
                 </li>

@@ -3,6 +3,7 @@
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from hookupdesign.settings import EMAIL_HOST_USER
+from designweb.payment.payment_utils import *
 
 
 # Create your tests here.
@@ -90,3 +91,37 @@ def test_s3_bucket(product_code):
             print(bucket_key)
             image_list.append(re.sub(product_dir, '', bucket_key))
     print(check_image_list(image_list))
+
+
+def test_payment(payment_method, host_root, transaction_object, card_info={}):
+
+    if payment_method == PAYPAL:
+        card_info = {}
+    elif payment_method == DIRECT_CREDIT:
+        pass
+
+    print(transaction_object)
+    print(card_info)
+
+    auth_payment()
+    payment = Payment(get_payment_json(payment_method, host_root, transaction_object, card_info))
+    is_approve = payment.create()
+
+    print(is_approve)
+
+    payment_dict = {'payment_id': payment.id, 'payment_state': payment.state, 'redirect_url': None}
+
+    if is_approve:
+        print("Payment[%s] created successfully" % payment.id)
+        for link in payment.links:
+            if link.method == "REDIRECT":
+                redirect_url = str(link.href)
+                print("Redirect for approval: %s" % redirect_url)
+                payment_dict['redirect_url'] = redirect_url
+                return payment_dict
+    else:
+        print('payment cannot be approval, please check your payment info ...')
+        return None
+    print("Direct credit -- Payment[%s] execute successfully" % (payment.id))
+    # for direct_credit return
+    return payment_dict
