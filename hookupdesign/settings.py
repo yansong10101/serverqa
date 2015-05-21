@@ -162,7 +162,8 @@ PAYMENT_SANDBOX = {
 }
 
 # MemCache setup
-os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS', 'mc5.dev.ec2.memcachier.com:11211').replace(',', ';')
+os.environ['MEMCACHE_SERVERS'] = os.environ.get('MEMCACHIER_SERVERS',
+                                                'mc5.dev.ec2.memcachier.com:11211').replace(',', ';')
 os.environ['MEMCACHE_USERNAME'] = os.environ.get('MEMCACHIER_USERNAME', '4cdff9')
 os.environ['MEMCACHE_PASSWORD'] = os.environ.get('MEMCACHIER_PASSWORD', '696829c4d1')
 

@@ -22,15 +22,52 @@ def home(request):
 
 def index(request):
     # print(request.session)
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            return render(request, 'home.html', {'title': form.cleaned_data['username']})
-        else:
-            print(form.cleaned_data['error'])
-    else:
-        form = LoginForm()
-    return render(request, 'index.html', {'title': 'HOME', 'form': form, })
+    # if request.method == 'POST':
+    #     form = LoginForm(request.POST)
+    #     if form.is_valid():
+    #         return render(request, 'home.html', {'title': form.cleaned_data['username']})
+    #     else:
+    #         print(form.cleaned_data['error'])
+    # else:
+    #     form = LoginForm()
+    # return render(request, 'index.html', {'title': 'HOME', 'form': form, })
+    from designweb.tests import test_payment
+
+    transaction_object = {
+        "amount":
+            {
+                "total": "25.55",
+                "currency": "USD",
+                "details": {
+                    "subtotal": "25.00",
+                    "tax": "0.05",
+                    "shipping": "0.50"
+                }
+            },
+        "description": "This is the payment transaction description."
+    }
+
+    card_info = {
+        "credit_card": {
+            "type": "visa",
+            "number": "4032035160291142",  # "4032035160291142",4417119669820331
+            "expire_month": "03",
+            "expire_year": "2020",
+            "cvv2": "874",
+            "first_name": "Joe",
+            "last_name": "Shopper",
+            "billing_address": {
+                "line1": "52 N Main ST",
+                "city": "Johnstown",
+                "state": "OH",
+                "postal_code": "43210",
+                "country_code": "US"
+            }
+        }
+    }
+
+    test_payment('credit_card', request.META['HTTP_HOST'], transaction_object, card_info)
+    return render(request, 'index.html', {'title': 'HOME', })
 
 
 def signup(request):
@@ -491,17 +528,16 @@ def checkout(request):
     if request.method != 'POST' or not order_id:
         return redirect(reverse('design:payment-failed'), get_display_dict(title='Payment Failed'))
     payment_method = request.POST['payment_method']
-    amount_dict = order.get_total_payment()
     direct_credit_dict = {}
     transaction_dict = {
         "amount":
             {
-                "total": str(amount_dict['subtotal']),
+                "total": str(order.subtotal),
                 "currency": "USD",
                 "details": {
-                    "subtotal": str(amount_dict['items_subtotal']),
-                    "tax": str(amount_dict['tax']),
-                    "shipping": str(amount_dict['shipping_fee'])
+                    "subtotal": str(order.total_amount - order.total_discount),
+                    "tax": str(order.total_tax),
+                    "shipping": str(order.total_shipping)
                 },
             },
         "description": "creating a payment"
@@ -510,7 +546,7 @@ def checkout(request):
         direct_credit_dict = {
             "credit_card": {
                 "type": "visa",
-                "number": str(request.POST['card_num_1']) +
+                "number": str(request.POST['card_num_1']) +             # "4032035160291142"
                 str(request.POST['card_num_2']) +
                 str(request.POST['card_num_3']) +
                 str(request.POST['card_num_4']),
@@ -520,10 +556,10 @@ def checkout(request):
                 "first_name": str(request.POST['card_holder']),     # need split later
                 "last_name": "Shopper",
                 "billing_address": {
-                    "line1": "52 N Main ST",
-                    "city": "Johnstown",
-                    "state": "OH",
-                    "postal_code": "43210",
+                    "line1": order.billing_address1,
+                    "city": order.billing_city,
+                    "state": order.billing_state,
+                    "postal_code": order.billing_zip,
                     "country_code": "US"
                 }
             }

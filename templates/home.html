@@ -148,7 +148,7 @@
                     prod_display_name = prod_display_name.substr(0, 40) + " ...";
                 }
                 elem.find('h5').slice(0, 1).text(prod_display_name);
-                elem.find('h5').slice(1, 2).text(item.price);
+                elem.find('h5').slice(1, 2).text("$ " + item.price);
                 container.append(elem);
             });
         }
@@ -171,7 +171,6 @@
 
         load_btn.on('click', function(){
             var url = catch_data.next;
-            ga('send', 'event', 'button', 'click', 'home_load_more');
             ajaxCall(url);
         });
     </script>

@@ -95,6 +95,7 @@ def update_order_detail_by_cart(user, order):   # improve ++
     cart = user.cart
     cart_details = user.cart.cart_details.all()
     products = []
+    cart.number_items = 0
     for detail in cart_details:
         cart.number_items += detail.number_in_cart
         products.append(detail.product)
@@ -112,6 +113,7 @@ def update_order_detail_by_cart(user, order):   # improve ++
         if not is_cart_list_contain_order_detail(products, item.product.pk):
             order.details.filter(pk=item.pk).delete()
     order.total_items = cart.number_items
+    order.save_payments_info()
     order.save()
     cart.save()
 
@@ -163,9 +165,6 @@ def grid_view_shuffle(query_set):
         item = choice(origin_list)
         product_list.append(item)
         origin_list.remove(item)
-    # for item in query_set:
-    #     product_list.append(item)
-    # shuffle(product_list)
     return product_list
 
 

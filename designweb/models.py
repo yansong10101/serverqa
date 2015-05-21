@@ -202,6 +202,16 @@ class Order(models.Model):
                 'discount': discount,
                 'subtotal': subtotal}
 
+    def save_payments_info(self):
+        payment_dict = self.get_total_payment()
+        if payment_dict:
+            self.total_amount = payment_dict['items_subtotal']
+            self.total_discount = payment_dict['discount']
+            self.total_shipping = payment_dict['shipping_fee']
+            self.total_tax = payment_dict['tax']
+            self.subtotal = payment_dict['subtotal']
+            self.save()
+
 
 class OrderDetails(models.Model):
     order = models.ForeignKey(Order, related_name='details')
