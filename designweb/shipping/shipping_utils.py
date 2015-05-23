@@ -26,12 +26,12 @@ def shipping_fee_multi_calc(list_items):
     for item in list_items:
         if item is not None:
             # convert from pound to gram
-            weight = float(item['weight']) * POUND_TO_GRAM_RATE
+            weight = float(item['weight']) * POUND_TO_GRAM_RATE or 1
             num_items = item['total']
             times_num = math.floor(E_MAX_WEIGHT_PER_ITEM / weight)
             if num_items <= times_num:
                 total_packages += 1
-            else:
+            elif times_num != 0:
                 total_packages += math.ceil(num_items / times_num)
             total_weight += weight * num_items
             print(item['name'] + ' -- total pkg -- ' + str(total_packages) + ' -- total W -- ' + str(total_weight))
