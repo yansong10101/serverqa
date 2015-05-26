@@ -74,6 +74,14 @@ h4{
 	display: inline-block;
 }
 
+.content-text p{
+    text-align: justify;
+}
+
+.contact-us-content p{
+    text-align: center;
+}
+
 .blank{
 	display: inline-block;
 }
