@@ -415,7 +415,8 @@ class ProductsList(generics.ListAPIView):
     paginate_by = 15
 
     def get_queryset(self):
-        products = Product.objects.all()
+        # products = Product.objects.all()
+        products = Product.objects.filter(is_active=True)
         grid_list = grid_view_shuffle(products)
         return grid_list
 
