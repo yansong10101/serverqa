@@ -111,60 +111,62 @@
             </div>
             <div class="row-3 inner">
                 <div id="recommendation" class="scroll-carousel">
-    	            <span class="prev arrow">&lt;</span>
+{#    	            <span class="prev arrow">&lt;</span>#}
                     <div class="content_carousel">
-                        <ul>
-                            <li>
-                                <a href="#">
-                        	        <img src="http://placehold.it/150x150">
-                                    <span>1</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                        	        <img src="http://placehold.it/150x150">
-                                    <span>2</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                        	        <img src="http://placehold.it/150x150">
-                                    <span>3</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                        	        <img src="http://placehold.it/150x150">
-                                    <span>4</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                        	        <img src="http://placehold.it/150x150">
-                                    <span>5</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                        	        <img src="http://placehold.it/150x150">
-                                    <span>6</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                        	        <img src="http://placehold.it/150x150">
-                                    <span>7</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                        	        <img src="http://placehold.it/150x150">
-                                    <span>8</span>
-                                </a>
-                            </li>
+                        <ul id="rec_prod_list" style="width: 1368px; margin-left: 0px;">
+
+{#                            <li>#}
+{#                                <a href="#">#}
+{#                        	        <img src="http://placehold.it/150x150">#}
+{#                                    <span>1</span>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">#}
+{#                        	        <img src="http://placehold.it/150x150">#}
+{#                                    <span>2</span>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">#}
+{#                        	        <img src="http://placehold.it/150x150">#}
+{#                                    <span>3</span>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">#}
+{#                        	        <img src="http://placehold.it/150x150">#}
+{#                                    <span>4</span>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">#}
+{#                        	        <img src="http://placehold.it/150x150">#}
+{#                                    <span>5</span>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">#}
+{#                        	        <img src="http://placehold.it/150x150">#}
+{#                                    <span>6</span>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">#}
+{#                        	        <img src="http://placehold.it/150x150">#}
+{#                                    <span>7</span>#}
+{#                                </a>#}
+{#                            </li>#}
+{#                            <li>#}
+{#                                <a href="#">#}
+{#                        	        <img src="http://placehold.it/150x150">#}
+{#                                    <span>8</span>#}
+{#                                </a>#}
+{#                            </li>#}
+
                         </ul>
                     </div>
-    	            <span class="next arrow">&gt;</span>
+{#    	            <span class="next arrow">&gt;</span>#}
                 </div>
             </div>
         </div>
@@ -284,6 +286,7 @@
 
                 loadPage(data);
                 reviews();
+                load_rec_product_list();
 
             }).fail(function(jqXHR, textStatus){
                 $("#alert_msg").attr("class", "alert alert-warning").html("action failed  !").fadeIn(1000, 0).fadeOut(2000, 0);
@@ -463,6 +466,30 @@
                 alert("Failed !");
             });
         });
+
+        function load_rec_product_list(){
+            var rec_prod_lite = $('<li><a ><img style="width:150px; height:160px;"><span></span></a></li>');
+
+            $.ajax({
+            type: "GET",
+            url: host + "/api/product-page/recommendations/" + prod_pk + "/",
+            dataType: "json"
+            }).success(function(data, textStatus, jqXHR){
+                $.each(data.results, function(i, item){
+                    var elem = rec_prod_lite.clone();
+                    elem.find('a').attr('href', host + "/product/" + item.pk);
+                    elem.find('img').attr('src', image_dir + item.product_code + "/" + "b_alternate_1.jpg");
+{#                    elem.find('span').text(i + 1);#}
+                    if(i == 0){
+                        elem.find('li').attr('style', "margin-left:5px;");
+                    }
+                    $('#rec_prod_list').append(elem);
+                    console.log(elem);
+                });
+            }).fail(function(jqXHR, textStatus){
+                alert("Failed !");
+            });
+        }
         // end section
     </script>
 
