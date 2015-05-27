@@ -145,6 +145,10 @@ h1#product_name{
 #recommendation ul li:first-child{
     margin-left: 0px !important;
 }
+
+#recommendation ul li{
+    margin-left: 5px;
+}
 .nav-tabs>li>a {
     font-size: medium;
     padding-bottom: 0px;

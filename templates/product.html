@@ -111,9 +111,9 @@
             </div>
             <div class="row-3 inner">
                 <div id="recommendation" class="scroll-carousel">
-{#    	            <span class="prev arrow">&lt;</span>#}
+  	            <span class="prev arrow">&lt;</span>
                     <div class="content_carousel">
-                        <ul id="rec_prod_list" style="width: 1368px; margin-left: 0px;">
+                        <ul id="rec_prod_list">
 
 {#                            <li>#}
 {#                                <a href="#">#}
@@ -166,20 +166,16 @@
 
                         </ul>
                     </div>
-{#    	            <span class="next arrow">&gt;</span>#}
+   	            <span class="next arrow">&gt;</span>
                 </div>
             </div>
         </div>
 
-    <script src="{% static "js/util.js" %}"></script>
-    <script type="text/javascript">
-        $(function() {
-            scroll_carousel($('#recommendation'), 4);
-        });
-    </script>
+
     <style type="text/css">
-    #carousel .content_carousel li {
-        width: 150px;
+    #rec_prod_list li img {
+        width: 167px;
+        height: 170px;
     }
     </style>
 
@@ -261,7 +257,7 @@
         </div>
         </div>
     </div>
-
+    <script src="{% static "js/util.js" %}"></script>
     <script type="text/javascript">
         var host = window.location.origin,
             image_dir = "{{ storage_host }}" + "{% static 'products/' %}",
@@ -468,7 +464,7 @@
         });
 
         function load_rec_product_list(){
-            var rec_prod_lite = $('<li><a ><img style="width:150px; height:160px;"><span></span></a></li>');
+            var rec_prod_lite = $('<li><a><img></a><span></span></li>');
 
             $.ajax({
             type: "GET",
@@ -479,18 +475,20 @@
                     var elem = rec_prod_lite.clone();
                     elem.find('a').attr('href', host + "/product/" + item.pk);
                     elem.find('img').attr('src', image_dir + item.product_code + "/" + "b_alternate_1.jpg");
-{#                    elem.find('span').text(i + 1);#}
-                    if(i == 0){
-                        elem.find('li').attr('style', "margin-left:5px;");
-                    }
+
                     $('#rec_prod_list').append(elem);
                     console.log(elem);
                 });
+
+                if($('#rec_prod_list li').length > 4){
+                scroll_carousel($('#recommendation'), 4);
+            }
             }).fail(function(jqXHR, textStatus){
                 alert("Failed !");
             });
+
+
         }
         // end section
     </script>
-
 {% endblock %}
