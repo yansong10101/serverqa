@@ -31,42 +31,47 @@ def index(request):
     # else:
     #     form = LoginForm()
     # return render(request, 'index.html', {'title': 'HOME', 'form': form, })
-    from designweb.tests import test_payment
 
-    transaction_object = {
-        "amount":
-            {
-                "total": "25.55",
-                "currency": "USD",
-                "details": {
-                    "subtotal": "25.00",
-                    "tax": "0.05",
-                    "shipping": "0.50"
-                }
-            },
-        "description": "This is the payment transaction description."
-    }
+    # from designweb.tests import test_payment
+    # transaction_object = {
+    #     "amount":
+    #         {
+    #             "total": "25.55",
+    #             "currency": "USD",
+    #             "details": {
+    #                 "subtotal": "25.00",
+    #                 "tax": "0.05",
+    #                 "shipping": "0.50"
+    #             }
+    #         },
+    #     "description": "This is the payment transaction description."
+    # }
+    #
+    # card_info = {
+    #     "credit_card": {
+    #         "type": "visa",
+    #         "number": "4032035160291142",  # "4032035160291142",4417119669820331
+    #         "expire_month": "03",
+    #         "expire_year": "2020",
+    #         "cvv2": "874",
+    #         "first_name": "Joe",
+    #         "last_name": "Shopper",
+    #         "billing_address": {
+    #             "line1": "52 N Main ST",
+    #             "city": "Johnstown",
+    #             "state": "OH",
+    #             "postal_code": "43210",
+    #             "country_code": "US"
+    #         }
+    #     }
+    # }
+    # test_payment('credit_card', request.META['HTTP_HOST'], transaction_object, card_info)
 
-    card_info = {
-        "credit_card": {
-            "type": "visa",
-            "number": "4032035160291142",  # "4032035160291142",4417119669820331
-            "expire_month": "03",
-            "expire_year": "2020",
-            "cvv2": "874",
-            "first_name": "Joe",
-            "last_name": "Shopper",
-            "billing_address": {
-                "line1": "52 N Main ST",
-                "city": "Johnstown",
-                "state": "OH",
-                "postal_code": "43210",
-                "country_code": "US"
-            }
-        }
-    }
+    from designweb.utils import get_recommended_products_by_product
+    product = get_object_or_404(Product, pk=10)
 
-    test_payment('credit_card', request.META['HTTP_HOST'], transaction_object, card_info)
+    print(get_recommended_products_by_product(product))
+
     return render(request, 'index.html', {'title': 'HOME', })
 
 
@@ -163,12 +168,17 @@ def product_view(request, pk):
         pass_dicts['product_size'] = product_details.size.split(sep='|')
     if user.is_authenticated():
         pass_dicts['user_id'] = user.pk
+
+    rec_product_dict = get_recommended_products_by_product(product)
+
     return render(request,
                   'product.html',
                   (get_display_dict('PRODUCT', pass_dict=dict(list(image_dict.items()) + list(pass_dicts.items())))))
 
 
 """     --Ajax views--      """
+
+
 @ensure_csrf_cookie
 @api_view(['GET', 'POST', ])
 def add_cart(request, pk, prod_quantity=1):
@@ -273,13 +283,13 @@ def like_product(request, pk):
     return Response(data={'Success': 'Success'})
 
 
-@ensure_csrf_cookie
-@api_view(['GET', 'POST', ])
-def get_product_review(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    reviews = CustomerReview.objects.filter(product=product)
-    # return Response(data={'review_list': reviews})
-    return Response(data={'Success': 'Success'})
+# @ensure_csrf_cookie
+# @api_view(['GET', 'POST', ])
+# def get_product_review(request, pk):
+#     product = get_object_or_404(Product, pk=pk)
+#     reviews = CustomerReview.objects.filter(product=product)
+#     return Response(data={'review_list': reviews})
+#     return Response(data={'Success': 'Success'})
 
 
 def get_product_forum(request, pk):
@@ -453,6 +463,17 @@ class ProductHighLevel(generics.ListAPIView):
 
     def get_queryset(self):
         return Product.objects.filter(prior_level=0)
+
+
+class ProductRecList(generics.ListAPIView):
+    serializer_class = ProductListSerializer
+    paginate_by = 8
+
+    def get_queryset(self):
+        product_id = self.kwargs['product_id']
+        product = get_object_or_404(Product, pk=product_id)
+        product_list = get_recommended_products_by_product(product)
+        return product_list
 
 
 class CartViewSet(viewsets.ModelViewSet):

@@ -31,7 +31,7 @@ urlpatterns = patterns(
     url(r'^api/cart-detail/(?P<pk>[0-9]+)/(?P<num>[0-9]+)/update//$', views.update_cart_detail, name='update-cart'),
     url(r'^api/like/(?P<pk>[0-9]+)/$', views.like_product, name='like-product'),
     url(r'^api/address/(?P<pk>[0-9]+)/(?P<order_id>[0-9]+)/$', views.update_order_info, name='shipping-address'),
-    url(r'^api/products-review/(?P<pk>[0-9]+)/$', views.get_product_review, name='product-review'),
+    # url(r'^api/products-review/(?P<pk>[0-9]+)/$', views.get_product_review, name='product-review'),
     url(r'^api/cart-drop-down/(?P<pk>[0-9]+)/$', views.get_cart_drop_down_by_pk, name='cart-drop-down-list'),
     url(r'^api/forum/add-comment/(?P<product_id>[0-9]+)/$', views.add_product_forum_comment, name='add-comment-to-forum'),
 
@@ -42,6 +42,8 @@ urlpatterns = patterns(
     url(r'^api/products/filter/(?P<category_id>[0-9]+)/$', views.ProductCategory.as_view(), name='product-category'),
     url(r'^api/products/recommendations/middle-level/$', views.ProductMiddleLevel.as_view(), name='middle-level'),
     url(r'^api/products/recommendations/high-level/$', views.ProductHighLevel.as_view(), name='high-level'),
+    url(r'^api/product-page/recommendations/(?P<product_id>[0-9]+)/$', views.ProductRecList.as_view(),
+        name='product-page-rec'),
 
     # payment redirect view
     url(r'^payment/approval/', views.payment_view, name='payment-approval'),

@@ -7,6 +7,7 @@ from designweb.forms import LoginForm, SignupForm
 from boto.s3.connection import S3Connection
 import mimetypes
 import re
+import math
 from random import shuffle, choice
 
 MAIN_IMAGE = 'main_image'
@@ -166,6 +167,30 @@ def grid_view_shuffle(query_set):
         product_list.append(item)
         origin_list.remove(item)
     return product_list
+
+
+# recommended products calculation
+def get_recommended_products_by_product(product):
+    """
+
+    :param product:
+    :return: product dict
+
+    calculate recommended products by given product
+
+    """
+    product_dict = {}
+    source_category_list = product.category.all()
+    average_products_taken = math.floor(16 / (len(source_category_list) or 1))
+    for category in source_category_list:
+        counter = average_products_taken
+        for rec_product in Product.objects.filter(category=category):
+            if counter > 0 and rec_product:
+                product_dict[rec_product.pk] = rec_product
+            if len(product_dict) > 8:
+                break
+            counter -= 1
+    return [rec_prod for rec_prod in product_dict.values()]
 
 
 # functions for sending mail
