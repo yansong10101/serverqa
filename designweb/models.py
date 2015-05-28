@@ -78,6 +78,7 @@ class Product(models.Model):
     number_like = models.IntegerField(default=0)
     average_review_score = models.DecimalField(default=5, decimal_places=1, max_digits=2)
     prior_level = models.IntegerField(choices=PRIOR_LEVEL, default=2)
+    manually_set_prior_level = models.IntegerField(default=0)
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         """
