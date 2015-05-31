@@ -426,7 +426,7 @@ class ProductsList(generics.ListAPIView):
 
     def get_queryset(self):
         # products = Product.objects.all()
-        products = Product.objects.filter(is_active=True).order_by('-manually_set_prior_level', )
+        products = Product.objects.filter(is_active=True).order_by('-manually_set_prior_level', 'product_code')
         grid_list = grid_view_shuffle(products)
         return grid_list
 
