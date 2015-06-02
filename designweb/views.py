@@ -21,7 +21,7 @@ def home(request):
 
 
 def index(request):
-    # print(request.session)
+    print(request.session)
     # if request.method == 'POST':
     #     form = LoginForm(request.POST)
     #     if form.is_valid():
@@ -31,41 +31,6 @@ def index(request):
     # else:
     #     form = LoginForm()
     # return render(request, 'index.html', {'title': 'HOME', 'form': form, })
-
-    # from designweb.tests import test_payment
-    # transaction_object = {
-    #     "amount":
-    #         {
-    #             "total": "25.55",
-    #             "currency": "USD",
-    #             "details": {
-    #                 "subtotal": "25.00",
-    #                 "tax": "0.05",
-    #                 "shipping": "0.50"
-    #             }
-    #         },
-    #     "description": "This is the payment transaction description."
-    # }
-    #
-    # card_info = {
-    #     "credit_card": {
-    #         "type": "visa",
-    #         "number": "4032035160291142",  # "4032035160291142",4417119669820331
-    #         "expire_month": "03",
-    #         "expire_year": "2020",
-    #         "cvv2": "874",
-    #         "first_name": "Joe",
-    #         "last_name": "Shopper",
-    #         "billing_address": {
-    #             "line1": "52 N Main ST",
-    #             "city": "Johnstown",
-    #             "state": "OH",
-    #             "postal_code": "43210",
-    #             "country_code": "US"
-    #         }
-    #     }
-    # }
-    # test_payment('credit_card', request.META['HTTP_HOST'], transaction_object, card_info)
 
     from designweb.utils import get_recommended_products_by_product
     product = get_object_or_404(Product, pk=10)
@@ -445,7 +410,7 @@ class ProductCategory(generics.ListAPIView):
     def get_queryset(self):
         category_id = self.kwargs['category_id']
         category = get_object_or_404(Category, pk=category_id)
-        products = Product.objects.filter(category=category)
+        products = Product.objects.filter(category=category).order_by('-manually_set_prior_level', 'product_code')
         return grid_view_shuffle(products)
 
 
