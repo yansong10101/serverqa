@@ -80,7 +80,8 @@ else:
     import dj_database_url
     DATABASES = {
         'default': dj_database_url.parse(
-            'postgres://rluxmcyaxgesgz:LRqb2dNv1dKEtzy4aTB3o99h3q@ec2-50-19-249-214.compute-1.amazonaws.com:5432/d35kgnmou4uo7g')
+            # 'postgres://rluxmcyaxgesgz:LRqb2dNv1dKEtzy4aTB3o99h3q@ec2-50-19-249-214.compute-1.amazonaws.com:5432/d35kgnmou4uo7g'
+            os.environ['DATABASE_URL'])
     }
 
 # Internationalization
@@ -100,8 +101,8 @@ USE_TZ = True
 
 # AWS S3 setup
 USE_S3 = True
-AWS_ACCESS_KEY = 'AKIAIG3BFW7SWZ7RGK2A'
-AWS_SECRET_ACCESS_KEY = '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'
+AWS_ACCESS_KEY = os.environ['AWS_ACCESS_KEY']  # 'AKIAIG3BFW7SWZ7RGK2A'
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']  # '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'
 AWS_STORAGE_BUCKET_NAME = 'popdesign'
 AWS_QUERYSTRING_AUTH = False
 S3_STORAGE = 'https://%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
@@ -146,8 +147,8 @@ REST_FRAMEWORK = {
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'yansongzhang10101@gmail.com'
-EMAIL_HOST_PASSWORD = 'popdesign1dots'
+EMAIL_HOST_USER = os.environ['SUPPORT_EMAIL']  # 'yansongzhang10101@gmail.com'
+EMAIL_HOST_PASSWORD = os.environ['SUPPORT_EMAIL_PASSWORD']  # 'popdesign1dots'
 EMAIL_USE_TLS = True
 
 CRONJOBS = [
@@ -157,8 +158,10 @@ CRONJOBS = [
 # Paypal api section
 PAYMENT_SANDBOX = {
     'mode': 'sandbox',  # sandbox or live
-    'client_id': 'AbQpRdq8rpVgUkfWBv7ItV7kbmhNizliedoHoj1BbKijMUZuJyVtYgyHVEiDHWLGYubYflq1v8JVl-6m',
-    'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXnKg2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
+    'client_id': os.environ['PAYPAL_SANDBOX_CLIENT_ID'],
+    'client_secret': os.environ['PAYPAL_SANDBOX_CLIENT_SECRET'],
+    # 'client_id': 'AbQpRdq8rpVgUkfWBv7ItV7kbmhNizliedoHoj1BbKijMUZuJyVtYgyHVEiDHWLGYubYflq1v8JVl-6m',
+    # 'client_secret': 'EIJs4rr71GXFI4gjEsQYLCIpXSbiXnKg2huwIfRpicsDcD7xSYa-y5_lSR5oTY3e0F_5PsDkYD-k-KK-',
 }
 
 # MemCache setup
